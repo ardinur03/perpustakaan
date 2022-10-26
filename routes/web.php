@@ -19,14 +19,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('users', \App\Http\Controllers\UserController::class)
-    ->middleware('auth');
+Route::resource('users', \App\Http\Controllers\UserController::class)->middleware('auth');
 
-Route::resource('members', \App\Http\Controllers\MemberController::class)
-    ->middleware('auth');
+Route::resource('members', \App\Http\Controllers\MemberController::class)->middleware('auth');
 
-Route::resource('librarians', \App\Http\Controllers\LibrarianController::class)
-    ->middleware('auth');
+Route::resource('librarians', \App\Http\Controllers\LibrarianController::class)->middleware('auth');
+
+Route::resource('books', \App\Http\Controllers\BooksController::class)->middleware('auth');
 
 Route::get('/home', function () {
     return view('home');
