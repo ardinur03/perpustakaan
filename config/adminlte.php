@@ -238,6 +238,11 @@ return [
             'text' => 'Librarian',
             'url'  => '/librarians',
             'icon'  => 'fa fa-users',
+        ],
+        [
+            'text' => 'Books',
+            'url'  => '/books',
+            'icon'  => 'fa fa-users',
         ]
     ],
 

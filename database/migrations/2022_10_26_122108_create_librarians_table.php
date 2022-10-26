@@ -19,7 +19,7 @@ class CreateLibrariansTable extends Migration
             $table->string('position');
             $table->enum('gender', ['Laki-laki', 'Perempuan'])->nullable();
             $table->string('phone_number', 13)->nullable();
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->timestamps();
         });
     }
