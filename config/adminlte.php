@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'CRUD Laravel',
+    'title' => 'Perpustakaan',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo' => '<b>CRUD</b>Laravel',
+    'logo' => '<b>Perpus</b>Apps',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'AdminLTE',
+    'logo_img_alt' => 'Perpustakaan Image',
 
     /*
     |--------------------------------------------------------------------------
@@ -225,10 +225,15 @@ return [
 
     'menu' => [
         [
-            'text' => 'User',
+            'text' => 'User Account',
             'url'  => '/users',
             'icon'  => 'fa fa-users',
         ],
+        [
+            'text' => 'Members',
+            'url'  => '/members',
+            'icon'  => 'fa fa-user',
+        ]
     ],
 
     /*

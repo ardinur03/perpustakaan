@@ -39,12 +39,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed'
         ]);
         $array = $request->only([
-            'name', 'email', 'password'
+            'email', 'password'
         ]);
         $array['password'] = bcrypt($array['password']);
         $user = User::create($array);
@@ -97,12 +96,10 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'sometimes|nullable|confirmed'
         ]);
         $user = User::find($id);
-        $user->name = $request->name;
         $user->email = $request->email;
         if ($request->password) $user->password = bcrypt($request->password);
         $user->save();

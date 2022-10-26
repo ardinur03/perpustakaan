@@ -14,13 +14,6 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-
-                        <div class="form-group">
-                            <label for="exampleInputName">Nama</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="exampleInputName" placeholder="Nama lengkap" name="name" value="{{$user->name ?? old('name')}}">
-                            @error('name') <span class="text-danger">{{$message}}</span> @enderror
-                        </div>
-
                         <div class="form-group">
                             <label for="exampleInputEmail">Email address</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" id="exampleInputEmail" placeholder="Masukkan Email" name="email" value="{{$user->email ?? old('email')}}">
