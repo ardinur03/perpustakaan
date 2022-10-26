@@ -229,6 +229,11 @@ return [
             'url'  => '/users',
             'icon'  => 'fa fa-users',
         ],
+        [
+            'text' => 'Librarian',
+            'url'  => '/librarians',
+            'icon'  => 'fa fa-users',
+        ]
     ],
 
     /*

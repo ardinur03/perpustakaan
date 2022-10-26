@@ -22,6 +22,9 @@ Auth::routes();
 Route::resource('users', \App\Http\Controllers\UserController::class)
     ->middleware('auth');
 
-Route::get('/home', function() {
+Route::resource('librarians', \App\Http\Controllers\LibrarianController::class)
+    ->middleware('auth');
+
+Route::get('/home', function () {
     return view('home');
 })->name('home')->middleware('auth');
