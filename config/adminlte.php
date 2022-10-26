@@ -233,6 +233,11 @@ return [
             'text' => 'Members',
             'url'  => '/members',
             'icon'  => 'fa fa-user',
+        ],
+        [
+            'text' => 'Librarian',
+            'url'  => '/librarians',
+            'icon'  => 'fa fa-users',
         ]
     ],
 

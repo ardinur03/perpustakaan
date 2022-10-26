@@ -25,6 +25,8 @@ Route::resource('users', \App\Http\Controllers\UserController::class)
 Route::resource('members', \App\Http\Controllers\MemberController::class)
     ->middleware('auth');
 
+Route::resource('librarians', \App\Http\Controllers\LibrarianController::class)
+    ->middleware('auth');
 
 Route::get('/home', function () {
     return view('home');
