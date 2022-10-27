@@ -10,8 +10,8 @@
 <form action="{{route('users.update', $user)}}" method="post">
     @method('PUT')
     @csrf
-    <div class="row">
-        <div class="col-12">
+    <div class="row justify-content-center">
+        <div class="col-6">
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">

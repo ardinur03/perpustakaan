@@ -10,7 +10,7 @@
 <form action="{{route('books.update', $book)}}" method="post">
     @method('PUT')
     @csrf
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
@@ -70,7 +70,7 @@
 
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{route('users.index')}}" class="btn btn-default">
+                <a href="{{route('books.index')}}" class="btn btn-default">
                     Batal
                 </a>
             </div>

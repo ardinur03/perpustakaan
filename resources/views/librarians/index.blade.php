@@ -12,11 +12,11 @@
         <div class="card">
             <div class="card-body">
 
-                <a href="{{route('librarians.create')}}" class="btn btn-primary mb-2">
-                    Tambah
+                <a href="{{route('librarians.create')}}" class="btn btn-success mb-3">
+                    <i class="fa fa-user-plus" aria-hidden="true"></i>
                 </a>
 
-                <table class="table table-hover table-bordered table-stripped" id="example2">
+                <table class="table table-hover table-striped" id="example2">
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -24,6 +24,7 @@
                             <th>Position</th>
                             <th>Gender</th>
                             <th>Phone Number</th>
+                            <th class="text-center">Opsi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,12 +35,12 @@
                             <td>{{$librarian->position}}</td>
                             <td>{{$librarian->gender}}</td>
                             <td>{{$librarian->phone_number}}</td>
-                            <td>
-                                <a href="{{route('librarians.edit', $librarian)}}" class="btn btn-primary btn-xs">
-                                    Edit
+                            <td class="text-center">
+                                <a href="{{route('librarians.edit', $librarian)}}" class="btn text-primary btn-sm">
+                                    <i class="fas fa-pen"></i>
                                 </a>
-                                <a href="{{route('librarians.destroy', $librarian)}}" onclick="notificationBeforeDelete(event, this)" class="btn btn-danger btn-xs">
-                                    Delete
+                                <a href="{{route('librarians.destroy', $librarian)}}" onclick="notificationBeforeDelete(event, this)" class="btn text-danger btn-sm">
+                                    <i class="fas fa-trash" aria-hidden="true"></i>
                                 </a>
                             </td>
                         </tr>

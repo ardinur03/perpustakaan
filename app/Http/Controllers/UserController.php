@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -12,12 +14,29 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    // public function index()
+    // {
+    //     $users = User::all();
+    //     return view('users.index', [
+    //         'users' => $users
+    //     ]);
+    // }
+
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('users.index', [
-            'users' => $users
-        ]);
+        if ($request->ajax()) {
+            $data = User::select('*');
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = '<a href="javascript:void(0)" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('users.index');
     }
 
     /**
