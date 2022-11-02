@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class MemberController extends Controller
 {
@@ -14,12 +15,20 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Member::all();
-
-        return view('members.index', [
-            'title' => 'Daftar Member',
-            'members' => $members
-        ]);
+        try {
+            $members = Member::all();
+            return view('members.index', [
+                'title' => 'Daftar Member',
+                'members' => $members
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -42,18 +51,27 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'member_name' => 'required',
-            'member_code' => 'required|unique:members',
-            'gender' => 'required',
-            'phone_number' => 'required',
-            'address' => 'required'
-        ]);
+        try {
+            $request->validate([
+                'member_name' => 'required',
+                'member_code' => 'required|unique:members',
+                'gender' => 'required',
+                'phone_number' => 'required',
+                'address' => 'required'
+            ]);
 
-        Member::create($request->all());
+            Member::create($request->all());
 
-        return redirect()->route('members.index')
-            ->with('success_message', 'Berhasil menambah member baru');
+            return redirect()->route('members.index')
+                ->with('success_message', 'Berhasil menambah member baru');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -75,11 +93,20 @@ class MemberController extends Controller
      */
     public function edit($id)
     {
-        $member = Member::findOrFail($id);
-        return view('members.edit', [
-            'title' => 'Edit Member',
-            'members' => $member
-        ]);
+        try {
+            $member = Member::findOrFail($id);
+            return view('members.edit', [
+                'title' => 'Edit Member',
+                'members' => $member
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -91,25 +118,34 @@ class MemberController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'member_name' => 'required',
-            'member_code' => 'required|unique:members,member_code,' . $id,
-            'gender' => 'required',
-            'phone_number' => 'required|numeric',
-            'address' => 'required'
-        ]);
-
-        Member::where('id', $id)
-            ->update([
-                'member_name' => $request->member_name,
-                'member_code' => $request->member_code,
-                'gender' => $request->gender,
-                'phone_number' => $request->phone_number,
-                'address' => $request->address
+        try {
+            $request->validate([
+                'member_name' => 'required',
+                'member_code' => 'required|unique:members,member_code,' . $id,
+                'gender' => 'required',
+                'phone_number' => 'required|numeric',
+                'address' => 'required'
             ]);
 
-        return redirect()->route('members.index')
-            ->with('success_message', 'Berhasil mengubah data member');
+            Member::where('id', $id)
+                ->update([
+                    'member_name' => $request->member_name,
+                    'member_code' => $request->member_code,
+                    'gender' => $request->gender,
+                    'phone_number' => $request->phone_number,
+                    'address' => $request->address
+                ]);
+
+            return redirect()->route('members.index')
+                ->with('success_message', 'Berhasil mengubah data member');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -120,8 +156,17 @@ class MemberController extends Controller
      */
     public function destroy($id)
     {
-        Member::destroy($id);
-        return redirect()->route('members.index')
-            ->with('success_message', 'Berhasil menghapus data member');
+        try {
+            Member::destroy($id);
+            return redirect()->route('members.index')
+                ->with('success_message', 'Berhasil menghapus data member');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 }
