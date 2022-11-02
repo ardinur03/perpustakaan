@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BooksController extends Controller
 {
@@ -13,14 +14,19 @@ class BooksController extends Controller
      */
     public function index()
     {
-        $data = \App\Models\Book::all();
-        return view(
-            'books.index',
-            [
-                'title' => 'Books',
-                'books' => $data
-            ]
-        );
+        try {
+            $data = \App\Models\Book::all();
+            return view(
+                'books.index',
+                [
+                    'title' => 'Books',
+                    'books' => $data
+                ]
+            );
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return redirect()->route('books.index')->with('error', 'Error');
+        }
     }
 
     /**
@@ -46,21 +52,26 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'book_name' => 'required',
-            'page' => 'required',
-            'description' => 'required',
-            'publisher' => 'required',
-            'author' => 'required',
-            'stock' => 'required',
-            'category' => 'required',
-            'published_year' => 'required'
-        ]);
+        try {
+            $request->validate([
+                'book_name' => 'required',
+                'page' => 'required',
+                'description' => 'required',
+                'publisher' => 'required',
+                'author' => 'required',
+                'stock' => 'required',
+                'category' => 'required',
+                'published_year' => 'required'
+            ]);
 
-        \App\Models\Book::create($request->all());
+            \App\Models\Book::create($request->all());
 
-        return redirect()->route('books.index')
-            ->with('success', 'Book created successfully.');
+            return redirect()->route('books.index')
+                ->with('success', 'Book created successfully.');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return redirect()->route('books.index')->with('error', 'Error');
+        }
     }
 
     /**
@@ -82,14 +93,19 @@ class BooksController extends Controller
      */
     public function edit($id)
     {
-        $book = \App\Models\Book::find($id);
-        return view(
-            'books.edit',
-            [
-                'title' => 'Edit Book',
-                'book' => $book
-            ]
-        );
+        try {
+            $book = \App\Models\Book::find($id);
+            return view(
+                'books.edit',
+                [
+                    'title' => 'Edit Book',
+                    'book' => $book
+                ]
+            );
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return redirect()->route('books.index')->with('error', 'Error');
+        }
     }
 
     /**
@@ -101,22 +117,27 @@ class BooksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'book_name' => 'required',
-            'page' => 'required',
-            'description' => 'required',
-            'publisher' => 'required',
-            'author' => 'required',
-            'stock' => 'required',
-            'category' => 'required',
-            'published_year' => 'required'
-        ]);
+        try {
+            $request->validate([
+                'book_name' => 'required',
+                'page' => 'required',
+                'description' => 'required',
+                'publisher' => 'required',
+                'author' => 'required',
+                'stock' => 'required',
+                'category' => 'required',
+                'published_year' => 'required'
+            ]);
 
-        $book = \App\Models\Book::find($id);
-        $book->update($request->all());
+            $book = \App\Models\Book::find($id);
+            $book->update($request->all());
 
-        return redirect()->route('books.index')
-            ->with('success', 'Book updated successfully');
+            return redirect()->route('books.index')
+                ->with('success', 'Book updated successfully');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return redirect()->route('books.index')->with('error', 'Error');
+        }
     }
 
     /**
@@ -127,10 +148,15 @@ class BooksController extends Controller
      */
     public function destroy($id)
     {
-        $book = \App\Models\Book::find($id);
-        $book->delete();
+        try {
+            $book = \App\Models\Book::find($id);
+            $book->delete();
 
-        return redirect()->route('books.index')
-            ->with('success', 'Book deleted successfully');
+            return redirect()->route('books.index')
+                ->with('success', 'Book deleted successfully');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return redirect()->route('books.index')->with('error', 'Error');
+        }
     }
 }
