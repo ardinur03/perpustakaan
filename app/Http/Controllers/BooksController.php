@@ -25,7 +25,7 @@ class BooksController extends Controller
             );
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('books.index')->with('error', 'Error');
+            return redirect()->route('home');
         }
     }
 
@@ -70,7 +70,7 @@ class BooksController extends Controller
                 ->with('success', 'Book created successfully.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('books.index')->with('error', 'Error');
+            return redirect()->route('home');
         }
     }
 
@@ -104,7 +104,7 @@ class BooksController extends Controller
             );
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('books.index')->with('error', 'Error');
+            return redirect()->route('home');
         }
     }
 
@@ -136,7 +136,7 @@ class BooksController extends Controller
                 ->with('success', 'Book updated successfully');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('books.index')->with('error', 'Error');
+            return redirect()->route('home');
         }
     }
 
@@ -156,7 +156,7 @@ class BooksController extends Controller
                 ->with('success', 'Book deleted successfully');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('books.index')->with('error', 'Error');
+            return redirect()->route('home');
         }
     }
 }
