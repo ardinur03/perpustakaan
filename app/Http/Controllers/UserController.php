@@ -29,8 +29,8 @@ class UserController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
-                    $btn = '<a href="javascript:void(0)" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = '<a href="' . route('users.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('users.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
