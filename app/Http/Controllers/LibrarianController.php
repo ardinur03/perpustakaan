@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Librarian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LibrarianController extends Controller
 {
@@ -14,11 +15,20 @@ class LibrarianController extends Controller
      */
     public function index()
     {
-        $data = Librarian::all();
-        return view('librarians.index', [
-            'title' => 'Data Petugas',
-            'librarians' => $data
-        ]);
+        try {
+            $librarians = Librarian::all();
+            return view('librarians.index', [
+                'title' => 'Daftar Petugas Perpustakaan',
+                'librarians' => $librarians
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -41,18 +51,28 @@ class LibrarianController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'librarian_name' => 'required',
-            'position' => 'required',
-            'gender' => 'required',
-            'phone_number' => 'required',
-            'address' => 'required'
-        ]);
+        try {
+            $request->validate([
+                'librarian_name' => 'required',
+                'position' => 'required',
+                'gender' => 'required',
+                'phone_number' => 'required',
+                'address' => 'required'
+            ]);
 
-        Librarian::create($request->all());
+            Librarian::create($request->all());
 
-        return redirect()->route('librarians.index')
-            ->with('success_message', 'Data petugas berhasil ditambahkan');
+            return redirect()->route('librarians.index')
+                ->with('success', 'Data petugas berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('librarians.index')
+                ->with('error', 'Data petugas gagal ditambahkan');
+        }
     }
 
     /**
@@ -74,11 +94,20 @@ class LibrarianController extends Controller
      */
     public function edit($id)
     {
-        $librarian = Librarian::find($id);
-        return view('librarians.edit', [
-            'title' => 'Edit Data Petugas',
-            'librarian' => $librarian
-        ]);
+        try {
+            $librarian = Librarian::findOrFail($id);
+            return view('librarians.edit', [
+                'title' => 'Edit Data Petugas',
+                'librarian' => $librarian
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -90,24 +119,34 @@ class LibrarianController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'librarian_name' => 'required',
-            'position' => 'required',
-            'gender' => 'required',
-            'phone_number' => 'required',
-            'address' => 'required'
-        ]);
+        try {
+            $request->validate([
+                'librarian_name' => 'required',
+                'position' => 'required',
+                'gender' => 'required',
+                'phone_number' => 'required',
+                'address' => 'required'
+            ]);
 
-        $librarian = Librarian::find($id);
-        $librarian->librarian_name = $request->librarian_name;
-        $librarian->position = $request->position;
-        $librarian->gender = $request->gender;
-        $librarian->phone_number = $request->phone_number;
-        $librarian->address = $request->address;
-        $librarian->save();
+            Librarian::where('id', $id)
+                ->update([
+                    'librarian_name' => $request->librarian_name,
+                    'position' => $request->position,
+                    'gender' => $request->gender,
+                    'phone_number' => $request->phone_number,
+                    'address' => $request->address
+                ]);
 
-        return redirect()->route('librarians.index')
-            ->with('success_message', 'Data petugas berhasil diubah');
+            return redirect()->route('librarians.index')
+                ->with('success_message', 'Data petugas berhasil diubah');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -118,10 +157,17 @@ class LibrarianController extends Controller
      */
     public function destroy($id)
     {
-        $librarian = Librarian::find($id);
-        $librarian->delete();
-
-        return redirect()->route('librarians.index')
-            ->with('success_message', 'Data petugas berhasil dihapus');
+        try {
+            Librarian::destroy($id);
+            return redirect()->route('librarians.index')
+                ->with('success_message', 'Data petugas berhasil dihapus');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 }
