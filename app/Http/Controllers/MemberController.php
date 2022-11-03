@@ -17,6 +17,14 @@ class MemberController extends Controller
     {
         try {
             $members = Member::all();
+
+            // activity log by spatie
+            // activity()
+            //     ->causedBy(auth()->user())
+            //     ->performedOn($members)
+            //     ->withProperties(['ip' => request()->ip()])
+            //     ->log('View all members');
+
             return view('members.index', [
                 'title' => 'Daftar Member',
                 'members' => $members
