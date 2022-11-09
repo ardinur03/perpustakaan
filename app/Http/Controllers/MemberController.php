@@ -21,7 +21,6 @@ class MemberController extends Controller
             // activity log by spatie
             // activity()
             //     ->causedBy(auth()->user())
-            //     ->performedOn($members)
             //     ->withProperties(['ip' => request()->ip()])
             //     ->log('View all members');
 
@@ -124,26 +123,28 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Member $member)
     {
         try {
             $request->validate([
                 'member_name' => 'required',
-                'member_code' => 'required|unique:members,member_code,' . $id,
+                'member_code' => 'required|unique:members,member_code,' . $member->id,
                 'gender' => 'required',
                 'phone_number' => 'required|numeric',
                 'address' => 'required'
             ]);
 
-            Member::where('id', $id)
-                ->update([
-                    'member_name' => $request->member_name,
-                    'member_code' => $request->member_code,
-                    'gender' => $request->gender,
-                    'phone_number' => $request->phone_number,
-                    'address' => $request->address
-                ]);
+            // Member::where('id', $id)
+            //     ->update([
+            //         'member_name' => $request->member_name,
+            //         'member_code' => $request->member_code,
+            //         'gender' => $request->gender,
+            //         'phone_number' => $request->phone_number,
+            //         'address' => $request->address
+            //     ]);
 
+            $Data = $request->all();
+            $member->update($Data);
             return redirect()->route('members.index')
                 ->with('success_message', 'Berhasil mengubah data member');
         } catch (\Throwable $th) {

@@ -30,3 +30,5 @@ Route::resource('books', \App\Http\Controllers\BooksController::class)->middlewa
 Route::get('/home', function () {
     return view('home');
 })->name('home')->middleware('auth');
+
+Route::get('/dashboard', fn () => 'dashboard')->name('dashboard')->middleware('auth');

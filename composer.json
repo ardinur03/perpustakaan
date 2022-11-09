@@ -14,9 +14,11 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "spatie/laravel-activitylog": "^4.6",
+        "spatie/laravel-permission": "^5.5",
         "yajra/laravel-datatables-oracle": "^9.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.7",
         "brianium/paratest": "^6.6",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",

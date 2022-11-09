@@ -14,14 +14,6 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function index()
-    // {
-    //     $users = User::all();
-    //     return view('users.index', [
-    //         'users' => $users
-    //     ]);
-    // }
-
     public function index(Request $request)
     {
         if ($request->ajax()) {
