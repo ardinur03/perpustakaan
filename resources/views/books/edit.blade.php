@@ -53,8 +53,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="input_category">Genre</label>
-                        <input type="text" class="form-control @error('category') is-invalid @enderror" id="input_category" placeholder="Genre" name="category" value="{{$book->category ?? old('category')}}">
+                        <label for="input_category">Kategori</label>
+                        <select name="category_id" id="input_category" class="form-control @error('category_id') is-invalid @enderror">
+                            <option value="">Pilih Kategori</option>
+                            @foreach ($categories as $category)
+                            <option value="{{$category->id}}" {{$category->id == $book->category_id ? 'selected' : ''}}>{{$category->category_name}}</option>
+                            @endforeach
+                        </select>
                         @error('category') <span class="text-danger">{{$message}}</span> @enderror
                     </div>
 

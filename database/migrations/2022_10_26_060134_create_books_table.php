@@ -21,9 +21,11 @@ class CreateBooksTable extends Migration
             $table->string('publisher');
             $table->string('author');
             $table->integer('stock');
-            $table->string('category');
+            $table->foreignId('category_id')->unsigned();
             $table->date('published_year');
             $table->timestamps();
+
+            // $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

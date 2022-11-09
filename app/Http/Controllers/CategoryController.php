@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
-use App\Models\Book;
 
-class BooksController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,12 +15,12 @@ class BooksController extends Controller
     public function index()
     {
         try {
-            $data = Book::all();
+            $data = \App\Models\Category::all();
             return view(
-                'books.index',
+                'categories.index',
                 [
-                    'title' => 'Books',
-                    'books' => $data
+                    'title' => 'Categories',
+                    'categories' => $data
                 ]
             );
         } catch (\Throwable $th) {
@@ -39,10 +37,9 @@ class BooksController extends Controller
     public function create()
     {
         return view(
-            'books.create',
+            'categories.create',
             [
-                'title' => 'Create Book',
-                'categories' => \App\Models\Category::all()
+                'title' => 'Create Category'
             ]
         );
     }
@@ -57,20 +54,14 @@ class BooksController extends Controller
     {
         try {
             $request->validate([
-                'book_name' => 'required',
-                'page' => 'required',
-                'description' => 'required',
-                'publisher' => 'required',
-                'author' => 'required',
-                'stock' => 'required',
-                'category_id' => 'required',
-                'published_year' => 'required'
+                'category_name' => 'required'
             ]);
 
-            \App\Models\Book::create($request->all());
+            \App\Models\Category::create([
+                'category_name' => $request->category_name
+            ]);
 
-            return redirect()->route('books.index')
-                ->with('success', 'Book created successfully.');
+            return redirect()->route('categories.index');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -97,13 +88,12 @@ class BooksController extends Controller
     public function edit($id)
     {
         try {
-            $book = \App\Models\Book::find($id);
+            $data = \App\Models\Category::find($id);
             return view(
-                'books.edit',
+                'categories.edit',
                 [
-                    'title' => 'Edit Book',
-                    'book' => $book,
-                    'categories' => \App\Models\Category::all()
+                    'title' => 'Edit Category',
+                    'category' => $data
                 ]
             );
         } catch (\Throwable $th) {
@@ -123,21 +113,14 @@ class BooksController extends Controller
     {
         try {
             $request->validate([
-                'book_name' => 'required',
-                'page' => 'required',
-                'description' => 'required',
-                'publisher' => 'required',
-                'author' => 'required',
-                'stock' => 'required',
-                'category_id' => 'required',
-                'published_year' => 'required'
+                'category_name' => 'required'
             ]);
 
-            $book = \App\Models\Book::find($id);
-            $book->update($request->all());
+            \App\Models\Category::find($id)->update([
+                'category_name' => $request->category_name
+            ]);
 
-            return redirect()->route('books.index')
-                ->with('success', 'Book updated successfully');
+            return redirect()->route('categories.index');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -153,11 +136,8 @@ class BooksController extends Controller
     public function destroy($id)
     {
         try {
-            $book = \App\Models\Book::find($id);
-            $book->delete();
-
-            return redirect()->route('books.index')
-                ->with('success', 'Book deleted successfully');
+            \App\Models\Category::find($id)->delete();
+            return redirect()->route('categories.index');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');

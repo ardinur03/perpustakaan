@@ -18,7 +18,12 @@ class Book extends Model
         'publisher',
         'author',
         'stock',
-        'category',
+        'category_id',
         'published_year'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
