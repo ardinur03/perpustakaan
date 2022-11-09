@@ -26,7 +26,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('librarians', \App\Http\Controllers\LibrarianController::class);
     Route::resource('books', \App\Http\Controllers\BooksController::class);
     Route::resource('categories', \App\Http\Controllers\CategoryController::class)->middleware('auth');
+    Route::resource('faculties', \App\Http\Controllers\FacultyController::class)->middleware('auth');
     Route::resource('study-programs', \App\Http\Controllers\StudyProgramController::class)->middleware('auth');
+
 });
 
 Route::get('/dashboard', fn () => 'dashboard')->name('dashboard')->middleware('auth');
