@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'List Books')
+@section('title', 'Kategori Buku')
 
 @section('content_header')
-<h1 class="m-0 text-dark">List Books</h1>
+<h1 class="m-0 text-dark">Kategori Buku</h1>
 @stop
 
 @section('content')
@@ -12,38 +12,29 @@
         <div class="card">
             <div class="card-body">
 
-                <a href="{{route('books.create')}}" class="btn btn-success mb-2">
+                <a href="{{route('categories.create')}}" class="btn btn-success mb-2">
                     <i class="fa fa-plus" aria-hidden="true"></i>
-                    <i class="fa fa-book" aria-hidden="true"></i>
+                    <i class="fa fa-category_name" aria-hidden="true"></i>
                 </a>
 
                 <table class="table table-hover table-striped" id="example2">
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Judul Buku</th>
-                            <th>Penerbit</th>
-                            <th>Kategori</th>
-                            <th>Stok</th>
+                            <th class="text-center">Kategori Buku</th>
                             <th class="text-center">Opsi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php 
-                        $no = 1;
-                        @endphp
-                        @foreach($books as $key => $book)
+                        @foreach($categories as $key => $value)
                         <tr>
-                            <td>{{$no++}}</td>
-                            <td>{{$book->book_name}}</td>
-                            <td>{{$book->publisher}}</td>
-                            <td>{{$book->category->category_name}}</td>
-                            <td>{{$book->stock}}</td>
+                            <td>{{$key+1}}</td>
+                            <td>{{$value->category_name}}</td>
                             <td class="text-center">
-                                <a href="{{route('books.edit', $book->id)}}" class="btn text-primary btn-sm">
+                                <a href="{{route('categories.edit', $value)}}" class="btn text-primary btn-sm">
                                     <i class="fas fa-pen"></i>
                                 </a>
-                                <a href="{{route('books.destroy', $book->id)}}" onclick="notificationBeforeDelete(event, this)" class="btn text-danger btn-sm">
+                                <a href="{{route('categories.destroy', $value)}}" onclick="notificationBeforeDelete(event, this)" class="btn text-danger btn-sm">
                                     <i class="fas fa-trash" aria-hidden="true"></i>
                                 </a>
                             </td>

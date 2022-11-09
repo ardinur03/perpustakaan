@@ -27,6 +27,8 @@ Route::resource('librarians', \App\Http\Controllers\LibrarianController::class)-
 
 Route::resource('books', \App\Http\Controllers\BooksController::class)->middleware('auth');
 
+Route::resource('categories', \App\Http\Controllers\CategoryController::class)->middleware('auth');
+
 Route::get('/home', function () {
     return view('home');
 })->name('home')->middleware('auth');
