@@ -37,7 +37,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['single', 'stderr'],
             'ignore_exceptions' => false,
         ],
 
@@ -79,6 +79,17 @@ return [
             'formatter' => env('LOG_STDERR_FORMATTER'),
             'with' => [
                 'stream' => 'php://stderr',
+            ],
+        ],
+
+        'filelog' => [
+            'driver' => 'monolog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'handler' => StreamHandler::class,
+            // 'formatter' => env('LOG_STDERR_FORMATTER'), berupa text biasa
+            'formatter' => \Monolog\Formatter\JsonFormatter::class, // berupa json
+            'with' => [
+                'stream' => storage_path('logs/perpustakaan-logs.log'),
             ],
         ],
 

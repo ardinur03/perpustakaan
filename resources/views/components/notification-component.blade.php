@@ -17,21 +17,29 @@
             })
         }
 
+        function sweet_alert(icon, title, message) {
+            Swal.fire({
+                icon: icon,
+                title: title,
+                text: message,
+            })
+        }
+
         function success_message(message)
         {
-            toast_show('success', message);
+            sweet_alert('success', 'Berhasil',  message);
         }
         function info_message(message)
         {
-            toast_show('info', message);
+            sweet_alert('info', 'Info',  message);
         }
         function error_message(message)
         {
-            toast_show('error', message);
+            sweet_alert('error', 'Gagal',  message);
         }
         function warning_message(message)
         {
-            toast_show('warning', message);
+            sweet_alert('warning', 'Peringatan',  message);
         }
 
     </script>

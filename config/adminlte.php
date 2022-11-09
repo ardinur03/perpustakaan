@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'CRUD Laravel',
+    'title' => 'Perpustakaan',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo' => '<b>CRUD</b>Laravel',
+    'logo' => '<b>Perpus</b>Apps',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'AdminLTE',
+    'logo_img_alt' => 'Perpustakaan Image',
 
     /*
     |--------------------------------------------------------------------------
@@ -126,7 +126,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-dark-primary',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -145,7 +145,7 @@ return [
     */
 
     'sidebar_mini' => true,
-    'sidebar_collapse' => true,
+    'sidebar_collapse' => false,
     'sidebar_collapse_auto_size' => false,
     'sidebar_collapse_remember' => false,
     'sidebar_collapse_remember_no_transition' => true,
@@ -225,10 +225,45 @@ return [
 
     'menu' => [
         [
-            'text' => 'User',
-            'url'  => '/users',
-            'icon'  => 'fa fa-users',
+            'text' => 'Dashboard',
+            'url' => 'home',
+            'icon' => 'fas fa-fw fa-tachometer-alt',
         ],
+        [
+            'text'    => 'Master Data',
+            'icon'    => 'fas fa-fw fa-table',
+            'submenu' => [
+                [
+                    'text' => 'User Account',
+                    'shift' => 'ml-4',
+                    'icon' => 'fas fa-fw fa-user',
+                    'url'  => '/users',
+                    'active' => ['users', 'users/*'],
+                ],
+                [
+                    'text' => 'Books',
+                    'shift' => 'ml-4',
+                    'icon' => 'fas fa-fw fa-book',
+                    'url'  => '/books',
+                    'active' => ['books', 'books/*'],
+                ],
+                [
+                    'text' => 'Librarians',
+                    'shift' => 'ml-4',
+                    'icon' => 'fas fa-fw fa-user-tie',
+                    'url'  => '/librarians',
+                    'active' => ['librarians', 'librarians/*'],
+                ],
+                [
+                    'text' => 'Members',
+                    'shift' => 'ml-4',
+                    'icon' => 'fas fa-fw fa-users',
+                    'url'  => '/members',
+                    'active' => ['members', 'members/*'],
+                ],
+            ],
+        ]
+
     ],
 
     /*
