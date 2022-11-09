@@ -23,8 +23,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // using spatie/laravel-permission package
         $this->registerPolicies();
-
-        //
+        Gate::define('isPetugas', fn ($user) => $user->hasRole('petugas'));
+        Gate::define('IsAnggota', fn ($user) => $user->hasRole('anggota-perpustakaan'));
     }
 }

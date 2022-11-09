@@ -226,7 +226,7 @@ return [
     'menu' => [
         [
             'text' => 'Dashboard',
-            'url' => 'home',
+            'url' => 'admin/dashboard',
             'icon' => 'fas fa-fw fa-tachometer-alt',
         ],
         [
@@ -237,28 +237,29 @@ return [
                     'text' => 'User Account',
                     'shift' => 'ml-4',
                     'icon' => 'fas fa-fw fa-user',
-                    'url'  => '/users',
+                    'url'  => 'admin/users',
                     'active' => ['users', 'users/*'],
+                    'can' => 'isPetugas',
                 ],
                 [
                     'text' => 'Books',
                     'shift' => 'ml-4',
                     'icon' => 'fas fa-fw fa-book',
-                    'url'  => '/books',
+                    'url'  => 'admin/books',
                     'active' => ['books', 'books/*'],
                 ],
                 [
                     'text' => 'Librarians',
                     'shift' => 'ml-4',
                     'icon' => 'fas fa-fw fa-user-tie',
-                    'url'  => '/librarians',
+                    'url'  => 'admin/librarians',
                     'active' => ['librarians', 'librarians/*'],
                 ],
                 [
                     'text' => 'Members',
                     'shift' => 'ml-4',
                     'icon' => 'fas fa-fw fa-users',
-                    'url'  => '/members',
+                    'url'  => 'admin/members',
                     'active' => ['members', 'members/*'],
                 ],
             ],

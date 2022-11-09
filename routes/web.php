@@ -19,18 +19,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('users', \App\Http\Controllers\UserController::class)->middleware('auth');
-
-Route::resource('members', \App\Http\Controllers\MemberController::class)->middleware('auth');
-
-Route::resource('librarians', \App\Http\Controllers\LibrarianController::class)->middleware('auth');
-
-Route::resource('books', \App\Http\Controllers\BooksController::class)->middleware('auth');
-
-Route::resource('categories', \App\Http\Controllers\CategoryController::class)->middleware('auth');
-
-Route::get('/home', function () {
-    return view('home');
-})->name('home')->middleware('auth');
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::get('/dashboard', fn () => view('home'))->name('home')->middleware('auth');
+    Route::resource('users', \App\Http\Controllers\UserController::class);
+    Route::resource('members', \App\Http\Controllers\MemberController::class);
+    Route::resource('librarians', \App\Http\Controllers\LibrarianController::class);
+    Route::resource('books', \App\Http\Controllers\BooksController::class);
+    Route::resource('categories', \App\Http\Controllers\CategoryController::class)->middleware('auth');
+});
 
 Route::get('/dashboard', fn () => 'dashboard')->name('dashboard')->middleware('auth');
