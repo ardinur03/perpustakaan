@@ -262,6 +262,20 @@ return [
                     'url'  => 'admin/members',
                     'active' => ['members', 'members/*'],
                 ],
+                [
+                    'text' => 'Categories',
+                    'shift' => 'ml-4',
+                    'icon' => 'fas fa-fw fa-tags',
+                    'url'  => 'admin/categories',
+                    'active' => ['categories', 'categories/*'],
+                ],
+                [
+                    'text' => 'Study Programs',
+                    'shift' => 'ml-4',
+                    'icon' => 'fas fa-fw fa-graduation-cap',
+                    'url'  => 'admin/study-programs',
+                    'active' => ['study-programs', 'study-programs/*'],
+                ]
             ],
         ]
 
