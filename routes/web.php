@@ -32,3 +32,5 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 });
 
 Route::get('/dashboard', fn () => 'dashboard')->name('dashboard')->middleware('auth');
+
+Route::get('/print-transaction', fn () => view('print-transaction'))->name('print-transaction');
