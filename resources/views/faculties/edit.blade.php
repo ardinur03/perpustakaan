@@ -1,13 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit User')
+@section('title', 'Edit Faculty')
 
 @section('content_header')
-<h1 class="m-0 text-dark">Edit User</h1>
+<h1 class="m-0 text-dark">Edit Faculty</h1>
 @stop
 
 @section('content')
-<form action="{{route('categories.update', $category)}}" method="post">
+<form action="{{route('faculties.update', $faculty)}}" method="post">
     @method('PUT')
     @csrf
     <div class="row justify-content-center">
@@ -16,9 +16,9 @@
                 <div class="card-body">
 
                     <div class="form-group">
-                        <label for="input_category">Kategori Buku</label>
-                        <input type="text" class="form-control @error('category_name') is-invalid @enderror" id="input_category" placeholder="Judul Buku" name="category_name" value="{{$category->category_name ?? old('category_name')}}">
-                        @error('category_name') <span class="text-danger">{{$message}}</span> @enderror
+                        <label for="input_faculty">Fakultas</label>
+                        <input type="text" class="form-control @error('faculty_name') is-invalid @enderror" id="input_faculty" placeholder="Fakultas" name="faculty_name" value="{{$faculty->faculty_name ?? old('faculty_name')}}">
+                        @error('faculty_name') <span class="text-danger">{{$message}}</span> @enderror
                     </div>
 
                 </div>
@@ -27,7 +27,7 @@
 
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{route('categories.index')}}" class="btn btn-default">
+                <a href="{{route('faculties.index')}}" class="btn btn-default">
                     Batal
                 </a>
             </div>
