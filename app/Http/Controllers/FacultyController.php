@@ -95,7 +95,8 @@ class FacultyController extends Controller
                 'faculties.edit',
                 [
                     'title' => 'Edit Faculty',
-                    'faculty' => $data
+                    'faculty' => $data,
+                    'study_programs' => \App\Models\StudyProgram::all()
                 ]
             );
         } catch (\Throwable $th) {
@@ -115,11 +116,13 @@ class FacultyController extends Controller
     {
         try {
             $request->validate([
-                'faculty_name' => 'required'
+                'faculty_name' => 'required',
+                'study_program_id' => 'required'
             ]);
 
             \App\Models\Faculty::find($id)->update([
-                'faculty_name' => $request->faculty_name
+                'faculty_name' => $request->faculty_name,
+                'study_program_id' => $request->study_program_id
             ]);
 
             return redirect()->route('faculties.index');
