@@ -69,7 +69,7 @@ class BooksController extends Controller
             \App\Models\Book::create($request->all());
 
             return redirect()->route('books.index')
-                ->with('success', 'Book created successfully.');
+                ->with('success_message', 'Berhasil menambah member baru.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -138,7 +138,7 @@ class BooksController extends Controller
             $book->update($request->all());
 
             return redirect()->route('books.index')
-                ->with('success', 'Book updated successfully');
+                ->with('success_message', 'Buku Berhasil Diupdate.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -158,7 +158,7 @@ class BooksController extends Controller
             $book->delete();
 
             return redirect()->route('books.index')
-                ->with('success', 'Book deleted successfully');
+                ->with('success_message', 'Buku Berhasil Dihapus');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
