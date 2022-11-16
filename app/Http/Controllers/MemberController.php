@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class MemberController extends Controller
@@ -17,13 +19,6 @@ class MemberController extends Controller
     {
         try {
             $members = Member::all();
-
-            // activity log by spatie
-            // activity()
-            //     ->causedBy(auth()->user())
-            //     ->withProperties(['ip' => request()->ip()])
-            //     ->log('View all members');
-
             return view('members.index', [
                 'title' => 'Daftar Member',
                 'members' => $members
@@ -58,16 +53,33 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'member_name' => 'required',
-                'member_code' => 'required|unique:members',
-                'gender' => 'required',
-                'phone_number' => 'required',
-                'address' => 'required'
-            ]);
+        $request->validate([
+            'member_name' => 'required',
+            'member_code' => 'required|unique:members',
+            'gender' => 'required',
+            'phone_number' => 'required',
+            'address' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'password_confirmation' => 'required|same:password'
+        ]);
 
-            Member::create($request->all());
+        try {
+            // add to user table
+            $user = new User();
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            // add to table members
+            Member::create([
+                'member_name' => $request->member_name,
+                'member_code' => $request->member_code,
+                'gender' => $request->gender,
+                'address' => $request->address,
+                'phone_number' => $request->phone_number,
+                'user_id' => $user->id
+            ]);
 
             return redirect()->route('members.index')
                 ->with('success_message', 'Berhasil menambah member baru');
@@ -125,24 +137,16 @@ class MemberController extends Controller
      */
     public function update(Request $request, Member $member)
     {
+
+        $request->validate([
+            'member_name' => 'required',
+            'member_code' => 'required|unique:members,member_code,' . $member->id,
+            'gender' => 'required',
+            'phone_number' => 'required|numeric',
+            'address' => 'required'
+        ]);
+
         try {
-            $request->validate([
-                'member_name' => 'required',
-                'member_code' => 'required|unique:members,member_code,' . $member->id,
-                'gender' => 'required',
-                'phone_number' => 'required|numeric',
-                'address' => 'required'
-            ]);
-
-            // Member::where('id', $id)
-            //     ->update([
-            //         'member_name' => $request->member_name,
-            //         'member_code' => $request->member_code,
-            //         'gender' => $request->gender,
-            //         'phone_number' => $request->phone_number,
-            //         'address' => $request->address
-            //     ]);
-
             $Data = $request->all();
             $member->update($Data);
             return redirect()->route('members.index')

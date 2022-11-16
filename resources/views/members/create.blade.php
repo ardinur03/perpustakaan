@@ -27,7 +27,7 @@
                         <div class="form-group">
                             <label for="gender">Jenis Kelamin</label>
                             <select name="gender"  class="form-control @error('gender') is-invalid @enderror" id="gender">
-                                <option>Pilih Jenis Kelamin</option>
+                                <option value="" selected>Pilih Jenis Kelamin</option>
                                 <option value="Laki-laki">Laki-laki</option>
                                 <option value="Perempuan">Perempuan</option>
                             </select>
@@ -45,6 +45,30 @@
                             <textarea name="address" id="address" cols="30" rows="5" class="form-control @error('address') is-invalid @enderror">{{old('address')}}</textarea>
                             @error('address') <span class="text-danger">{{$message}}</span> @enderror
                         </div>
+
+                        <hr>
+
+                        <h3>Buat Akun untuk member</h3>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Email" name="email" value="{{old('email')}}">
+                            @error('email') <span class="text-danger">{{$message}}</span> @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Password" name="password">
+                            @error('password') <span class="text-danger">{{$message}}</span> @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password_confirmation">Konfirmasi Password</label>
+                            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" placeholder="Konfirmasi Password" name="password_confirmation">
+                            @error('password_confirmation') <span class="text-danger">{{$message}}</span> @enderror
+                        </div>
+
+                        
+
                     </div>
 
                     <div class="card-footer">

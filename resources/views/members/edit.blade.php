@@ -30,8 +30,8 @@
                             <label for="gender">Jenis Kelamin</label>
                             <select name="gender"  class="form-control @error('gender') is-invalid @enderror" id="gender">
                                 <option>Pilih Jenis Kelamin</option>
-                                <option value="Laki-laki">Laki-laki</option>
-                                <option value="Perempuan">Perempuan</option>
+                                <option value="Laki-laki"  @if($members->gender == 'Laki-laki') selected @endif>Laki-laki</option>
+                                <option value="Perempuan"  @if($members->gender == 'Perempuan') selected @endif>Perempuan</option>
                             </select>
                             @error('gender') <span class="text-danger">{{$message}}</span> @enderror
                         </div>
