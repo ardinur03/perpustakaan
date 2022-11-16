@@ -17,6 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('lihat-buku', function () {
+    return view('welcome-lihat-buku');
+});
+
+
 Auth::routes();
 
 Route::prefix('admin')->middleware(['auth'])->group(function () {

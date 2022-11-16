@@ -60,14 +60,16 @@ class StudyProgramController extends Controller
                 'study_name' => $request->study_name
             ]);
 
-            return redirect()->route('study-programs.index')->with('success', 'Data Program Studi Berhasil Ditambahkan');
+            return redirect()->route('study-programs.index')
+                ->with('success_message', 'Data Program Studi Berhasil Ditambahkan');
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
                 'file' => $th->getFile(),
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('study-programs.index')->with('error', 'Data Program Studi Gagal Ditambahkan');
+            return redirect()->route('study-programs.index')
+                ->with('error', 'Data Program Studi Gagal Ditambahkan');
         }
     }
 
@@ -126,7 +128,7 @@ class StudyProgramController extends Controller
                 ]);
 
             return redirect()->route('study-programs.index')
-                ->with('success', 'Data Program Studi Berhasil Diubah');
+                ->with('success_message', 'Data Program Studi Berhasil Diubah');
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
                 'file' => $th->getFile(),
