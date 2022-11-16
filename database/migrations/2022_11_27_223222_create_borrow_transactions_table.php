@@ -20,7 +20,7 @@ class CreateBorrowTransactionsTable extends Migration
             $table->date('borrow_date');
             $table->date('return_date');
             $table->double('fine')->default(0);
-            $table->enum('status', ['borrowed', 'returned'])->default('borrowed');
+            $table->enum('status', ['borrowed', 'returned', 'overdue'])->default('borrowed');
             $table->timestamps();
         });
     }

@@ -17,38 +17,19 @@
                     <i class="fa fa-book" aria-hidden="true"></i>
                 </a>
 
-                <table class="table table-hover table-striped" id="example2">
+                <table class="table table-hover table-striped yajra-datatables" id="books">
                     <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Judul Buku</th>
-                            <th>Penerbit</th>
-                            <th>Kategori</th>
-                            <th>Stok</th>
-                            <th class="text-center">Opsi</th>
-                        </tr>
+                    <tr>
+                        <th>No.</th>
+                        <th>Judul Buku</th>
+                        <th>Penerbit</th>
+                        <th>Kategori</th>
+                        <th>Stok</th>
+
+                        <th class="text-center">Opsi</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @php 
-                        $no = 1;
-                        @endphp
-                        @foreach($books as $key => $book)
-                        <tr>
-                            <td>{{$no++}}</td>
-                            <td>{{$book->book_name}}</td>
-                            <td>{{$book->publisher}}</td>
-                            <td>{{$book->category->category_name}}</td>
-                            <td>{{$book->stock}}</td>
-                            <td class="text-center">
-                                <a href="{{route('books.edit', $book->id)}}" class="btn text-primary btn-sm">
-                                    <i class="fas fa-pen"></i>
-                                </a>
-                                <a href="{{route('books.destroy', $book->id)}}" onclick="notificationBeforeDelete(event, this)" class="btn text-danger btn-sm">
-                                    <i class="fas fa-trash" aria-hidden="true"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
                     </tbody>
                 </table>
 
@@ -64,10 +45,6 @@
     @csrf
 </form>
 <script>
-    $('#example2').DataTable({
-        "responsive": true,
-    });
-
     function notificationBeforeDelete(event, el) {
         event.preventDefault();
         if (confirm('Apakah anda yakin akan menghapus data ? ')) {
@@ -75,5 +52,19 @@
             $("#delete-form").submit();
         }
     }
+
+    var table = $('#books').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('books.index') }}",
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'book_name', name: 'book_name'},
+            {data: 'publisher', name: 'publisher'},
+            {data: 'category_name', name: 'category.category_name'},
+            {data: 'stock', name: 'stock'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
 </script>
 @endpush

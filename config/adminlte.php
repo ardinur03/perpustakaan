@@ -237,10 +237,17 @@ return [
             'can' => 'isAnggota',
         ],
         [
-            'text' => 'Peminjaman',
-            'url' => 'peminjaman-buku',
-            'icon' => 'fas fa-fw fa-tachometer-alt',
+            'text' => 'Books',
+            'url' => 'books-list',
+            'icon' => 'fas fa-fw fa-book',
             'can' => 'isAnggota',
+        ],
+        [
+            'text' => 'Borrow Transaction ',
+            'url' => 'borrow-transaction-list',
+            'icon' => 'fas fa-fw fa-book',
+            'can' => 'isAnggota',
+            'active' => ['borrow-transaction-list', 'borrow-transaction-list/*'],
         ],
         [
             'text'    => 'Master Data',

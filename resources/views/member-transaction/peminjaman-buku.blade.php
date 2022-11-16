@@ -13,7 +13,10 @@
                 <div class="col-4">
                     <div class="card card-primary" style="min-height: 100px;">
                         <div class="card-header">
-                            <h3 class="card-title">{{ $value->book_name }}</h3>
+                            <h3 class="card-title">
+                                {{-- limit string  --}}
+                                {{ Str::limit($value->book_name, 25) }}
+                            </h3>
                         </div>
                         <div class="card-body">
                             {{ $value->description }}

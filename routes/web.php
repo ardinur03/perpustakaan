@@ -43,8 +43,12 @@ Route::get('/dashboard', fn () => 'dashboard')->name('dashboard')->middleware('a
 // , 'role:member'
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', [MemberTransactionController::class, 'index'])->name('member.dashboard');
-    Route::get('/peminjaman-buku', [MemberTransactionController::class, 'peminjamanBuku'])->name('member.peminjaman-buku');
+    Route::get('/books-list', [MemberTransactionController::class, 'peminjamanBuku'])->name('member.peminjaman-buku');
     Route::get('/peminjaman-buku/{Book}', [MemberTransactionController::class, 'storePemijamanBuku'])->name('member.peminjaman-buku.store');
+    Route::get('/borrow-transaction-list', [MemberTransactionController::class, 'borrowTransactionList'])->name('member.borrow-transaction-list');
+    Route::get('/borrow-transaction-show/{:id}', [MemberTransactionController::class, 'borrowTransactionShow'])->name('member.borrow-transaction-show');
+    Route::get('/borrow-transaction-list/return', [MemberTransactionController::class, 'borrowTransactionReturn'])->name('member.borrow-transaction-return');
+    Route::post('/borrow-transaction-return', [MemberTransactionController::class, 'borrowTransactionReturnStore'])->name('member.borrow-transaction-return-store');
 });
 
 // give permission to user with role petugas by route
@@ -71,5 +75,19 @@ Route::get('/get-permission-super-admin', function () {
 Route::get('/get-permission-member', function () {
     $user = \App\Models\User::find(Auth::id());
     $user->givePermissionTo('akses member');
+    return $user;
+});
+
+// give roles to user by route (member)
+Route::get('/get-role-member', function () {
+    $user = \App\Models\User::find(Auth::id());
+    $user->assignRole('member');
+    return $user;
+});
+
+// give roles to user by route (petugas)
+Route::get('/get-role-petugas', function () {
+    $user = \App\Models\User::find(Auth::id());
+    $user->assignRole('petugas');
     return $user;
 });

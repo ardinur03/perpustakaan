@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
 use App\Models\Book;
+use Yajra\DataTables\DataTables;
 
 class BooksController extends Controller
 {
@@ -14,21 +14,24 @@ class BooksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        try {
-            $data = Book::all();
-            return view(
-                'books.index',
-                [
-                    'title' => 'Books',
-                    'books' => $data
-                ]
-            );
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return redirect()->route('home');
+        if ($request->ajax()) {
+            // get all data from books table and join with categories table using eloquent with
+            $data = Book::select('books.*', 'categories.category_name')
+                ->join('categories', 'books.category_id', '=', 'categories.id');
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . route('books.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('books.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
+        return view('books.index');
     }
 
     /**

@@ -26,17 +26,18 @@ class MemberTransactionController extends Controller
     public function storePemijamanBuku($id)
     {
         $book = Book::find($id);
+        $borrowTransactions = BorrowTransaction::where('user_id', Auth::user()->id)
+            ->where('status', 'borrowed')
+            ->first();
 
-        // cek apakah user sudah meminjam buku 
-        $borrow = BorrowTransaction::where('user_id', Auth::id())->first();
-        if ($borrow) {
-            return redirect()->back()->with('info_message', 'Anda sudah meminjam buku');
+        if ($borrowTransactions != null) {
+            return redirect()->back()->with('warning_message', 'Anda sudah meminjam buku');
         }
+
         if ($book->stock >= 0) {
             $book->stock -= 1;
             $book->save();
 
-            // add to table borrow_transaction
             BorrowTransaction::create([
                 'user_id' => auth()->user()->id,
                 'book_id' => $id,
@@ -46,6 +47,40 @@ class MemberTransactionController extends Controller
                 'status' => 'borrowed',
             ]);
         }
-        return redirect()->back();
+        return redirect()->back()->with('success_message', 'Berhasil meminjam buku');
+    }
+
+    public function borrowTransactionList()
+    {
+        $get_user_borrow = BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'borrowed')->first();
+        $data = [
+            'title' => 'Daftar Peminjaman Buku',
+            'borrowTransactions' => BorrowTransaction::where('user_id', Auth::user()->id)->with('book')->orderBy('id', 'desc')->get(),
+            'isBorrowed' => $get_user_borrow != null ? true : false,
+        ];
+        return view('member-transaction.borrow-transaction-list', $data);
+    }
+
+    public function borrowTransactionReturn()
+    {
+        $data = [
+            'title' => 'Pengembalian Buku',
+            'borrowTransactions' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'borrowed')->with('book')->first(),
+        ];
+        return view('member-transaction.borrow-transaction-return', $data);
+    }
+
+    public function borrowTransactionReturnStore()
+    {
+        $borrowTransaction = BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'borrowed')->first();
+        $book = Book::find($borrowTransaction->book_id);
+
+        $book->stock += 1;
+        $book->save();
+
+        $borrowTransaction->status = 'returned';
+        $borrowTransaction->save();
+
+        return redirect()->route('member.borrow-transaction-list')->with('success_message', 'Berhasil mengembalikan buku');
     }
 }
