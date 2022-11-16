@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class CategoryController extends Controller
+class FacultyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,12 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $data = \App\Models\Category::all();
+            $data = \App\Models\Faculty::all();
             return view(
-                'categories.index',
+                'faculties.index',
                 [
-                    'title' => 'Categories',
-                    'categories' => $data
+                    'title' => 'Faculties',
+                    'faculties' => $data
                 ]
             );
         } catch (\Throwable $th) {
@@ -37,9 +37,10 @@ class CategoryController extends Controller
     public function create()
     {
         return view(
-            'categories.create',
+            'faculties.create',
             [
-                'title' => 'Create Category'
+                'title' => 'Create Faculty',
+                'study_programs' => \App\Models\StudyProgram::all()
             ]
         );
     }
@@ -53,14 +54,16 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_name' => 'required'
+            'faculty_name' => 'required',
+            'study_program_id' => 'required'
         ]);
         try {
-            \App\Models\Category::create([
-                'category_name' => $request->category_name
+            \App\Models\Faculty::create([
+                'faculty_name' => $request->faculty_name,
+                'study_program_id' => $request->study_program_id
             ]);
 
-            return redirect()->route('categories.index');
+            return redirect()->route('faculties.index');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -87,12 +90,13 @@ class CategoryController extends Controller
     public function edit($id)
     {
         try {
-            $data = \App\Models\Category::find($id);
+            $data = \App\Models\Faculty::find($id);
             return view(
-                'categories.edit',
+                'faculties.edit',
                 [
-                    'title' => 'Edit Category',
-                    'category' => $data
+                    'title' => 'Edit Faculty',
+                    'faculty' => $data,
+                    'study_programs' => \App\Models\StudyProgram::all()
                 ]
             );
         } catch (\Throwable $th) {
@@ -111,14 +115,17 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'category_name' => 'required'
+            'faculty_name' => 'required',
+            'study_program_id' => 'required'
         ]);
         try {
-            \App\Models\Category::find($id)->update([
-                'category_name' => $request->category_name
+
+            \App\Models\Faculty::find($id)->update([
+                'faculty_name' => $request->faculty_name,
+                'study_program_id' => $request->study_program_id
             ]);
 
-            return redirect()->route('categories.index');
+            return redirect()->route('faculties.index');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -134,8 +141,8 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            \App\Models\Category::find($id)->delete();
-            return redirect()->route('categories.index');
+            \App\Models\Faculty::find($id)->delete();
+            return redirect()->route('faculties.index');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');

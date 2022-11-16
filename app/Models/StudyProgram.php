@@ -13,4 +13,9 @@ class StudyProgram extends Model
     protected $fillable = [
         'study_name'
     ];
+
+    public function faculty()
+    {
+        return $this->hasMany(Faculty::class);
+    }
 }

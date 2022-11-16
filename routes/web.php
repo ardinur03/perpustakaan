@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\LibrarianController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MemberTransactionController;
@@ -36,6 +37,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('books', BooksController::class);
     Route::resource('categories', CategoryController::class)->middleware('auth');
     Route::resource('study-programs', StudyProgramController::class)->middleware('auth');
+    Route::resource('faculties', FacultyController::class)->middleware('auth');
 });
 
 Route::get('/dashboard', fn () => 'dashboard')->name('dashboard')->middleware('auth');

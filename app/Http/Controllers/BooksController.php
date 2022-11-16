@@ -58,22 +58,21 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'book_name' => 'required',
+            'page' => 'required',
+            'description' => 'required',
+            'publisher' => 'required',
+            'author' => 'required',
+            'stock' => 'required',
+            'category_id' => 'required',
+            'published_year' => 'required'
+        ]);
         try {
-            $request->validate([
-                'book_name' => 'required',
-                'page' => 'required',
-                'description' => 'required',
-                'publisher' => 'required',
-                'author' => 'required',
-                'stock' => 'required',
-                'category_id' => 'required',
-                'published_year' => 'required'
-            ]);
-
             \App\Models\Book::create($request->all());
 
             return redirect()->route('books.index')
-                ->with('success', 'Book created successfully.');
+                ->with('success_message', 'Berhasil menambah member baru.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -99,6 +98,7 @@ class BooksController extends Controller
      */
     public function edit($id)
     {
+
         try {
             $book = \App\Models\Book::find($id);
             return view(
@@ -124,23 +124,24 @@ class BooksController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'book_name' => 'required',
+            'page' => 'required',
+            'description' => 'required',
+            'publisher' => 'required',
+            'author' => 'required',
+            'stock' => 'required',
+            'category_id' => 'required',
+            'published_year' => 'required'
+        ]);
+
         try {
-            $request->validate([
-                'book_name' => 'required',
-                'page' => 'required',
-                'description' => 'required',
-                'publisher' => 'required',
-                'author' => 'required',
-                'stock' => 'required',
-                'category_id' => 'required',
-                'published_year' => 'required'
-            ]);
 
             $book = \App\Models\Book::find($id);
             $book->update($request->all());
 
             return redirect()->route('books.index')
-                ->with('success', 'Book updated successfully');
+                ->with('success_message', 'Buku Berhasil Diupdate.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -160,7 +161,7 @@ class BooksController extends Controller
             $book->delete();
 
             return redirect()->route('books.index')
-                ->with('success', 'Book deleted successfully');
+                ->with('success_message', 'Buku Berhasil Dihapus');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');

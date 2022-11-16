@@ -51,11 +51,10 @@ class StudyProgramController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'study_name' => 'required'
+        ]);
         try {
-            $request->validate([
-                'study_name' => 'required'
-            ]);
-
             StudyProgram::create([
                 'study_name' => $request->study_name
             ]);
@@ -115,10 +114,11 @@ class StudyProgramController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'study_name' => 'required'
+        ]);
+
         try {
-            $request->validate([
-                'study_name' => 'required'
-            ]);
 
             StudyProgram::where('id', $id)
                 ->update([
