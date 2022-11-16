@@ -7,6 +7,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MemberTransactionController;
 use App\Http\Controllers\StudyProgramController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
@@ -26,9 +27,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('lihat-buku', function () {
-    return view('welcome-lihat-buku');
-});
+Route::get('lihat-buku', [WelcomeController::class, 'index'])->name('lihat-buku');
 
 
 Auth::routes();
