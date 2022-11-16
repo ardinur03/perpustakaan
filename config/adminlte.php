@@ -226,41 +226,76 @@ return [
     'menu' => [
         [
             'text' => 'Dashboard',
-            'url' => 'home',
+            'url' => 'admin/dashboard',
             'icon' => 'fas fa-fw fa-tachometer-alt',
+            'can' => 'isPetugas',
+        ],
+        [
+            'text' => 'Dashboard',
+            'url' => 'dashboard',
+            'icon' => 'fas fa-fw fa-tachometer-alt',
+            'can' => 'isAnggota',
+        ],
+        [
+            'text' => 'Books',
+            'url' => 'books-list',
+            'icon' => 'fas fa-fw fa-book',
+            'can' => 'isAnggota',
+        ],
+        [
+            'text' => 'Borrow Transaction ',
+            'url' => 'borrow-transaction-list',
+            'icon' => 'fas fa-fw fa-book',
+            'can' => 'isAnggota',
+            'active' => ['borrow-transaction-list', 'borrow-transaction-list/*'],
         ],
         [
             'text'    => 'Master Data',
             'icon'    => 'fas fa-fw fa-table',
+            'can' => 'isPetugas',
             'submenu' => [
                 [
                     'text' => 'User Account',
                     'shift' => 'ml-4',
                     'icon' => 'fas fa-fw fa-user',
-                    'url'  => '/users',
-                    'active' => ['users', 'users/*'],
+                    'url'  => 'admin/users',
+                    'active' => ['admin/users', 'admin/users/*'],
                 ],
                 [
                     'text' => 'Books',
                     'shift' => 'ml-4',
                     'icon' => 'fas fa-fw fa-book',
-                    'url'  => '/books',
-                    'active' => ['books', 'books/*'],
+                    'url'  => 'admin/books',
+                    'active' => ['admin/books', 'admin/books/*'],
                 ],
                 [
                     'text' => 'Librarians',
                     'shift' => 'ml-4',
                     'icon' => 'fas fa-fw fa-user-tie',
-                    'url'  => '/librarians',
-                    'active' => ['librarians', 'librarians/*'],
+                    'url'  => 'admin/librarians',
+                    'active' => ['admin/librarians', 'admin/librarians/*'],
                 ],
                 [
                     'text' => 'Members',
                     'shift' => 'ml-4',
                     'icon' => 'fas fa-fw fa-users',
-                    'url'  => '/members',
-                    'active' => ['members', 'members/*'],
+                    'url'  => 'admin/members',
+                    'active' => ['admin/members', 'admin/members/*'],
                 ],
+                [
+                    'text' => 'Categories',
+                    'shift' => 'ml-4',
+                    'icon' => 'fas fa-fw fa-tags',
+                    'url'  => 'admin/categories',
+                    'active' => ['admin/categories', 'admin/categories/*'],
+                ],
+                [
+                    'text' => 'Study Programs',
+                    'shift' => 'ml-4',
+                    'icon' => 'fas fa-fw fa-graduation-cap',
+                    'url'  => 'admin/study-programs',
+                    'active' => ['admin/study-programs', 'admin/study-programs/*'],
+                ]
             ],
         ]
 

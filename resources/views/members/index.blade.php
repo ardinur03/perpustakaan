@@ -14,14 +14,14 @@
                     <a href="{{route('members.create')}}" class="btn btn-success mb-3">
                         <i class="fa fa-user-plus" aria-hidden="true"></i>
                     </a>
-
                     <table class="table table-hover table-striped" id="example2">
                         <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Member Code</th>
-                            <th>Gender</th>
-                            <th>Phone Number</th>
+                            <th>Kode</th>
+                            <th>Nama</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Nomber Hp</th>
                             <th class="text-center">Opsi</th>
                         </tr>
                         </thead>
@@ -30,6 +30,7 @@
                             <tr>
                                 <td>{{$key+1}}</td>
                                 <td>{{$member->member_code}}</td>
+                                <td>{{$member->member_name}}</td>
                                 <td>{{$member->gender}}</td>
                                 <td>{{$member->phone_number}}</td>
                                 <td class="text-center">

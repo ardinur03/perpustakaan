@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMembersTable extends Migration
+class CreateBorrowTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateMembersTable extends Migration
      */
     public function up()
     {
-        Schema::create('members', function (Blueprint $table) {
+        Schema::create('borrow_transactions', function (Blueprint $table) {
             $table->id();
-            $table->integer('member_code')->unique();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('member_name', 50)->nullable();
-            $table->enum('gender', ['Laki-laki', 'Perempuan'])->nullable();
-            $table->string('phone_number', 13)->nullable();
-            $table->string('address')->nullable();
+            $table->foreignId('book_id')->constrained('books')->onDelete('cascade');
+            $table->date('borrow_date');
+            $table->date('return_date');
+            $table->double('fine')->default(0);
+            $table->enum('status', ['borrowed', 'returned', 'overdue'])->default('borrowed');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateMembersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('members');
+        Schema::dropIfExists('borrow_transactions');
     }
 }

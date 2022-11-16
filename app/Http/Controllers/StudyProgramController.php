@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Librarian;
+use App\Models\StudyProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class LibrarianController extends Controller
+class StudyProgramController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +16,10 @@ class LibrarianController extends Controller
     public function index()
     {
         try {
-            $librarians = Librarian::all();
-            return view('librarians.index', [
-                'title' => 'Daftar Petugas Perpustakaan',
-                'librarians' => $librarians
+            $study_programs = StudyProgram::all();
+            return view('study-programs.index', [
+                'title' => 'Daftar Program Studi',
+                'studyprograms' => $study_programs
             ]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
@@ -38,8 +38,8 @@ class LibrarianController extends Controller
      */
     public function create()
     {
-        return view('librarians.create', [
-            'title' => 'Tambah Data Petugas'
+        return view('study-programs.create', [
+            'title' => 'Tambah Data Program Studi'
         ]);
     }
 
@@ -52,25 +52,23 @@ class LibrarianController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'librarian_name' => 'required',
-            'position' => 'required',
-            'gender' => 'required',
-            'phone_number' => 'required',
-            'address' => 'required'
+            'study_name' => 'required'
         ]);
         try {
-            Librarian::create($request->all());
+            StudyProgram::create([
+                'study_name' => $request->study_name
+            ]);
 
-            return redirect()->route('librarians.index')
-                ->with('success', 'Data petugas berhasil ditambahkan');
+            return redirect()->route('study-programs.index')
+                ->with('success_message', 'Data Program Studi Berhasil Ditambahkan');
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
                 'file' => $th->getFile(),
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('librarians.index')
-                ->with('error', 'Data petugas gagal ditambahkan');
+            return redirect()->route('study-programs.index')
+                ->with('error', 'Data Program Studi Gagal Ditambahkan');
         }
     }
 
@@ -94,10 +92,10 @@ class LibrarianController extends Controller
     public function edit($id)
     {
         try {
-            $librarian = Librarian::findOrFail($id);
-            return view('librarians.edit', [
-                'title' => 'Edit Data Petugas',
-                'librarian' => $librarian
+            $study_program = StudyProgram::findOrFail($id);
+            return view('study-programs.edit', [
+                'title' => 'Edit Data Program Studi',
+                'study_program' => $study_program
             ]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
@@ -105,7 +103,7 @@ class LibrarianController extends Controller
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('study-programs.index')->with('error', 'Data Program Studi Gagal Diubah');
         }
     }
 
@@ -119,33 +117,25 @@ class LibrarianController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'librarian_name' => 'required',
-            'position' => 'required',
-            'gender' => 'required',
-            'phone_number' => 'required',
-            'address' => 'required'
+            'study_name' => 'required'
         ]);
 
         try {
 
-            Librarian::where('id', $id)
+            StudyProgram::where('id', $id)
                 ->update([
-                    'librarian_name' => $request->librarian_name,
-                    'position' => $request->position,
-                    'gender' => $request->gender,
-                    'phone_number' => $request->phone_number,
-                    'address' => $request->address
+                    'study_name' => $request->study_name
                 ]);
 
-            return redirect()->route('librarians.index')
-                ->with('success_message', 'Data petugas berhasil diubah');
+            return redirect()->route('study-programs.index')
+                ->with('success_message', 'Data Program Studi Berhasil Diubah');
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
                 'file' => $th->getFile(),
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('study-programs.index')->with('error', 'Data Program Studi Gagal Diubah');
         }
     }
 
@@ -158,16 +148,16 @@ class LibrarianController extends Controller
     public function destroy($id)
     {
         try {
-            Librarian::destroy($id);
-            return redirect()->route('librarians.index')
-                ->with('success_message', 'Data petugas berhasil dihapus');
+            StudyProgram::destroy($id);
+            return redirect()->route('study-programs.index')
+                ->with('success', 'Data Program Studi Berhasil Dihapus');
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
                 'file' => $th->getFile(),
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('study-programs.index')->with('error', 'Data Program Studi Gagal Dihapus');
         }
     }
 }
