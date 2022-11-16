@@ -16,6 +16,7 @@ class Member extends Model
 
     protected $fillable = [
         'member_name',
+        'user_id',
         'member_code',
         'gender',
         'phone_number',
@@ -29,5 +30,10 @@ class Member extends Model
             ->logFillable();
         // ->logOnly(['name', 'description']);
         // Chain fluent methods for configuration options
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
