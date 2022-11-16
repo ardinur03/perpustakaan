@@ -3,19 +3,19 @@
 @section('title', 'List Books')
 
 @section('content_header')
-<h1 class="m-0 text-dark">List Books</h1>
+    <h1 class="m-0 text-dark">List Books</h1>
 @stop
 
 @section('content')
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
 
-                <a href="{{route('books.create')}}" class="btn btn-success mb-2">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    <i class="fa fa-book" aria-hidden="true"></i>
-                </a>
+                    <a href="{{ route('books.create') }}" class="btn btn-success mb-2">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                    </a>
 
                 <table class="table table-hover table-striped yajra-datatables" id="books">
                     <thead>
@@ -33,10 +33,10 @@
                     </tbody>
                 </table>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
 @stop
 
 @push('js')
