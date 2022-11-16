@@ -78,16 +78,14 @@
 
                         <div class="form-group>
                         <label for="input_category">Kategori</label>
-                            <select name="category_id" id="input_category"
-                                class="form-control @error('category_id') is-invalid @enderror">
-                                <option value="">Pilih Kategori</option>
+                            <select class="form-control" name="category_id" id="input_category">
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
-                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->category_name }}</option>
+                                        {{ $category->id == $book->category_id ? 'selected' : '' }}>
+                                        {{ $category->category_name }}
+                                    </option>
                                 @endforeach
                             </select>
-
                             <div class="form-group">
                                 <label for="input_published_year">Tahun Terbit</label>
                                 <input type="date" class="form-control @error('published_year') is-invalid @enderror"

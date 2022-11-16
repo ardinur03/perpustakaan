@@ -51,15 +51,14 @@ class LibrarianController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'librarian_name' => 'required',
+            'position' => 'required',
+            'gender' => 'required',
+            'phone_number' => 'required',
+            'address' => 'required'
+        ]);
         try {
-            $request->validate([
-                'librarian_name' => 'required',
-                'position' => 'required',
-                'gender' => 'required',
-                'phone_number' => 'required',
-                'address' => 'required'
-            ]);
-
             Librarian::create($request->all());
 
             return redirect()->route('librarians.index')
@@ -119,14 +118,15 @@ class LibrarianController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'librarian_name' => 'required',
+            'position' => 'required',
+            'gender' => 'required',
+            'phone_number' => 'required',
+            'address' => 'required'
+        ]);
+
         try {
-            $request->validate([
-                'librarian_name' => 'required',
-                'position' => 'required',
-                'gender' => 'required',
-                'phone_number' => 'required',
-                'address' => 'required'
-            ]);
 
             Librarian::where('id', $id)
                 ->update([

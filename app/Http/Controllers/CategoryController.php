@@ -52,11 +52,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'category_name' => 'required'
+        ]);
         try {
-            $request->validate([
-                'category_name' => 'required'
-            ]);
-
             \App\Models\Category::create([
                 'category_name' => $request->category_name
             ]);
@@ -111,11 +110,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'category_name' => 'required'
+        ]);
         try {
-            $request->validate([
-                'category_name' => 'required'
-            ]);
-
             \App\Models\Category::find($id)->update([
                 'category_name' => $request->category_name
             ]);

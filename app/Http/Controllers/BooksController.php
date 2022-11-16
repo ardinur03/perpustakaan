@@ -55,18 +55,17 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'book_name' => 'required',
+            'page' => 'required',
+            'description' => 'required',
+            'publisher' => 'required',
+            'author' => 'required',
+            'stock' => 'required',
+            'category_id' => 'required',
+            'published_year' => 'required'
+        ]);
         try {
-            $request->validate([
-                'book_name' => 'required',
-                'page' => 'required',
-                'description' => 'required',
-                'publisher' => 'required',
-                'author' => 'required',
-                'stock' => 'required',
-                'category_id' => 'required',
-                'published_year' => 'required'
-            ]);
-
             \App\Models\Book::create($request->all());
 
             return redirect()->route('books.index')
@@ -96,6 +95,7 @@ class BooksController extends Controller
      */
     public function edit($id)
     {
+
         try {
             $book = \App\Models\Book::find($id);
             return view(
@@ -121,17 +121,18 @@ class BooksController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'book_name' => 'required',
+            'page' => 'required',
+            'description' => 'required',
+            'publisher' => 'required',
+            'author' => 'required',
+            'stock' => 'required',
+            'category_id' => 'required',
+            'published_year' => 'required'
+        ]);
+
         try {
-            $request->validate([
-                'book_name' => 'required',
-                'page' => 'required',
-                'description' => 'required',
-                'publisher' => 'required',
-                'author' => 'required',
-                'stock' => 'required',
-                'category_id' => 'required',
-                'published_year' => 'required'
-            ]);
 
             $book = \App\Models\Book::find($id);
             $book->update($request->all());

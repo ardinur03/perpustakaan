@@ -53,11 +53,11 @@ class FacultyController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'faculty_name' => 'required',
+            'study_program_id' => 'required'
+        ]);
         try {
-            $request->validate([
-                'faculty_name' => 'required'
-            ]);
-
             \App\Models\Faculty::create([
                 'faculty_name' => $request->faculty_name,
                 'study_program_id' => $request->study_program_id
@@ -114,11 +114,11 @@ class FacultyController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'faculty_name' => 'required',
+            'study_program_id' => 'required'
+        ]);
         try {
-            $request->validate([
-                'faculty_name' => 'required',
-                'study_program_id' => 'required'
-            ]);
 
             \App\Models\Faculty::find($id)->update([
                 'faculty_name' => $request->faculty_name,
