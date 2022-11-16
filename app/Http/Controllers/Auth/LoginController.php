@@ -46,8 +46,8 @@ class LoginController extends Controller
     // check if authenticated, then redirect to dashboard
     protected function authenticated()
     {
-        if (Auth::user()->hasRole('anggota-perpustakaan')) {
-            return redirect()->route('dashboard');
+        if (Auth::user()->hasRole('member')) {
+            return redirect()->route('member.dashboard');
         }
     }
 }
