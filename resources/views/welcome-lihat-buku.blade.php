@@ -277,8 +277,8 @@
                         </li>
                     </ul>
                     <div class="gap-3">
-                        <a href="{{ route('login') }}" class="btn btn-default btn-no-fill">Masuk</button>
-                            <a href="{{ route('register') }}" class="btn btn-fill text-white">Daftar</a>
+                        <a href="{{ route('login') }}" class="btn btn-default btn-no-fill">Masuk</a>
+                        <a href="{{ route('register') }}" class="btn btn-fill text-white">Daftar</a>
 
                     </div>
                 </div>
