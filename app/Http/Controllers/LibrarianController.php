@@ -62,7 +62,7 @@ class LibrarianController extends Controller
             Librarian::create($request->all());
 
             return redirect()->route('librarians.index')
-                ->with('success', 'Data petugas berhasil ditambahkan');
+                ->with('success_message', 'Data petugas berhasil ditambahkan');
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
                 'file' => $th->getFile(),

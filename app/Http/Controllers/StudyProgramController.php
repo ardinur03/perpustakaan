@@ -150,7 +150,7 @@ class StudyProgramController extends Controller
         try {
             StudyProgram::destroy($id);
             return redirect()->route('study-programs.index')
-                ->with('success', 'Data Program Studi Berhasil Dihapus');
+                ->with('success_message', 'Data Program Studi Berhasil Dihapus');
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
                 'file' => $th->getFile(),

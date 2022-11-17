@@ -141,7 +141,7 @@ class BooksController extends Controller
             $book->update($request->all());
 
             return redirect()->route('books.index')
-                ->with('success_message', 'Buku Berhasil Diupdate.');
+                ->with('success_message', 'Buku Berhasil diperbaharui.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');

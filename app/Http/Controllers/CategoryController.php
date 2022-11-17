@@ -60,7 +60,7 @@ class CategoryController extends Controller
                 'category_name' => $request->category_name
             ]);
 
-            return redirect()->route('categories.index');
+            return redirect()->route('categories.index')->with('success_message', 'Kategori berhasil Ditambahkan.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -118,7 +118,7 @@ class CategoryController extends Controller
                 'category_name' => $request->category_name
             ]);
 
-            return redirect()->route('categories.index');
+            return redirect()->route('categories.index')->with('success_message', 'Kategori berhasil Diubah.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -135,7 +135,7 @@ class CategoryController extends Controller
     {
         try {
             \App\Models\Category::find($id)->delete();
-            return redirect()->route('categories.index');
+            return redirect()->route('categories.index')->with('success_message', 'Kategori berhasil Dihapus.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
