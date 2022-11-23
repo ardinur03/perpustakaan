@@ -277,30 +277,33 @@
                         </li>
                     </ul>
                     <div class="gap-3">
-                        <a href="{{ route('login') }}" class="btn btn-default btn-no-fill">Masuk</button>
-                            <a href="{{ route('register') }}" class="btn btn-fill text-white">Daftar</a>
+                        <a href="{{ route('login') }}" class="btn btn-default btn-no-fill">Masuk</a>
+                        <a href="{{ route('register') }}" class="btn btn-fill text-white">Daftar</a>
 
                     </div>
                 </div>
             </nav>
 
-            <div class="row">
-                @foreach ($books as $key => $book)
-                    <div class="col-xl col-lg-3 col-md-4 col-sm-6 pb-4">
-                        <div class="mx-auto d-flex flex-lg-row flex-column hero">
-                            <div class="card" style="width: 18rem;">
+            <div class="container">
+                <div class="row">
+                    @foreach ($books as $key => $book)
+                        <div class="col-3">
+                            <div class="card" style="height: 300px">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ $book->book_name }}</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">{{ $book->author }},
+                                    <h5 class="card-title">{{ Str::limit($book->book_name, 32) }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{ Str::limit($book->author, 32) }},
                                         {{ $book->publisher }}</h6>
-                                    <p class="card-text">{{ $book->description }}</p>
-                                    <a href="#" class="btn btn-primary stretched-link">Meminjam</a>
+                                    <p class="card-text">{{ Str::limit($book->description, 64) }}</p>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="#" class="btn btn-primary stretched-link mt-3">Baca</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
+        </div>
     </section>
     <section class="h1-00 w-100 bg-white" style="box-sizing: border-box">
         <style scoped>
