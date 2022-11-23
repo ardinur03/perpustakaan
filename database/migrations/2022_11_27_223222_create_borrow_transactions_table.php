@@ -15,8 +15,8 @@ class CreateBorrowTransactionsTable extends Migration
     {
         Schema::create('borrow_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('book_id')->constrained('books')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('book_id')->constrained('books');
             $table->date('borrow_date');
             $table->date('return_date');
             $table->double('fine')->default(0);

@@ -295,6 +295,13 @@ return [
                     'icon' => 'fas fa-fw fa-graduation-cap',
                     'url'  => 'admin/study-programs',
                     'active' => ['admin/study-programs', 'admin/study-programs/*'],
+                ],
+                [
+                    'text' => 'Faculties',
+                    'shift' => 'ml-4',
+                    'icon' => 'fas fa-fw fa-university',
+                    'url'  => 'admin/faculties',
+                    'active' => ['admin/faculties', 'admin/faculties/*'],
                 ]
             ],
         ]

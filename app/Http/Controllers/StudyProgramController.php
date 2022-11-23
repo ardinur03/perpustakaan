@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Faculty;
 use App\Models\StudyProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -148,9 +149,18 @@ class StudyProgramController extends Controller
     public function destroy($id)
     {
         try {
-            StudyProgram::destroy($id);
+            $study_program = StudyProgram::find($id);
+
+            // cek apakah ada di tabel faculties
+            $faculty = Faculty::where('study_program_id', $id)->first();
+            if ($faculty) {
+                return redirect()->route('study-programs.index')
+                    ->with('error_message', 'Data Program Studi Gagal Dihapus');
+            }
+
+            $study_program->delete();
             return redirect()->route('study-programs.index')
-                ->with('success', 'Data Program Studi Berhasil Dihapus');
+                ->with('success_message', 'Data Program Studi Berhasil Dihapus');
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
                 'file' => $th->getFile(),

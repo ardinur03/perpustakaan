@@ -61,10 +61,21 @@
 
     function notificationBeforeDelete(event, el) {
         event.preventDefault();
-        if (confirm('Apakah anda yakin akan menghapus data ? ')) {
-            $("#delete-form").attr('action', $(el).attr('href'));
-            $("#delete-form").submit();
-        }
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#5C636A',
+            confirmButtonText: 'Ya, hapus!'
+        }).then((result) => {
+            console.log(result);
+            if (result.dismiss != 'cancel' && result) {
+                $('#delete-form').attr('action', $(el).attr('href'));
+                $('#delete-form').submit();
+            }
+        })
     }
 </script>
 @endpush

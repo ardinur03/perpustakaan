@@ -42,14 +42,13 @@
     <script>
     function notificationBeforeDelete(event, el) {
         event.preventDefault();
-        // sweet alert
         Swal.fire({
             title: 'Apakah anda yakin?',
             text: "Data yang dihapus tidak dapat dikembalikan!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#5C636A',
             confirmButtonText: 'Ya, hapus!'
         }).then((result) => {
             console.log(result);

@@ -141,7 +141,7 @@ class BooksController extends Controller
             $book->update($request->all());
 
             return redirect()->route('books.index')
-                ->with('success_message', 'Buku Berhasil Diupdate.');
+                ->with('success_message', 'Buku Berhasil diperbaharui.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -158,6 +158,14 @@ class BooksController extends Controller
     {
         try {
             $book = \App\Models\Book::find($id);
+
+            // cek apakah buku ini ada di borrow_transaction
+            $borrowTransaction = \App\Models\BorrowTransaction::where('book_id', $id)->first();
+            if ($borrowTransaction) {
+                return redirect()->route('books.index')
+                    ->with('error_message', 'Buku tidak dapat dihapus karena sedang dipinjam.');
+            }
+
             $book->delete();
 
             return redirect()->route('books.index')

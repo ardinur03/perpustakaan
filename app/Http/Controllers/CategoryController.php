@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -15,7 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $data = \App\Models\Category::all();
+            $data = Category::all();
             return view(
                 'categories.index',
                 [
@@ -56,11 +57,11 @@ class CategoryController extends Controller
             'category_name' => 'required'
         ]);
         try {
-            \App\Models\Category::create([
+            Category::create([
                 'category_name' => $request->category_name
             ]);
 
-            return redirect()->route('categories.index');
+            return redirect()->route('categories.index')->with('success_message', 'Kategori berhasil Ditambahkan.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -114,11 +115,11 @@ class CategoryController extends Controller
             'category_name' => 'required'
         ]);
         try {
-            \App\Models\Category::find($id)->update([
+            Category::find($id)->update([
                 'category_name' => $request->category_name
             ]);
 
-            return redirect()->route('categories.index');
+            return redirect()->route('categories.index')->with('success_message', 'Kategori berhasil Diubah.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -134,8 +135,17 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            \App\Models\Category::find($id)->delete();
-            return redirect()->route('categories.index');
+            $category = Category::find($id);
+
+            // cek apakah category berada pada table book
+            $book = \App\Models\Book::where('category_id', $id)->first();
+            if ($book) {
+                return redirect()->back()->with('error_message', 'Kategori tidak dapat dihapus karena masih digunakan.');
+            }
+
+            $category->delete();
+
+            return redirect()->back()->with('success_message', 'Kategori berhasil Dihapus.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
