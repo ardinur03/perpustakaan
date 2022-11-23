@@ -63,7 +63,7 @@ class FacultyController extends Controller
                 'study_program_id' => $request->study_program_id
             ]);
 
-            return redirect()->route('faculties.index');
+            return redirect()->route('faculties.index')->with('success_message', 'Berhasil menambah member baru.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -125,7 +125,7 @@ class FacultyController extends Controller
                 'study_program_id' => $request->study_program_id
             ]);
 
-            return redirect()->route('faculties.index');
+            return redirect()->route('faculties.index')->with('success_message', 'Kategori berhasil diperbaharui.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
@@ -142,7 +142,7 @@ class FacultyController extends Controller
     {
         try {
             \App\Models\Faculty::find($id)->delete();
-            return redirect()->route('faculties.index');
+            return redirect()->route('faculties.index')->with('success_message', 'Kategori berhasil dihapus.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');

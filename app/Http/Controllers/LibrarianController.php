@@ -60,7 +60,6 @@ class LibrarianController extends Controller
         ]);
         try {
             Librarian::create($request->all());
-
             return redirect()->route('librarians.index')
                 ->with('success_message', 'Data petugas berhasil ditambahkan');
         } catch (\Throwable $th) {
@@ -127,7 +126,6 @@ class LibrarianController extends Controller
         ]);
 
         try {
-
             Librarian::where('id', $id)
                 ->update([
                     'librarian_name' => $request->librarian_name,

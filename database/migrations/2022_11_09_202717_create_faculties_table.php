@@ -16,7 +16,9 @@ class CreateFacultiesTable extends Migration
         Schema::create('faculties', function (Blueprint $table) {
             $table->id();
             $table->string('faculty_name');
-            $table->foreignId('study_program_id')->unsigned('study_programs');
+            $table->id('study_program_id')->autoIncrement(false);
+
+            $table->foreign('study_program_id')->references('id')->on('study_programs');
         });
     }
 
