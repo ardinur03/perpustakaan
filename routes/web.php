@@ -97,3 +97,8 @@ Route::get('/get-role-petugas', function () {
     $user->assignRole('petugas');
     return $user;
 });
+
+// route for print-transaction
+Route::get('/print-transaction', function () {
+    return view('print-transaction');
+});
