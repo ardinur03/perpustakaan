@@ -16,7 +16,7 @@ class WelcomeController extends Controller
     public function index()
     {
         try {
-            $books = Book::all();
+            $books = Book::paginate(12);
             return view('welcome-lihat-buku', [
                 'books' => $books
             ]);
