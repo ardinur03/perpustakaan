@@ -293,7 +293,7 @@
                                     <h5 class="card-title">{{ Str::limit($book->book_name, 32) }}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">{{ Str::limit($book->author, 32) }},
                                         {{ $book->publisher }}</h6>
-                                    <p class="card-text">{{ Str::limit($book->description, 64) }}</p>
+                                    <p class="card-text">{{ Str::limit($book->description, 40) }}</p>
                                 </div>
                                 <div class="card-footer d-grid gap-2">
                                     <button type="button" class="btn btn-success">Pinjam</button>
