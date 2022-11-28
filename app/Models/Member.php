@@ -17,6 +17,7 @@ class Member extends Model
     protected $fillable = [
         'member_name',
         'user_id',
+        'faculty_id',
         'member_code',
         'gender',
         'phone_number',
@@ -28,8 +29,6 @@ class Member extends Model
         return LogOptions::defaults()
             ->useLogName('members')
             ->logFillable();
-        // ->logOnly(['name', 'description']);
-        // Chain fluent methods for configuration options
     }
 
     public function user()

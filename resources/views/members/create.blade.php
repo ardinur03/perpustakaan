@@ -46,6 +46,16 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="faculty">Fakultas & Prodi</label>
+                            <Select name="faculty_id" class="form-control @error('faculty_id') is-invalid @enderror">
+                                <option value="" selected>Pilih Fakultas | Prodi</option>
+                                @foreach ($faculties as $faculty)
+                                    <option value="{{ $faculty->id }}">{{ $faculty->faculty_name }} || {{ $faculty->studyProgram->study_name }}</option>
+                                @endforeach
+                            </Select>   
+                        </div>
+
+                        <div class="form-group">
                             <label for="phone-number">Phone Number</label>
                             <input type="text" class="form-control @error('phone_number') is-invalid @enderror"
                                 id="phone-number" placeholder="Member Code" name="phone_number"
@@ -63,39 +73,6 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-
-                        <hr>
-
-                        <h3>Buat Akun untuk member</h3>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                                placeholder="Email" name="email" value="{{ old('email') }}">
-                            @error('email')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                id="password" placeholder="Password" name="password">
-                            @error('password')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password_confirmation">Konfirmasi Password</label>
-                            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
-                                id="password_confirmation" placeholder="Konfirmasi Password" name="password_confirmation">
-                            @error('password_confirmation')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-
-
                     </div>
 
                     <div class="card-footer">
