@@ -304,7 +304,14 @@ return [
                     'active' => ['admin/faculties', 'admin/faculties/*'],
                 ]
             ],
-        ]
+        ],
+        [
+            'text' => 'Transaction List',
+            'url' => 'admin/transaction-list',
+            'icon' => 'fas fa-fw fa-book',
+            'can' => 'isPetugas',
+            'active' => ['transaction-list', 'transaction-list/*'],
+        ],
 
     ],
 

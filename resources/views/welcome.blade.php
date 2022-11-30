@@ -276,11 +276,28 @@
                             <a class="nav-link" href="#">Kontak</a>
                         </li>
                     </ul>
+
+                    @if (Auth::check())
+                        <div class="d-flex">
+                            <a href="/" class="d-flex align-items-center text-decoration-none">
+                                <img src="https://ui-avatars.com/api/?name={{ Auth::user()->username }}" alt="" width="40"
+                                    height="40" class="rounded-circle">
+                                <div class="ms-2">
+                                    <div class="fw-bold">{{ Auth::user()->username }}</div>
+                                </div>
+                            </a>
+
+                            <form action="/logout" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-fill text-white ms-3">Logout</button>
+                            </form>
+                        </div>
+                    @else
                     <div class="gap-3">
                         <a href="{{ route('login') }}" class="btn btn-default btn-no-fill">Masuk</button>
-                            <a href="{{ route('register') }}" class="btn btn-fill text-white">Daftar</a>
-
+                        <a href="{{ route('register') }}" class="btn btn-fill text-white">Daftar</a>
                     </div>
+                    @endif
                 </div>
             </nav>
 

@@ -11,10 +11,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
                     <a href="{{route('users.create')}}" class="btn btn-success mb-3">
                     <i class="fa fa-user-plus" aria-hidden="true"></i></a>
-
                     <table class="table table-hover table-striped yajra-datatables" id="example2">
                         <thead>
                         <tr>
@@ -24,10 +22,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                       
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
