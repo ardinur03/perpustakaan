@@ -1,10 +1,11 @@
 <div>
-    <div class="invoice p-3 mb-3" style="background-color: red">
+    <div class="invoice p-3 mb-3">
         <div class="row">
             <div class="col-12">
                 <h4>
                     <i class="fas fa-globe mr-2"></i> Cetak Transaksi
-                    <small class="float-right">{{ now('Y m d') }}</small>
+                    {{-- date now from device --}}
+                    <small class="float-right">Date: {{ date('d M Y H:i:s') }}</small>
                 </h4>
             </div>
 

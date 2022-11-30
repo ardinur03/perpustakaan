@@ -29,6 +29,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/printed-transaction', function () {
+    return view('member-transaction.printed-transaction');
+});
+
 Route::get('lihat-buku', [WelcomeController::class, 'index'])->name('lihat-buku');
 
 
