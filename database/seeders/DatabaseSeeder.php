@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesAndPermissionsSeeder::class,
             CategoriesBookSeeder::class,
+            RoleSeederLibrary::class,
         ]);
         \App\Models\Book::factory(1000)->create();
     }

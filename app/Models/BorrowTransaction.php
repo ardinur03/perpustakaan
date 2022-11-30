@@ -12,6 +12,7 @@ class BorrowTransaction extends Model
     protected $table = 'borrow_transactions';
 
     protected $fillable = [
+        'transaction_code',
         'user_id',
         'book_id',
         'borrow_date',

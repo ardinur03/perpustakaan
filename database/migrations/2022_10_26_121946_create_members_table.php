@@ -16,12 +16,14 @@ class CreateMembersTable extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->integer('member_code')->unique();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->id('user_id')->autoIncrement(false)->nullable();
             $table->string('member_name', 50)->nullable();
             $table->enum('gender', ['Laki-laki', 'Perempuan'])->nullable();
             $table->string('phone_number', 13)->nullable();
             $table->string('address')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

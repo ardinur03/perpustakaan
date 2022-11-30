@@ -15,7 +15,6 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-group">
-                            {{ $members->member_code }}
                             <label for="member-code">Kode Anggota</label>
                             <input type="text" class="form-control @error('member_code') is-invalid @enderror"
                                 id="member-code" placeholder="Kode Anggota" name="member_code"
@@ -46,6 +45,16 @@
                             @error('gender')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="faculty">Fakultas & Prodi</label>
+                            <Select name="faculty_id" class="form-control @error('faculty_id') is-invalid @enderror">
+                                <option value="" selected>Pilih Fakultas | Prodi</option>
+                                @foreach ($faculties as $faculty)
+                                    <option value="{{ $faculty->id }}" @if($faculty->id == $members->faculty_id) selected @endif >{{ $faculty->faculty_name }} || {{ $faculty->studyProgram->study_name }}</option>
+                                @endforeach
+                            </Select>   
                         </div>
 
                         <div class="form-group">

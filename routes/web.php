@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FacultyController;
@@ -42,6 +43,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('categories', CategoryController::class)->middleware('auth');
     Route::resource('study-programs', StudyProgramController::class)->middleware('auth');
     Route::resource('faculties', FacultyController::class)->middleware('auth');
+    Route::get('transaction-list', [AdminController::class, 'index'])->name('admin.transaction-list');
 });
 
 Route::get('/dashboard', fn () => 'dashboard')->name('dashboard')->middleware('auth');
@@ -52,9 +54,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/books-list', [MemberTransactionController::class, 'peminjamanBuku'])->name('member.peminjaman-buku');
     Route::get('/peminjaman-buku/{Book}', [MemberTransactionController::class, 'storePemijamanBuku'])->name('member.peminjaman-buku.store');
     Route::get('/borrow-transaction-list', [MemberTransactionController::class, 'borrowTransactionList'])->name('member.borrow-transaction-list');
-    Route::get('/borrow-transaction-show/{:id}', [MemberTransactionController::class, 'borrowTransactionShow'])->name('member.borrow-transaction-show');
     Route::get('/borrow-transaction-list/return', [MemberTransactionController::class, 'borrowTransactionReturn'])->name('member.borrow-transaction-return');
+    Route::get('/borrow-transaction-list/{id}', [MemberTransactionController::class, 'borrowTransactionShow'])->name('member.borrow-transaction-show');
     Route::post('/borrow-transaction-return', [MemberTransactionController::class, 'borrowTransactionReturnStore'])->name('member.borrow-transaction-return-store');
+    Route::get('/borrow-transaction-print', [MemberTransactionController::class, 'transactionPrint'])->name('member.borrow-transaction-print');
 });
 
 // give permission to user with role petugas by route

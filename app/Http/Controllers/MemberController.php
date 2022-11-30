@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Faculty;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -41,7 +42,8 @@ class MemberController extends Controller
     public function create()
     {
         return view('members.create', [
-            'title' => 'Tambah Member'
+            'title' => 'Tambah Member',
+            'faculties' => Faculty::with('StudyProgram')->get()
         ]);
     }
 
@@ -56,29 +58,20 @@ class MemberController extends Controller
         $request->validate([
             'member_name' => 'required',
             'member_code' => 'required|unique:members',
+            'faculty_id' => 'required',
             'gender' => 'required',
             'phone_number' => 'required',
             'address' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
-            'password_confirmation' => 'required|same:password'
         ]);
 
         try {
-            // add to user table
-            $user = new User();
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->save();
-
-            // add to table members
             Member::create([
                 'member_name' => $request->member_name,
                 'member_code' => $request->member_code,
+                'faculty_id' => $request->faculty_id,
                 'gender' => $request->gender,
                 'address' => $request->address,
                 'phone_number' => $request->phone_number,
-                'user_id' => $user->id
             ]);
 
             return redirect()->route('members.index')
@@ -116,7 +109,8 @@ class MemberController extends Controller
             $member = Member::findOrFail($id);
             return view('members.edit', [
                 'title' => 'Edit Member',
-                'members' => $member
+                'members' => $member,
+                'faculties' => Faculty::with('StudyProgram')->get()
             ]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
