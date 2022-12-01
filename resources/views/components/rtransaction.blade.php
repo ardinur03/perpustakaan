@@ -4,7 +4,7 @@
             <div class="col-12">
                 <h4>
                     <i class="fas fa-globe mr-2"></i> Cetak Transaksi
-                    <small class="float-right">{{ now('Y m d') }}</small>
+                    {{-- <small class="float-right">{{ now('Y m d') }}</small> --}}
                 </h4>
             </div>
 
