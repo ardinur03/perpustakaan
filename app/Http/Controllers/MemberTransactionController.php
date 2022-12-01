@@ -105,8 +105,7 @@ class MemberTransactionController extends Controller
     public function transactionPrint()
     {
         // get data member transaction where user_id and status
-        $borrowTransaction = BorrowTransaction::where('user_id', Auth::user()->id)->with(['book', 'user'])->first();
-
+        $borrowTransaction = BorrowTransaction::where('id', request()->id)->with(['book', 'user'])->first();
         // Setup a filename 
         $member_name = str_replace(' ', '-', $borrowTransaction->user->member->member_name);
         $documentFileName = "{$member_name}_Laporan-Peminjaman.pdf";
@@ -131,7 +130,7 @@ class MemberTransactionController extends Controller
         $document->SetTitle("Laporan Peminjaman Buku {$borrowTransaction->user->member->member_name}");
 
         // render dari component transaction-report
-        $document->WriteHTML(view('components.rtransaction', [
+        $document->WriteHTML(view('member-transaction.printed-transaction', [
             'borrowTransaction' => $borrowTransaction,
             'isPrint' => true,
         ]));

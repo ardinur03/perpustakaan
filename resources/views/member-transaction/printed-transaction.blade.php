@@ -1,17 +1,17 @@
 <div class="">
-    <h1>Print Transaksi</h1>
+    <h1>Transaksi Peminjaman</h1>
     <table class="meta">
         <tr>
-        <tr>
-            <th><span class="content">Nama</span></th>
-            <td><span class="content">Achmadya Ridwan</span></td>
-        </tr>
-        <th><span class="content">Kode Transaksi</span></th>
-        <td><span class="content">TRX-0001</span></td>
+            <th><span>Nama:</span></th>
+            <td><span>{{ $borrowTransaction->user->member->member_name }}</span></td>
         </tr>
         <tr>
-            <th><span class="content">Tanggal Transaksi</span></th>
-            <td><span class="content">2019-01-01</span></td>
+            <th><span>Kode Transaksi:</span></th>
+            <td><span>{{ $borrowTransaction->transaction_code }}</span></td>
+        </tr>
+        <tr>
+            <th><span class="content">Tanggal Cetak:</span></th>
+            <td><span class="content">{{ date('d M Y H:i:s') }}</span></td>
         </tr>
     </table>
     <table class="inventory">
@@ -26,11 +26,15 @@
         </thead>
         <tbody>
             <tr>
-                <td><span class="content">Designing With Web Standards</span></td>
-                <td><span class="content">January 1, 2012</span></td>
-                <td><span class="content">January 1, 2012</span></td>
-                <td><span class="content">Borrowed</span></td>
-                <td><span class="content">0</span></td>
+                <td><span class="content">{{ $borrowTransaction->book->book_name }}</span></td>
+                <td><span class="content">{{ $borrowTransaction->borrow_date }}</span></td>
+                <td><span class="content">{{ $borrowTransaction->return_date }}</span></td>
+                <td><span
+                        class="badge badge-{{ $borrowTransaction->status == 'overdue' ? 'danger' : 'success' }}">{{ $borrowTransaction->status }}</span>
+                </td>
+                <td><span
+                        class="content">{{ $borrowTransaction->fine == 0 ? 'Tidak Ada' : $borrowTransaction->fine }}</span>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -95,7 +99,7 @@
 
     body {
         box-sizing: border-box;
-        height: 3in;
+        height: 5in;
         margin: auto auto;
         overflow: hidden;
         padding: 0.5in;

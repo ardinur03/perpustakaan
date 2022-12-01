@@ -48,8 +48,16 @@
                             <td>{{ $borrowTransaction->book->book_name }}</td>
                             <td>{{ $borrowTransaction->borrow_date }}</td>
                             <td>{{ $borrowTransaction->return_date }}</td>
-                            <td><span
-                                    class="badge badge-{{ $borrowTransaction->status == 'overdue' ? 'danger' : 'success' }}">{{ $borrowTransaction->status }}</span>
+                            @php
+                                if ($borrowTransaction->status == 'overdue') {
+                                    $text = 'danger';
+                                } elseif ($borrowTransaction->status == 'borrowed') {
+                                    $text = 'primary';
+                                } else {
+                                    $text = 'success';
+                                }
+                            @endphp
+                            <td><span class="badge badge-{{ $text }}">{{ $borrowTransaction->status }}</span>
                             </td>
                             <td>{{ $borrowTransaction->fine == 0 ? 'Tidak Ada' : $borrowTransaction->fine }}</td>
                         </tr>
@@ -60,10 +68,15 @@
 
         <div class="row mt-3">
             <div class="col-12">
-                <a href="{{ route('member.borrow-transaction-print') }}" class="btn btn-outline-danger float-right"
-                    style="margin-right: 5px;">
-                    <i class="fas fa-download"></i> Print Transaksi
-                </a>
+
+                <form action="{{ route('member.borrow-transaction-print') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $borrowTransaction->id }}">
+                    <button type="submit" class="btn btn-outline-danger float-right"><i class="fas fa-download"></i>
+                        Generate
+                        PDF
+                    </button>
+                </form>
             </div>
         </div>
     </div>
