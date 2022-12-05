@@ -86,14 +86,6 @@ class UserController extends Controller
         return view('users.edit', [
             'user' => $user
         ]);
-
-        // try {
-        //     //code...
-        // } catch (\Throwable $th) {
-        //     //throw $th;
-        // } finally {
-        //     //code...
-        // }
     }
 
     /**

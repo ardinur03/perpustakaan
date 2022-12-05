@@ -16,9 +16,9 @@
                     <div class="card-body">
 
                         <div class="form-group">
-                            <label for="librarian_name">Librarian Name</label>
+                            <label for="librarian_name">Nama Petugas</label>
                             <input type="text" class="form-control @error('librarian_name') is-invalid @enderror"
-                                id="exampleInputName" placeholder="Librarian Name" name="librarian_name"
+                                id="exampleInputName" placeholder="Nama Petugas" name="librarian_name"
                                 value="{{ $librarian->librarian_name ?? old('librarian_name') }}">
                             @error('librarian_name')
                                 <span class="text-danger">{{ $message }}</span>
@@ -26,9 +26,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="Position">Position</label>
+                            <label for="Position">Posisi</label>
                             <input type="text" class="form-control @error('position') is-invalid @enderror"
-                                id="exampleInputName" placeholder="Position" name="position"
+                                id="exampleInputName" placeholder="Posisi" name="position"
                                 value="{{ $librarian->position ?? old('position') }}">
                             @error('position')
                                 <span class="text-danger">{{ $message }}</span>
@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="Gender">Gender</label>
+                            <label for="Gender">Jenis Kelamin</label>
                             <select name="gender" class="form-control @error('gender') is-invalid @enderror"
                                 id="gender">
                                 <option value="Laki-laki" @if ($librarian->gender == 'Laki-laki') selected @endif>Laki-laki
@@ -50,9 +50,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="Phone-Number">Phone-Number</label>
+                            <label for="Phone-Number">Nomor Telepon</label>
                             <input type="text" class="form-control @error('phone_number') is-invalid @enderror"
-                                id="exampleInputName" placeholder="Phone-Number" name="phone_number"
+                                id="exampleInputName" placeholder="Nomor Telepon" name="phone_number"
                                 value="{{ $librarian->phone_number ?? old('phone_number') }}">
                             @error('phone_number')
                                 <span class="text-danger">{{ $message }}</span>
@@ -60,10 +60,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="Address">Address</label>
-                            <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                id="exampleInputName" placeholder="Address" name="address"
-                                value="{{ $librarian->address ?? old('address') }}">
+                            <label for="Address">Alamat</label>
+                            <textarea name="address" id="address" cols="30" rows="5"
+                                class="form-control @error('address') is-invalid @enderror">{{ $librarian->address ?? old('address') }}</textarea>
                             @error('address')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

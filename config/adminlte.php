@@ -126,7 +126,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary',
+    'classes_sidebar' => 'sidebar-light-orange',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -187,7 +187,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -308,9 +308,9 @@ return [
         [
             'text' => 'Transaction List',
             'url' => 'admin/transaction-list',
-            'icon' => 'fas fa-fw fa-book',
+            'icon' => 'fas fa-list',
             'can' => 'isPetugas',
-            'active' => ['transaction-list', 'transaction-list/*'],
+            'active' => ['admin/transaction-list', 'admin/transaction-list/*'],
         ],
 
     ],

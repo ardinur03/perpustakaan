@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\BorrowTransaction;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \Mpdf\Mpdf as PDF;
 use Illuminate\Support\Facades\Storage;
@@ -12,14 +13,33 @@ class MemberTransactionController extends Controller
 {
     public function index()
     {
-        return view('member-transaction.index');
+        $data = [
+            'title' => 'Dashboard Member',
+            'countAllBorrowTransaction' => BorrowTransaction::where('user_id', Auth::user()->id)->get()->count(),
+            'countAllBorrowTransactionReturned' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'returned')->count(),
+            'countAllBorrowTransactionOverdue' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'overdue')->count(),
+            'countAllBorrowTransactionFineNow' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'Overdue')->sum('fine'),
+        ];
+        return view('member-transaction.index', $data);
     }
 
-    public function peminjamanBuku()
+    public function peminjamanBuku(Request $request)
+    {
+        $book = $request->input('book');
+        // jika ada pencarian buku maka akan menampilkan buku yang dicari dan jika tidak maka akan menampilkan semua buku
+        $data = [
+            'title' => 'Peminjaman Buku',
+            'books' => $book ? Book::where('book_name', 'like', '%' . $book . '%')->paginate(10) : Book::paginate(10),
+        ];
+
+        return view('member-transaction.peminjaman-buku', $data);
+    }
+
+    public function searchBuku($keyword)
     {
         $data = [
             'title' => 'Peminjaman Buku',
-            'books' => Book::all(),
+            'books' => Book::where('book_name', 'like', "%$keyword%")->paginate(12),
         ];
         return view('member-transaction.peminjaman-buku', $data);
     }
@@ -96,8 +116,8 @@ class MemberTransactionController extends Controller
     {
         $data = [
             'title' => 'Detail Peminjaman Buku',
-            // get data from borrow transaction table where user_id and id
-            'borrowTransaction' => BorrowTransaction::where('id', $id)->with(['book', 'user'])->first(),
+            'borrowTransaction' => BorrowTransaction::with('user.member', 'book')->findOrFail($id),
+            'isShow' => true,
         ];
         return view('member-transaction.print-transaction', $data);
     }
@@ -105,8 +125,7 @@ class MemberTransactionController extends Controller
     public function transactionPrint()
     {
         // get data member transaction where user_id and status
-        $borrowTransaction = BorrowTransaction::where('user_id', Auth::user()->id)->with(['book', 'user'])->first();
-
+        $borrowTransaction = BorrowTransaction::where('id', request()->id)->with(['book', 'user'])->first();
         // Setup a filename 
         $member_name = str_replace(' ', '-', $borrowTransaction->user->member->member_name);
         $documentFileName = "{$member_name}_Laporan-Peminjaman.pdf";
@@ -131,7 +150,7 @@ class MemberTransactionController extends Controller
         $document->SetTitle("Laporan Peminjaman Buku {$borrowTransaction->user->member->member_name}");
 
         // render dari component transaction-report
-        $document->WriteHTML(view('components.rtransaction', [
+        $document->WriteHTML(view('member-transaction.printed-transaction', [
             'borrowTransaction' => $borrowTransaction,
             'isPrint' => true,
         ]));

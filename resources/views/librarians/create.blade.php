@@ -15,19 +15,19 @@
                 <div class="card-body">
 
                     <div class="form-group">
-                        <label for="librarian_name">Librarian Name</label>
-                        <input type="text" class="form-control @error('librarian_name') is-invalid @enderror" id="exampleInputName" placeholder="Librarian Name" name="librarian_name" value="{{old('librarian_name')}}">
+                        <label for="librarian_name">Nama Petugas</label>
+                        <input type="text" class="form-control @error('librarian_name') is-invalid @enderror" id="exampleInputName" placeholder="Nama Petugas" name="librarian_name" value="{{old('librarian_name')}}">
                         @error('librarian_name') <span class="text-danger">{{$message}}</span> @enderror
                     </div>
 
                     <div class="form-group">
-                        <label for="Position">Position</label>
-                        <input type="text" class="form-control @error('position') is-invalid @enderror" id="exampleInputName" placeholder="Position" name="position" value="{{old('position')}}">
+                        <label for="Position">Posisi</label>
+                        <input type="text" class="form-control @error('position') is-invalid @enderror" id="exampleInputName" placeholder="Posisi" name="position" value="{{old('position')}}">
                         @error('position') <span class="text-danger">{{$message}}</span> @enderror
                     </div>
 
                     <div class="form-group">
-                        <label for="Gender">Gender</label>
+                        <label for="Gender">Jenis Kelamin</label>
                         <select name="gender" class="form-control @error('gender') is-invalid @enderror" id="gender">
                             <option>Pilih Jenis Kelamin</option>
                             <option value="Laki-laki">Laki-laki</option>
@@ -37,15 +37,18 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="Phone-Number">Phone-Number</label>
-                        <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="exampleInputName" placeholder="Phone-Number" name="phone_number" value="{{old('phone_number')}}">
+                        <label for="Phone-Number">Nomor Telepon</label>
+                        <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="exampleInputName" placeholder="Nomor Telepon" name="phone_number" value="{{old('phone_number')}}">
                         @error('phone_number') <span class="text-danger">{{$message}}</span> @enderror
                     </div>
 
                     <div class="form-group">
-                        <label for="Address">Address</label>
-                        <input type="text" class="form-control @error('address') is-invalid @enderror" id="exampleInputName" placeholder="Address" name="address" value="{{old('address')}}">
-                        @error('address') <span class="text-danger">{{$message}}</span> @enderror
+                        <label for="Address">Alamat </label>
+                        <textarea name="address" id="address" cols="30" rows="5"
+                        class="form-control @error('address') is-invalid @enderror">{{ old('address') }}</textarea>
+                    @error('address')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                     </div>
 
                 </div>

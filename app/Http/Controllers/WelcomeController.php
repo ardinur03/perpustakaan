@@ -7,12 +7,15 @@ use Illuminate\Support\Facades\Log;
 
 class WelcomeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
+    {
+        return view('welcome', [
+            'title' => 'Welcome to Perpustakaan WebApp',
+        ]);
+    }
+
+    public function listBuku()
     {
         $books = Book::paginate(12);
         return view('welcome-lihat-buku', [
