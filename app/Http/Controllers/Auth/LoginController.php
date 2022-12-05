@@ -47,7 +47,7 @@ class LoginController extends Controller
     protected function authenticated()
     {
         if (Auth::user()->hasRole('member')) {
-            return redirect()->route('member.dashboard');
+            return redirect()->route('member.dashboard')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
         }
     }
 }

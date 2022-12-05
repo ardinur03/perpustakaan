@@ -7,5 +7,5 @@
 @stop
 
 @section('content')
-    <x-rtransaction :borrowTransaction="$borrowTransaction" />
+    <x-rtransaction :borrowTransaction="$borrowTransaction" :isShow="$isShow" />
 @stop

@@ -62,7 +62,7 @@
                         <div class="form-group">
                             <label for="Address">Alamat</label>
                             <textarea name="address" id="address" cols="30" rows="5"
-                                class="form-control @error('address') is-invalid @enderror">{{ $members->address ?? old('address') }}</textarea>
+                                class="form-control @error('address') is-invalid @enderror">{{ $librarian->address ?? old('address') }}</textarea>
                             @error('address')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

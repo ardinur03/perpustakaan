@@ -16,12 +16,12 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <th style="width:50%">Nama:</th>
-                                <td>{{ $borrowTransaction->user->member->member_name }}</td>
-                            </tr>
-                            <tr>
                                 <th>Kode Transaksi</th>
                                 <td>{{ $borrowTransaction->transaction_code }}</td>
+                            </tr>
+                            <tr>
+                                <th style="width:50%">Nama:</th>
+                                <td>{{ $borrowTransaction->user->member->member_name }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -65,18 +65,22 @@
             </div>
         </div>
 
-        <div class="row mt-3">
-            <div class="col-12">
+        @if ($isShow)
+            <div class="row mt-3">
+                <div class="col-12">
 
-                <form action="{{ route('member.borrow-transaction-print') }}" method="post">
-                    @csrf
-                    <input type="hidden" name="id" value="{{ $borrowTransaction->id }}">
-                    <button type="submit" class="btn btn-outline-danger float-right"><i class="fas fa-download"></i>
-                        Generate
-                        PDF
-                    </button>
-                </form>
+                    <form action="{{ route('member.borrow-transaction-print') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $borrowTransaction->id }}">
+                        <button type="submit" class="btn btn-outline-danger float-right"><i
+                                class="fas fa-download"></i>
+                            Generate
+                            PDF
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
+        @endif
+
     </div>
 </div>
