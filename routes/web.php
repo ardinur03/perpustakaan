@@ -97,7 +97,7 @@ Route::get('/get-role-petugas', function () {
 
 
 
-Route::get('/send-mail', [TestQueueEmails::class, 'sendTestEmails']);
+Route::get('`/send-mai`l', [TestQueueEmails::class, 'sendTestEmails']);
 
 Route::get('send', function () {
     $cek = session()->get('success');

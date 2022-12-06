@@ -7,13 +7,12 @@
 @stop
 
 @section('content')
-    <form action="{{ route('books.store') }}" method="post">
+    <form action="{{ route('books.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="row justify-content-center">
-            <div class="col-12">
+            <div class="col-8">
                 <div class="card">
                     <div class="card-body">
-
                         <div class="form-group">
                             <label for="input_book_name">Judul Buku</label>
                             <input type="text" class="form-control @error('book_name') is-invalid @enderror"
@@ -22,6 +21,31 @@
                             @error('book_name')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="preview">Preview Image</label>
+                            <div class="input-group">
+                                <img id="preview" class="img-thumbnail" width="200px" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input_gambar">Gambar</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input @error('image') is-invalid @enderror"
+                                        id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" name="image"
+                                        value="{{ old('image') }}">
+                                    <label class="custom-file-label" for="inputGroupFile01">Masukkan File</label>
+                                </div>
+                                @error('image')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -103,4 +127,32 @@
                 </div>
             </div>
         </div>
-    @stop
+    </form>
+@stop
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#inputGroupFile01').on('change', function() {
+                var fileName = $(this).val().split('\\').pop();
+                $(this).next('.custom-file-label').addClass("selected").html(fileName);
+            });
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#preview').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#inputGroupFile01").change(function() {
+            readURL(this);
+        });
+    </script>
+@stop

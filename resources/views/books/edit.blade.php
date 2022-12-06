@@ -7,14 +7,13 @@
 @stop
 
 @section('content')
-    <form action="{{ route('books.update', $book) }}" method="post">
+    <form action="{{ route('books.update', $book) }}" method="post" enctype="multipart/form-data">
         @method('PUT')
         @csrf
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-
                         <div class="form-group">
                             <label for="input_book_name">Judul Buku</label>
                             <input type="text" class="form-control @error('book_name') is-invalid @enderror"
@@ -23,6 +22,31 @@
                             @error('book_name')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="preview">Preview Image</label>
+                            <div class="input-group">
+                                <img id="preview" class="img-thumbnail" width="200px" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input_gambar">Gambar</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="input-group-image">Upload</span>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input @error('image') is-invalid @enderror"
+                                        id="input-image" aria-describedby="input-group-image" name="image"
+                                        value="{{ $book->image ?? old('image') }}">
+                                    <label class="custom-file-label" for="input-image">Masukkan File</label>
+                                </div>
+                                @error('image')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -109,4 +133,50 @@
                 </div>
             </div>
         </div>
-    @stop
+    </form>
+@stop
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#input-image').on('change', function() {
+                let fileName = $(this).val().split('\\').pop();
+                $(this).next('.custom-file-label').addClass("selected").html(fileName);
+            });
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#preview').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#input-image").change(function() {
+            readURL(this);
+        });
+
+        // cek apakah ada gambar pada database atau tidak
+        let image = "{{ $book->image ?? '' }}";
+        if (image) {
+            // jika image merupakan link https maka tampilkan gambar dari link tersebut ke preview image 
+            if (image.includes('https')) {
+                $('#preview').attr('src', image);
+            } else {
+                // jika image merupakan nama file maka tampilkan gambar dari storage
+                $('#preview').attr('src', "{{ asset('storage/books/' . $book->image) }}");
+            }
+        }
+
+        // convert nama image dan tampilkan kedalam label
+        let fileName = "{{ $book->image ?? '' }}";
+        if (fileName) {
+            $('#input-image').next('.custom-file-label').addClass("selected").html(fileName);
+        }
+    </script>
+@stop

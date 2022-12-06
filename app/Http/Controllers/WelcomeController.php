@@ -17,7 +17,8 @@ class WelcomeController extends Controller
 
     public function listBuku()
     {
-        $books = Book::paginate(12);
+        // get all book data from database using eager loading
+        $books = Book::with('category')->paginate(12);
         return view('welcome-lihat-buku', [
             'books' => $books
         ]);

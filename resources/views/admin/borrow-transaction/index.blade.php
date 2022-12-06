@@ -75,11 +75,11 @@
                     },
                     {
                         data: 'user.member.member_name',
-                        name: 'member_name'
+                        name: 'user.member.member_name'
                     },
                     {
                         data: 'book.book_name',
-                        name: 'book_name'
+                        name: 'book.book_name'
                     },
                     {
                         data: 'borrow_date',
@@ -101,7 +101,7 @@
                         data: 'action',
                         name: 'action',
                         orderable: true,
-                        searchable: false
+                        searchable: true
                     },
                 ]
             });

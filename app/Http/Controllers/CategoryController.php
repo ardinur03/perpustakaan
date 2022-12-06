@@ -54,7 +54,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_name' => 'required'
+            'category_name' => 'required|unique:categories,category_name'
         ]);
         try {
             Category::create([

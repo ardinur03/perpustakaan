@@ -15,7 +15,7 @@ return [
     */
 
     'title' => 'Perpustakaan',
-    'title_prefix' => '',
+    'title_prefix' => 'perpustakaan',
     'title_postfix' => '',
 
     /*
@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'logo' => '<b>Perpus</b>Apps',
+    'logo' => '<b>Perpus</b>App',
     'logo_img' => 'vendor/adminlte/dist/img/perpustakaan-v1.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,

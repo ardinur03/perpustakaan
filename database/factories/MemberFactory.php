@@ -14,14 +14,13 @@ class MemberFactory extends Factory
     public function definition()
     {
         return [
-            'member_name' => $this->faker->unique()->userName,
-            'user_id' => null,
-            // random id faculty
-            'faculty_id' => null,
-            'member_code' => null,
-            'gender' => null,
-            'phone_number' => null,
-            'address' => null,
+            'member_name' => $this->faker->unique()->name,
+            'user_id' => $this->faker->numberBetween(2, 20),
+            'faculty_id' => $this->faker->numberBetween(1, 8),
+            'member_code' => $this->faker->unique()->randomNumber(8),
+            'gender' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
+            'phone_number' => '+62' . $this->faker->unique()->randomNumber(8),
+            'address' => $this->faker->address,
         ];
     }
 }

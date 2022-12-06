@@ -15,7 +15,7 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->integer('member_code')->unique();
+            $table->string('member_code', 15)->unique();
             $table->id('user_id')->autoIncrement(false)->nullable();
             $table->string('member_name', 50)->nullable();
             $table->enum('gender', ['Laki-laki', 'Perempuan'])->nullable();
