@@ -35,7 +35,7 @@
                         </div>
                         <div class="card-footer">
                             <a href="{{ route('member.peminjaman-buku.store', $value->id) }}"
-                                class="btn btn-primary">Pinjam</a>
+                                class="btn btn-success">Pinjam</a>
                         </div>
                     </div>
                 </div>

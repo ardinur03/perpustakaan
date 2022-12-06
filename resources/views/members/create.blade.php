@@ -50,9 +50,10 @@
                             <Select name="faculty_id" class="form-control @error('faculty_id') is-invalid @enderror">
                                 <option value="" selected>Pilih Fakultas | Prodi</option>
                                 @foreach ($faculties as $faculty)
-                                    <option value="{{ $faculty->id }}">{{ $faculty->faculty_name }} || {{ $faculty->studyProgram->study_name }}</option>
+                                    <option value="{{ $faculty->id }}">{{ $faculty->faculty_name }} ||
+                                        {{ $faculty->studyProgram->study_name }}</option>
                                 @endforeach
-                            </Select>   
+                            </Select>
                         </div>
 
                         <div class="form-group">
@@ -76,7 +77,7 @@
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-success">Simpan</button>
                         <a href="{{ route('members.index') }}" class="btn btn-default">
                             Batal
                         </a>

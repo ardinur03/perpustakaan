@@ -11,6 +11,7 @@ use App\Http\Controllers\StudyProgramController;
 use App\Http\Controllers\TestQueueEmails;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
@@ -34,6 +35,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('study-programs', StudyProgramController::class);
     Route::resource('faculties', FacultyController::class);
+    Route::resource('events', EventController::class);
     Route::get('transaction-list', [AdminController::class, 'transactionList'])->name('admin.transaction-list');
     Route::get('transaction-list/{id}', [AdminController::class, 'transactionListShow'])->name('admin.transaction-list-show');
     Route::delete('transaction-list/{id}', [AdminController::class, 'transactionListDestroy'])->name('admin.transaction-list-destroy');
