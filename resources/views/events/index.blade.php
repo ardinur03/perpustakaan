@@ -24,7 +24,6 @@
                                 <th>Nama Event</th>
                                 <th>Mulai</th>
                                 <th>Selesai</th>
-
                                 <th class="text-center">Opsi</th>
                             </tr>
                         </thead>
@@ -36,11 +35,16 @@
                                     <td>{{ $value->event_start_date }}</td>
                                     <td>{{ $value->event_end_date }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('events.edit', $value) }}" class="btn text-primary btn-sm">
+                                        <a href="{{ route('send.event.to.all.member', $value) }}"
+                                            onclick="notificationBeforeSendEvent(event, this)"
+                                            class="btn text-secondary btn-md">
+                                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="{{ route('events.edit', $value) }}" class="btn text-primary btn-md">
                                             <i class="fas fa-pen"></i>
                                         </a>
                                         <a href="{{ route('events.destroy', $value) }}"
-                                            onclick="notificationBeforeDelete(event, this)" class="btn text-danger btn-sm">
+                                            onclick="notificationBeforeDelete(event, this)" class="btn text-danger btn-md">
                                             <i class="fas fa-trash" aria-hidden="true"></i>
                                         </a>
                                     </td>
@@ -60,6 +64,11 @@
         @method('delete')
         @csrf
     </form>
+
+    <form action="" id="send-to-member" method="post">
+        @csrf
+    </form>
+
     <script>
         $('#events').DataTable({
             "responsive": true,
@@ -76,10 +85,27 @@
                 cancelButtonColor: '#5C636A',
                 confirmButtonText: 'Ya, hapus!'
             }).then((result) => {
-                console.log(result);
                 if (result.dismiss != 'cancel' && result) {
                     $('#delete-form').attr('action', $(el).attr('href'));
                     $('#delete-form').submit();
+                }
+            })
+        }
+
+        function notificationBeforeSendEvent(event, el) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Anda akan mengirimkan informasi event ini via email ke semua member perpustakaan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#5C636A',
+                confirmButtonText: 'Ya, kirim!'
+            }).then((result) => {
+                if (result.dismiss != 'cancel' && result) {
+                    $('#send-to-member').attr('action', $(el).attr('href'));
+                    $('#send-to-member').submit();
                 }
             })
         }

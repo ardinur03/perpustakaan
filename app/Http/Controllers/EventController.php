@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEventEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Event;
-use Yajra\DataTables\DataTables;
+use App\Models\Member;
 
 class EventController extends Controller
 {
@@ -151,6 +152,20 @@ class EventController extends Controller
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return redirect()->route('home');
+        }
+    }
+
+    public function sendEventToAllMemberEmail(Request $request)
+    {
+        try {
+            // get data email member from database and send email
+            $event = Event::find($request->id);
+            dispatch(new SendEventEmail($event));
+
+            return redirect()->route('events.index')->with('success_message', 'Email berhasil dikirim.');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return redirect()->route('events.index');
         }
     }
 }

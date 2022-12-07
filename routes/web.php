@@ -36,6 +36,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('study-programs', StudyProgramController::class);
     Route::resource('faculties', FacultyController::class);
     Route::resource('events', EventController::class);
+    Route::post('share-event/{id}', [EventController::class, 'sendEventToAllMemberEmail'])->name('send.event.to.all.member');
     Route::get('transaction-list', [AdminController::class, 'transactionList'])->name('admin.transaction-list');
     Route::get('transaction-list/{id}', [AdminController::class, 'transactionListShow'])->name('admin.transaction-list-show');
     Route::delete('transaction-list/{id}', [AdminController::class, 'transactionListDestroy'])->name('admin.transaction-list-destroy');
@@ -97,7 +98,7 @@ Route::get('/get-role-petugas', function () {
 
 
 
-Route::get('`/send-mai`l', [TestQueueEmails::class, 'sendTestEmails']);
+Route::get('/send-mail', [TestQueueEmails::class, 'sendTestEmails']);
 
 Route::get('send', function () {
     $cek = session()->get('success');

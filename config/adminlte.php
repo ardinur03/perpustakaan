@@ -250,7 +250,15 @@ return [
             'active' => ['borrow-transaction-list', 'borrow-transaction-list/*'],
         ],
         [
+            'text' => 'Events',
+            'url' => 'admin/events',
+            'icon' => 'fas fa-fw fa-calendar-alt',
+            'can' => 'isPetugas',
+            'active' => ['admin/events', 'admin/events/*'],
+        ],
+        [
             'text'    => 'Master Data',
+            'url'     => '#',
             'icon'    => 'fas fa-fw fa-table',
             'can' => 'isPetugas',
             'submenu' => [
