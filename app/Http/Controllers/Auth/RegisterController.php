@@ -79,7 +79,6 @@ class RegisterController extends Controller
             'member_code' => 'M' . $user->id . date('Ymd'),
         ]);
 
-
         return $user;
     }
 }

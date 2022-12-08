@@ -30,7 +30,7 @@
                                 <td>{{ $librarian->librarian_name }}</td>
                             </tr>
                             <tr>
-                                <th>Email</th>
+                                <th>Posisi</th>
                                 <td>{{ $librarian->position }}</td>
                             </tr>
                             <tr>
@@ -38,7 +38,7 @@
                                 <td>{{ $librarian->address }}</td>
                             </tr>
                             <tr>
-                                <th>Alamat</th>
+                                <th>Jenis Kelamin</th>
                                 <td>{{ $librarian->gender }}</td>
                             </tr>
                             <tr>

@@ -20,7 +20,51 @@ class MemberTransactionController extends Controller
             'countAllBorrowTransactionOverdue' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'overdue')->count(),
             'countAllBorrowTransactionFineNow' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'Overdue')->sum('fine'),
         ];
+
+        // cek jika nama member belum diisi maka akan diarahkan ke halaman edit profile
+        // if (Auth::user()->name = !null) {
+        //     return redirect()->route('member.edit-profile')->with('warning_message', 'Silahkan lengkapi data diri anda terlebih dahulu!');
+        // }
+
         return view('member-transaction.index', $data);
+    }
+
+    public function editProfile()
+    {
+        // 
+        // $data = [
+        //     'title' => 'Edit Profile',
+        //     'user' => Auth::user(),
+        // ];
+        // return view('member-transaction.edit-profile', $data);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required|numeric',
+            'address' => 'required',
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
+        $user->address = $request->input('address');
+        $user->save();
+
+        return redirect()->back()->with('success_message', 'Berhasil mengubah profile');
+    }
+
+    public function profile()
+    {
+        $data = [
+            'title' => 'Profile',
+            'user' => Auth::user(),
+        ];
+        return view('member-transaction.profile', $data);
     }
 
     public function peminjamanBuku(Request $request)

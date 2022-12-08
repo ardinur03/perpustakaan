@@ -19,9 +19,9 @@ class RolesAndPermissionsSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create permissions
-        Permission::create(['name' => 'crud master']);
-        Permission::create(['name' => 'crud user']);
-        Permission::create(['name' => 'akses member']);
+        Permission::create(['name' => 'akses petugas']); // untuk petugas
+        Permission::create(['name' => 'crud user']); // untuk super admin
+        Permission::create(['name' => 'akses member']); // untuk member
 
         // this can be done as separate statements
         $role = Role::create(['name' => 'petugas']);

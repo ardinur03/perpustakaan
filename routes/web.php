@@ -26,7 +26,7 @@ Route::get('/printed-transaction', function () {
 
 Auth::routes();
 
-Route::prefix('admin')->middleware(['auth'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:petugas'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::resource('users', UserController::class);
     Route::resource('members', MemberController::class);
@@ -43,8 +43,10 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 });
 
 // , 'role:member'
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'role:member']], function () {
     Route::get('/dashboard', [MemberTransactionController::class, 'index'])->name('member.dashboard');
+    Route::get('/profile', [MemberTransactionController::class, 'profile'])->name('member.profile');
+    Route::get('/edit-profile', [MemberTransactionController::class, 'editProfile'])->name('member.edit-profile');
     Route::get('/books-list', [MemberTransactionController::class, 'peminjamanBuku'])->name('member.peminjaman-buku');
     Route::get('/peminjaman-buku/{Book}', [MemberTransactionController::class, 'storePemijamanBuku'])->name('member.peminjaman-buku.store');
     Route::get('/search-buku', [MemberTransactionController::class, 'searchBuku'])->name('searchBuku');
@@ -53,55 +55,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/borrow-transaction-list/{id}', [MemberTransactionController::class, 'borrowTransactionShow'])->name('member.borrow-transaction-show');
     Route::post('/borrow-transaction-return', [MemberTransactionController::class, 'borrowTransactionReturnStore'])->name('member.borrow-transaction-return-store');
     Route::post('/borrow-transaction-print', [MemberTransactionController::class, 'transactionPrint'])->name('member.borrow-transaction-print');
-});
-
-// give permission to user with role petugas by route
-Route::get('/get-permission-petugas', function () {
-    $user = \App\Models\User::find(Auth::id());
-    $user->givePermissionTo('crud master');
-    return $user;
-});
-
-// give permission to user with role super-admin by route
-Route::get('/get-permission-super-admin', function () {
-    // cara memberikan akses melalui command line tinker
-    // php artisan tinker
-    // $user = \App\Models\User::find(1);
-    // $user->assignRole('super-admin');
-    // $user->givePermissionTo(Spatie\Permission\Models\Permission::all());
-    // exit
-    $user = \App\Models\User::find(Auth::id());
-    $user->givePermissionTo(Permission::all());
-    return $user;
-});
-
-// give permission to user with role member by route
-Route::get('/get-permission-member', function () {
-    $user = \App\Models\User::find(Auth::id());
-    $user->givePermissionTo('akses member');
-    return $user;
-});
-
-// give roles to user by route (member)
-Route::get('/get-role-member', function () {
-    $user = \App\Models\User::find(Auth::id());
-    $user->assignRole('member');
-    return $user;
-});
-
-// give roles to user by route (petugas)
-Route::get('/get-role-petugas', function () {
-    $user = \App\Models\User::find(Auth::id());
-    $user->assignRole('petugas');
-    return $user;
-});
-
-
-
-Route::get('/send-mail', [TestQueueEmails::class, 'sendTestEmails']);
-
-Route::get('send', function () {
-    $cek = session()->get('success');
-    echo $cek;
-    echo "<a href=\"http://localhost:8000/send-mail\"> Send Email</a>";
 });
