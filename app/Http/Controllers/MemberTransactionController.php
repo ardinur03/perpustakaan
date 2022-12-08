@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\BorrowTransaction;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \Mpdf\Mpdf as PDF;
@@ -70,21 +71,15 @@ class MemberTransactionController extends Controller
     public function peminjamanBuku(Request $request)
     {
         $book = $request->input('book');
-        // jika ada pencarian buku maka akan menampilkan buku yang dicari dan jika tidak maka akan menampilkan semua buku
+        $category = $request->input('category');
         $data = [
             'title' => 'Peminjaman Buku',
-            'books' => $book ? Book::where('book_name', 'like', '%' . $book . '%')->paginate(10) : Book::paginate(10),
+            'books' => $book || $category ? Book::where('book_name', 'like', '%' . $book . '%')->whereHas('category', function ($query) use ($category) {
+                $query->where('category_id', 'like', '%' . $category . '%');
+            })->paginate(12) : Book::paginate(12),
+            'categories' => Category::all(),
         ];
 
-        return view('member-transaction.peminjaman-buku', $data);
-    }
-
-    public function searchBuku($keyword)
-    {
-        $data = [
-            'title' => 'Peminjaman Buku',
-            'books' => Book::where('book_name', 'like', "%$keyword%")->paginate(12),
-        ];
         return view('member-transaction.peminjaman-buku', $data);
     }
 

@@ -13,6 +13,21 @@
                     </div>
                 </form>
             </div>
+            <div class="col-6">
+                <form action="" method="GET">
+                    <div class="input-group mb-3">
+                        <select class="form-select" name="category">
+                            <option selected value="">Filter Berdasarkan Kategori</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                            @endforeach
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="submit">Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
         @foreach ($books->chunk(4) as $item)
             <div class="row mt-3">

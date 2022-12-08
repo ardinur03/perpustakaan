@@ -22,7 +22,8 @@ class EventController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('events.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = '<a href="' . route('send.event.to.all.member', $row->id)  . ' "onclick="notificationBeforeSendEvent(event, this)" class="btn text-secondary btn-md"> <i class="fa fa-paper-plane" aria-hidden="true"></i></a>';
+                    $btn = $btn . '<a href="' . route('events.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
                     $btn = $btn . ' <a href="' . route('events.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye
                     "></i></a>';
                     $btn = $btn . ' <a href="' . route('events.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';

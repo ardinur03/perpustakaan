@@ -8,24 +8,19 @@ use App\Http\Controllers\LibrarianController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MemberTransactionController;
 use App\Http\Controllers\StudyProgramController;
-use App\Http\Controllers\TestQueueEmails;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Spatie\Permission\Models\Permission;
 
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('lihat-buku', [WelcomeController::class, 'listBuku'])->name('lihat-buku');
 
-Route::get('/printed-transaction', function () {
-    return view('member-transaction.printed-transaction');
-});
-
 Auth::routes();
 
+// role admin petugas
 Route::prefix('admin')->middleware(['auth', 'role:petugas'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::resource('users', UserController::class);
@@ -42,7 +37,7 @@ Route::prefix('admin')->middleware(['auth', 'role:petugas'])->group(function () 
     Route::delete('transaction-list/{id}', [AdminController::class, 'transactionListDestroy'])->name('admin.transaction-list-destroy');
 });
 
-// , 'role:member'
+// role member
 Route::group(['middleware' => ['auth', 'role:member']], function () {
     Route::get('/dashboard', [MemberTransactionController::class, 'index'])->name('member.dashboard');
     Route::get('/profile', [MemberTransactionController::class, 'profile'])->name('member.profile');
