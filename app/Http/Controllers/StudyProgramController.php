@@ -18,7 +18,7 @@ class StudyProgramController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = StudyProgram::all();
+            $data = StudyProgram::with('faculty')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -41,7 +41,8 @@ class StudyProgramController extends Controller
     public function create()
     {
         return view('study-programs.create', [
-            'title' => 'Tambah Data Program Studi'
+            'title' => 'Tambah Data Program Studi',
+            'faculties' => Faculty::all()
         ]);
     }
 
@@ -54,10 +55,12 @@ class StudyProgramController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'study_name' => 'required'
+            'study_name' => 'required|unique:study_programs',
+            'faculty_id' => 'required'
         ]);
         try {
             StudyProgram::create([
+                'faculty_id' => $request->faculty_id,
                 'study_name' => $request->study_name
             ]);
 
@@ -84,7 +87,7 @@ class StudyProgramController extends Controller
     {
         $data = [
             'title' => 'Detail Program Studi',
-            'study_program' => StudyProgram::findOrFail($id)
+            'study_program' => StudyProgram::with('faculty')->findOrFail($id)
         ];
         return view('study-programs.show', $data);
     }
@@ -101,7 +104,8 @@ class StudyProgramController extends Controller
             $study_program = StudyProgram::findOrFail($id);
             return view('study-programs.edit', [
                 'title' => 'Edit Data Program Studi',
-                'study_program' => $study_program
+                'study_program' => $study_program,
+                'faculties' => Faculty::all()
             ]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
@@ -123,6 +127,7 @@ class StudyProgramController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'faculty_id' => 'required',
             'study_name' => 'required'
         ]);
 
@@ -130,6 +135,7 @@ class StudyProgramController extends Controller
 
             StudyProgram::where('id', $id)
                 ->update([
+                    'faculty_id' => $request->faculty_id,
                     'study_name' => $request->study_name
                 ]);
 
@@ -155,14 +161,6 @@ class StudyProgramController extends Controller
     {
         try {
             $study_program = StudyProgram::find($id);
-
-            // cek apakah ada di tabel faculties
-            $faculty = Faculty::where('study_program_id', $id)->first();
-            if ($faculty) {
-                return redirect()->route('study-programs.index')
-                    ->with('error_message', 'Data Program Studi Gagal Dihapus');
-            }
-
             $study_program->delete();
             return redirect()->route('study-programs.index')
                 ->with('success_message', 'Data Program Studi Berhasil Dihapus');

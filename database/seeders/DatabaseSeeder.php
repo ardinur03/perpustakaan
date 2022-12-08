@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             CategoriesBookSeeder::class,
             RoleSeederLibrary::class,
-            StudyProgramSeeder::class,
             FacultySeeder::class,
+            StudyProgramSeeder::class,
         ]);
         \App\Models\Book::factory(2000)->create();
         \App\Models\Member::factory(19)->create();

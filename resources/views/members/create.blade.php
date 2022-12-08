@@ -46,14 +46,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="faculty">Fakultas & Prodi</label>
-                            <Select name="faculty_id" class="form-control @error('faculty_id') is-invalid @enderror">
-                                <option value="" selected>Pilih Fakultas | Prodi</option>
-                                @foreach ($faculties as $faculty)
-                                    <option value="{{ $faculty->id }}">{{ $faculty->faculty_name }} ||
-                                        {{ $faculty->studyProgram->study_name }}</option>
+                            <label for="study_program">Program Studi</label>
+                            <select name="study_program_id"
+                                class="form-control @error('study_program') is-invalid @enderror" id="study_program">
+                                <option value="" selected>Pilih Program Studi</option>
+                                @foreach ($study_programs as $study_program)
+                                    <option value="{{ $study_program->id }}">{{ $study_program->study_name }}</option>
                                 @endforeach
-                            </Select>
+                            </select>
+                            @error('study_program')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="form-group">

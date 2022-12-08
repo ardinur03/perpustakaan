@@ -41,21 +41,10 @@
                                 <th>No. Telepon</th>
                                 <td>{{ $member->phone_number }}</td>
                             </tr>
-
-
-                            @foreach ($faculties as $faculty)
-                                @if ($faculty->id == $member->faculty_id)
-                                    <tr>
-                                        <th>Fakultas</th>
-                                        <td>{{ $faculty->faculty_name }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Program Studi</th>
-                                        <td>{{ $faculty->studyProgram->study_name }}</td>
-                                    </tr>
-                                @endif
-                            @endforeach
-
+                            <tr>
+                                <th>Program Studi</th>
+                                <td>{{ $member->study_program->study_name }}</td>
+                            </tr>
                             <tr>
                                 <th>Tanggal Bergabung</th>
                                 <td>{{ $member->created_at->format('d F Y') }}</td>

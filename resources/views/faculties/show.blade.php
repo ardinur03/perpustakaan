@@ -25,18 +25,10 @@
                 <div class="col-12">
                     <div class="table-responsive mt-4">
                         <table class="table table-hover table-striped">
-                            @foreach ($study_programs as $study_program)
-                                @if ($faculty->study_program_id == $study_program->id)
-                                    <tr>
-                                        <th>Fakultas</th>
-                                        <td>{{ $faculty->faculty_name }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Program Studi</th>
-                                        <td>{{ $faculty->studyProgram->study_name }}</td>
-                                    </tr>
-                                @endif
-                            @endforeach
+                            <tr>
+                                <th>Fakultas</th>
+                                <td>{{ $faculty->faculty_name }}</td>
+                            </tr>
                         </table>
                     </div>
                 </div>

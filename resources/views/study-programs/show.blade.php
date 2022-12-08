@@ -29,6 +29,10 @@
                                 <th> Program Studi </th>
                                 <td> {{ $study_program->study_name }} </td>
                             </tr>
+                            <tr>
+                                <th> Fakultas </th>
+                                <td> {{ $study_program->faculty->faculty_name }} </td>
+                            </tr>
                         </table>
                     </div>
                 </div>

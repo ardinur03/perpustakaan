@@ -11,11 +11,12 @@ class StudyProgram extends Model
     protected $table = 'study_programs';
     public $timestamps = false;
     protected $fillable = [
+        'faculty_id',
         'study_name'
     ];
 
     public function faculty()
     {
-        return $this->hasMany(Faculty::class);
+        return $this->belongsTo(Faculty::class);
     }
 }

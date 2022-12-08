@@ -21,6 +21,7 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Study Name</th>
+                                    <th>Faculty</th>
                                     <th class="text-center">Opsi</th>
                                 </tr>
                             </thead>
@@ -51,6 +52,10 @@
                 {
                     data: 'study_name',
                     name: 'study_name'
+                },
+                {
+                    data: 'faculty.faculty_name',
+                    name: 'faculty.faculty_name'
                 },
                 {
                     data: 'action',

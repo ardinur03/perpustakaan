@@ -17,7 +17,7 @@ class Member extends Model
     protected $fillable = [
         'member_name',
         'user_id',
-        'faculty_id',
+        'study_program_id',
         'member_code',
         'gender',
         'phone_number',
@@ -34,5 +34,10 @@ class Member extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function study_program()
+    {
+        return $this->belongsTo(StudyProgram::class);
     }
 }

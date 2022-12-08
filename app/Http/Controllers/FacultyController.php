@@ -44,7 +44,6 @@ class FacultyController extends Controller
             'faculties.create',
             [
                 'title' => 'Create Faculty',
-                'study_programs' => StudyProgram::all()
             ]
         );
     }
@@ -59,18 +58,16 @@ class FacultyController extends Controller
     {
         $request->validate([
             'faculty_name' => 'required',
-            'study_program_id' => 'required'
         ]);
         try {
-            \App\Models\Faculty::create([
+            Faculty::create([
                 'faculty_name' => $request->faculty_name,
-                'study_program_id' => $request->study_program_id
             ]);
 
             return redirect()->route('faculties.index')->with('success_message', 'Berhasil menambah member baru.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('faculties.index');
         }
     }
 
@@ -89,12 +86,11 @@ class FacultyController extends Controller
                 [
                     'title' => 'Show Faculty',
                     'faculty' => $data,
-                    'study_programs' => StudyProgram::all()
                 ]
             );
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('faculties.index');
         }
     }
 
@@ -113,12 +109,11 @@ class FacultyController extends Controller
                 [
                     'title' => 'Edit Faculty',
                     'faculty' => $data,
-                    'study_programs' => StudyProgram::all()
                 ]
             );
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('faculties.index');
         }
     }
 
@@ -133,19 +128,17 @@ class FacultyController extends Controller
     {
         $request->validate([
             'faculty_name' => 'required',
-            'study_program_id' => 'required'
         ]);
         try {
 
             Faculty::find($id)->update([
                 'faculty_name' => $request->faculty_name,
-                'study_program_id' => $request->study_program_id
             ]);
 
             return redirect()->route('faculties.index')->with('success_message', 'Kategori berhasil diperbaharui.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('faculties.index');
         }
     }
 
@@ -162,7 +155,7 @@ class FacultyController extends Controller
             return redirect()->route('faculties.index')->with('success_message', 'Kategori berhasil dihapus.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('faculties.index')->with('error_message', 'Kategori gagal dihapus. Kategori masih memiliki data di tabel lain.');
         }
     }
 }

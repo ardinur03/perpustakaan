@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Faculty;
 use App\Models\Member;
+use App\Models\StudyProgram;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -44,7 +45,7 @@ class MemberController extends Controller
     {
         return view('members.create', [
             'title' => 'Tambah Member',
-            'faculties' => Faculty::with('StudyProgram')->get()
+            'study_programs' => StudyProgram::with('Faculty')->get()
         ]);
     }
 
@@ -59,7 +60,7 @@ class MemberController extends Controller
         $request->validate([
             'member_name' => 'required',
             'member_code' => 'required|unique:members',
-            'faculty_id' => 'required',
+            'study_program_id' => 'required',
             'gender' => 'required',
             'phone_number' => 'required',
             'address' => 'required',
@@ -69,7 +70,7 @@ class MemberController extends Controller
             Member::create([
                 'member_name' => $request->member_name,
                 'member_code' => $request->member_code,
-                'faculty_id' => $request->faculty_id,
+                'study_program_id' => $request->study_program_id,
                 'gender' => $request->gender,
                 'address' => $request->address,
                 'phone_number' => $request->phone_number,
@@ -100,7 +101,7 @@ class MemberController extends Controller
             return view('members.show', [
                 'title' => 'Detail Member',
                 'member' => $member,
-                'faculties' => Faculty::with('StudyProgram')->get()
+                'study_programs' => StudyProgram::with('Faculty')->get()
             ]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
@@ -125,7 +126,7 @@ class MemberController extends Controller
             return view('members.edit', [
                 'title' => 'Edit Member',
                 'members' => $member,
-                'faculties' => Faculty::with('StudyProgram')->get()
+                'study_programs' => StudyProgram::with('Faculty')->get()
             ]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
@@ -150,6 +151,7 @@ class MemberController extends Controller
         $request->validate([
             'member_name' => 'required',
             'member_code' => 'required|unique:members,member_code,' . $member->id,
+            'study_program_id' => 'required',
             'gender' => 'required',
             'phone_number' => 'required|numeric',
             'address' => 'required'

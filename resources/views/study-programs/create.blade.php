@@ -13,7 +13,6 @@
             <div class="col-6">
                 <div class="card">
                     <div class="card-body">
-
                         <div class="form-group">
                             <label for="study_name">Study Name</label>
                             <input type="text" class="form-control @error('study_name') is-invalid @enderror"
@@ -24,6 +23,18 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label for="faculty_id">Faculty</label>
+                            <select name="faculty_id" id="faculty_id" class="form-control">
+                                <option value="">Pilih Fakultas</option>
+                                @foreach ($faculties as $faculty)
+                                    <option value="{{ $faculty->id }}">{{ $faculty->faculty_name }}</option>
+                                @endforeach
+                            </select>
+                            @error('faculty_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="card-footer">

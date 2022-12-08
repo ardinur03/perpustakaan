@@ -23,22 +23,7 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-
-                        <div class="form-group">
-                            <label for="input_category">Study Program</label>
-                            <select name="study_program_id" id="input_category"
-                                class="form-control @error('study_program_id') is-invalid @enderror">
-                                <option value="">Pilih Study Program</option>
-                                @foreach ($study_programs as $study_program)
-                                    <option value="{{ $study_program->id }}"
-                                        {{ old('study_program_id') == $study_program->id ? 'selected' : '' }}>
-                                        {{ $study_program->study_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
                     </div>
-
                     <div class="card-footer">
                         <button type="submit" class="btn btn-success">
                             <i class="fa fa-save mr-1" aria-hidden="true"></i>
