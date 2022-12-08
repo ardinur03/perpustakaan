@@ -3,6 +3,7 @@
 return [
 
     'full_name'                   => 'Nama lengkap',
+    'username'                    => 'Nama pengguna',
     'email'                       => 'Email',
     'password'                    => 'Kata sandi',
     'retype_password'             => 'Ketik ulang kata sandi',
