@@ -52,9 +52,10 @@
                             <Select name="faculty_id" class="form-control @error('faculty_id') is-invalid @enderror">
                                 <option value="" selected>Pilih Fakultas | Prodi</option>
                                 @foreach ($faculties as $faculty)
-                                    <option value="{{ $faculty->id }}" @if($faculty->id == $members->faculty_id) selected @endif >{{ $faculty->faculty_name }} || {{ $faculty->studyProgram->study_name }}</option>
+                                    <option value="{{ $faculty->id }}" @if ($faculty->id == $members->faculty_id) selected @endif>
+                                        {{ $faculty->faculty_name }} || {{ $faculty->studyProgram->study_name }}</option>
                                 @endforeach
-                            </Select>   
+                            </Select>
                         </div>
 
                         <div class="form-group">
@@ -78,9 +79,11 @@
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save mr-1"
+                                aria-hidden="true"></i>Simpan</button>
                         <a href="{{ route('members.index') }}" class="btn btn-default">
-                            Batal
+                            <i class="fa fa-arrow-left mr-1" aria-hidden="true"></i>
+                            Kembali
                         </a>
                     </div>
                 </div>

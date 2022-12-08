@@ -71,9 +71,11 @@
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save mr-1"
+                                aria-hidden="true"></i>Simpan</button>
                         <a href="{{ route('librarians.index') }}" class="btn btn-default">
-                            Batal
+                            <i class="fa fa-arrow-left mr-1" aria-hidden="true"></i>
+                            Kembali
                         </a>
                     </div>
                 </div>
