@@ -39,12 +39,17 @@
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-success">Simpan</button>
-                        <a href="{{ route('users.index') }}" class="btn btn-default">
-                            Batal
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-save mr-1" aria-hidden="true"></i>
+                            Simpan
+                        </button>
+                        <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">
+                            <i class="fa fa-arrow-left mr-1" aria-hidden="true"></i>
+                            Kembali
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-    @stop
+    </form>
+@stop
