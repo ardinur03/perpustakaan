@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth', 'role:member']], function () {
     Route::get('/dashboard', [MemberTransactionController::class, 'index'])->name('member.dashboard');
     Route::get('/profile', [MemberTransactionController::class, 'profile'])->name('member.profile');
     Route::get('/edit-profile', [MemberTransactionController::class, 'editProfile'])->name('member.edit-profile');
+    Route::post('/update-profile', [MemberTransactionController::class, 'updateProfile'])->name('member.update-profile');
     Route::get('/books-list', [MemberTransactionController::class, 'peminjamanBuku'])->name('member.peminjaman-buku');
     Route::get('/peminjaman-buku/{Book}', [MemberTransactionController::class, 'storePemijamanBuku'])->name('member.peminjaman-buku.store');
     Route::get('/search-buku', [MemberTransactionController::class, 'searchBuku'])->name('searchBuku');

@@ -81,4 +81,5 @@
                 </div>
             </div>
         </div>
-    @stop
+    </form>
+@stop

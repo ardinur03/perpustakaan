@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\BorrowTransaction;
 use App\Models\Category;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \Mpdf\Mpdf as PDF;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use App\Models\StudyProgram;
 
 class MemberTransactionController extends Controller
 {
@@ -32,40 +35,75 @@ class MemberTransactionController extends Controller
 
     public function editProfile()
     {
-        // 
-        // $data = [
-        //     'title' => 'Edit Profile',
-        //     'user' => Auth::user(),
-        // ];
-        // return view('member-transaction.edit-profile', $data);
+        try {
+            $user = Auth::user();
+            return view('member-transaction.edit-profile', [
+                'title' => 'Edit Profile',
+                'user' => $user,
+                'member' => Member::where('user_id', $user->id)->first(),
+                'study_programs' => StudyProgram::with('Faculty')->get()
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 
     public function updateProfile(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required|numeric',
+            'member_name' => 'required',
+            'gender' => 'required',
+            'study_program_id' => 'required',
+            'phone_number' => 'required',
             'address' => 'required',
         ]);
 
-        $user = Auth::user();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->phone = $request->input('phone');
-        $user->address = $request->input('address');
-        $user->save();
+        try {
+            $user = Auth::user();
 
-        return redirect()->back()->with('success_message', 'Berhasil mengubah profile');
+            $member = Member::where('user_id', $user->id)->first();
+            $member->update([
+                'member_name' => $request->member_name,
+                'gender' => $request->gender,
+                'study_program_id' => $request->study_program_id,
+                'phone_number' => $request->phone_number,
+                'address' => $request->address,
+            ]);
+
+            return redirect()->route('member.profile')->with('success_message', 'Profile berhasil diubah.');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 
     public function profile()
     {
-        $data = [
-            'title' => 'Profile',
-            'user' => Auth::user(),
-        ];
-        return view('member-transaction.profile', $data);
+        try {
+            $user = Auth::user();
+            return view('member-transaction.profile', [
+                'title' => 'Detail Member',
+                'user' => $user,
+                'member' => Member::where('user_id', $user->id)->first(),
+                'study_programs' => StudyProgram::with('Faculty')->get()
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 
     public function peminjamanBuku(Request $request)
