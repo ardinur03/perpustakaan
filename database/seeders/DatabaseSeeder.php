@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             FacultySeeder::class,
             StudyProgramSeeder::class,
         ]);
-        \App\Models\Book::factory(2000)->create();
+        \App\Models\Book::factory(10)->create();
         \App\Models\Member::factory(19)->create();
     }
 }
