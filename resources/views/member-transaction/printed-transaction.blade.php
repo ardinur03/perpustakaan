@@ -1,4 +1,7 @@
 <div class="">
+    {{-- image left  --}}
+    <img src="{{ public_path('vendor/adminlte/dist/img/perpustakaan-v1.png') }}" alt="logo" width="50"
+        height="50">
     <h1>Transaksi Peminjaman</h1>
     <table class="meta">
         <tr>
