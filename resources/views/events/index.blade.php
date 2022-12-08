@@ -16,43 +16,21 @@
                         <i class="fa fa-plus" aria-hidden="true"></i>
                         <i class="fa fa-book" aria-hidden="true"></i>
                     </a>
-
-                    <table class="table table-hover table-striped yajra-datatables" id="events">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Nama Event</th>
-                                <th>Mulai</th>
-                                <th>Selesai</th>
-                                <th class="text-center">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($events as $key => $value)
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped yajra-datatables w-100" id="events">
+                            <thead>
                                 <tr>
-                                    <td>{{ $key + 1 }}</td>
-                                    <td>{{ $value->event_name }}</td>
-                                    <td>{{ $value->event_start_date }}</td>
-                                    <td>{{ $value->event_end_date }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('send.event.to.all.member', $value) }}"
-                                            onclick="notificationBeforeSendEvent(event, this)"
-                                            class="btn text-secondary btn-md">
-                                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="{{ route('events.edit', $value) }}" class="btn text-primary btn-md">
-                                            <i class="fas fa-pen"></i>
-                                        </a>
-                                        <a href="{{ route('events.destroy', $value) }}"
-                                            onclick="notificationBeforeDelete(event, this)" class="btn text-danger btn-md">
-                                            <i class="fas fa-trash" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
+                                    <th>No.</th>
+                                    <th>Nama Event</th>
+                                    <th>Mulai</th>
+                                    <th>Selesai</th>
+                                    <th class="text-center">Opsi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -70,8 +48,33 @@
     </form>
 
     <script>
-        $('#events').DataTable({
-            "responsive": true,
+        var table = $('#events').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('events.index') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'event_name',
+                    name: 'event_name'
+                },
+                {
+                    data: 'event_start_date',
+                    name: 'event_start_date'
+                },
+                {
+                    data: 'event_end_date',
+                    name: 'event_end_date'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
         });
 
         function notificationBeforeDelete(event, el) {

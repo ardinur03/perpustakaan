@@ -6,6 +6,7 @@ use App\Models\Faculty;
 use App\Models\StudyProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use \Yajra\DataTables\DataTables;
 
 class StudyProgramController extends Controller
 {
@@ -14,22 +15,22 @@ class StudyProgramController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        try {
-            $study_programs = StudyProgram::all();
-            return view('study-programs.index', [
-                'title' => 'Daftar Program Studi',
-                'studyprograms' => $study_programs
-            ]);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage(), [
-                'file' => $th->getFile(),
-                'line' => $th->getLine(),
-                'user akses' => auth()->user()->email
-            ]);
-            return redirect()->route('home');
+        if ($request->ajax()) {
+            $data = StudyProgram::all();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . route('study-programs.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('study-programs.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye"></i></a>';
+                    $btn = $btn . ' <a href="' . route('study-programs.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
+        return view('study-programs.index');
     }
 
     /**
@@ -81,7 +82,11 @@ class StudyProgramController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [
+            'title' => 'Detail Program Studi',
+            'study_program' => StudyProgram::findOrFail($id)
+        ];
+        return view('study-programs.show', $data);
     }
 
     /**

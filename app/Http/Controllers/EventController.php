@@ -6,7 +6,7 @@ use App\Jobs\SendEventEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Event;
-use App\Models\Member;
+use \Yajra\DataTables\DataTables;
 
 class EventController extends Controller
 {
@@ -15,21 +15,23 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        try {
+        if ($request->ajax()) {
             $data = Event::all();
-            return view(
-                'events.index',
-                [
-                    'title' => 'Events',
-                    'events' => $data
-                ]
-            );
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return redirect()->route('home');
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . route('events.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('events.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye
+                    "></i></a>';
+                    $btn = $btn . ' <a href="' . route('events.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
+        return view('events.index');
     }
 
     /**
@@ -83,7 +85,11 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [
+            'title' => 'Detail Event',
+            'event' => Event::findOrFail($id)
+        ];
+        return view('events.show', $data);
     }
 
     /**

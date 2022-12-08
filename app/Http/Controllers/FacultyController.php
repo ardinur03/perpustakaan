@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\Faculty;
+use App\Models\StudyProgram;
+use \Yajra\DataTables\DataTables;
 
 class FacultyController extends Controller
 {
@@ -12,21 +15,22 @@ class FacultyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        try {
-            $data = \App\Models\Faculty::all();
-            return view(
-                'faculties.index',
-                [
-                    'title' => 'Faculties',
-                    'faculties' => $data
-                ]
-            );
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return redirect()->route('home');
+        if ($request->ajax()) {
+            $data = Faculty::all();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . route('faculties.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('faculties.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye"></i></a>';
+                    $btn = $btn . ' <a href="' . route('faculties.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
+        return view('faculties.index');
     }
 
     /**
@@ -40,7 +44,7 @@ class FacultyController extends Controller
             'faculties.create',
             [
                 'title' => 'Create Faculty',
-                'study_programs' => \App\Models\StudyProgram::all()
+                'study_programs' => StudyProgram::all()
             ]
         );
     }
@@ -78,7 +82,20 @@ class FacultyController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $data = Faculty::find($id);
+            return view(
+                'faculties.show',
+                [
+                    'title' => 'Show Faculty',
+                    'faculty' => $data,
+                    'study_programs' => StudyProgram::all()
+                ]
+            );
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -90,13 +107,13 @@ class FacultyController extends Controller
     public function edit($id)
     {
         try {
-            $data = \App\Models\Faculty::find($id);
+            $data = Faculty::find($id);
             return view(
                 'faculties.edit',
                 [
                     'title' => 'Edit Faculty',
                     'faculty' => $data,
-                    'study_programs' => \App\Models\StudyProgram::all()
+                    'study_programs' => StudyProgram::all()
                 ]
             );
         } catch (\Throwable $th) {
@@ -120,7 +137,7 @@ class FacultyController extends Controller
         ]);
         try {
 
-            \App\Models\Faculty::find($id)->update([
+            Faculty::find($id)->update([
                 'faculty_name' => $request->faculty_name,
                 'study_program_id' => $request->study_program_id
             ]);
@@ -141,7 +158,7 @@ class FacultyController extends Controller
     public function destroy($id)
     {
         try {
-            \App\Models\Faculty::find($id)->delete();
+            Faculty::find($id)->delete();
             return redirect()->route('faculties.index')->with('success_message', 'Kategori berhasil dihapus.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
