@@ -57,8 +57,15 @@
                             </h6>
                         </div>
                         <div class="card-footer d-grid gap-2">
-                            <a href="{{ route('member.peminjaman-buku.store', $book->id) }}"
-                                class="btn btn-success btn-block btn-pinjam">Pinjam</a>
+
+
+                            @if ($book->stock == 0)
+                                <button type="button" class="btn btn-danger btn-block btn-pinjam" disabled>Stok Buku
+                                    Habis</button>
+                            @elseif ($book->stock > 0)
+                                <a href="{{ route('member.peminjaman-buku.store', $book->id) }}"
+                                    class="btn btn-success btn-block btn-pinjam">Pinjam</a>
+                            @endif
                             <button type="button" class="btn btn-outline-secondary btn-block btn-pinjam">Detail</button>
                         </div>
                     </div>

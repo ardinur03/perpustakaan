@@ -190,6 +190,12 @@ class MemberTransactionController extends Controller
 
     public function borrowTransactionShow($id)
     {
+        // cek jika user yang login tidak sama dengan user yang meminjam buku
+        $borrowTransaction = BorrowTransaction::where('id', $id)->first();
+        if ($borrowTransaction->user_id != Auth::user()->id) {
+            return redirect()->route('member.borrow-transaction-list')->with('warning_message', 'Ops.. Anda tidak memiliki akses untuk melihat detail peminjaman buku ini');
+        }
+
         $data = [
             'title' => 'Detail Peminjaman Buku',
             'borrowTransaction' => BorrowTransaction::with('user.member', 'book')->findOrFail($id),
