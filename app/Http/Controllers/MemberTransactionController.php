@@ -25,10 +25,9 @@ class MemberTransactionController extends Controller
             'countAllBorrowTransactionFineNow' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'Overdue')->sum('fine'),
         ];
 
-        // cek jika nama member belum diisi maka akan diarahkan ke halaman edit profile
-        // if (Auth::user()->name = !null) {
-        //     return redirect()->route('member.edit-profile')->with('warning_message', 'Silahkan lengkapi data diri anda terlebih dahulu!');
-        // }
+        if (Auth::user()->member->member_name == null) {
+            return redirect()->route('member.edit-profile')->with('warning_message', 'Silahkan lengkapi data diri anda terlebih dahulu!');
+        }
 
         return view('member-transaction.index', $data);
     }

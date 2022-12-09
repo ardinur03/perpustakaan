@@ -20,5 +20,9 @@ class RoleSeederLibrary extends Seeder
         // berikan role member ke user dengan id 2
         $user = \App\Models\User::find(2);
         $user->assignRole('member');
+
+        // berikan role super-admin ke user dengan id 3
+        $user = \App\Models\User::find(3);
+        $user->assignRole('super-admin');
     }
 }

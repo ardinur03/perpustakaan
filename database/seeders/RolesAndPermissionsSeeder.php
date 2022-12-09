@@ -20,7 +20,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // create permissions
         Permission::create(['name' => 'akses petugas']); // untuk petugas
-        Permission::create(['name' => 'crud user']); // untuk super admin
+        Permission::create(['name' => 'akses super admin']); // untuk super admin
         Permission::create(['name' => 'akses member']); // untuk member
 
         // this can be done as separate statements
@@ -32,6 +32,6 @@ class RolesAndPermissionsSeeder extends Seeder
         $role->givePermissionTo('akses member');
 
         $role = Role::create(['name' => 'super-admin']);
-        $role->givePermissionTo(Permission::all());
+        $role->givePermissionTo('akses super admin');
     }
 }

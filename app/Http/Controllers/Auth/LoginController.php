@@ -45,6 +45,12 @@ class LoginController extends Controller
     {
         if (Auth::user()->hasRole('member')) {
             return redirect()->route('member.dashboard')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
+        } else if (Auth::user()->hasRole('petugas')) {
+            return redirect()->route('admin.dashboard')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
+        } else if (Auth::user()->hasRole('super-admin')) {
+            return redirect()->route('superadmin.dashboard')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
+        } else {
+            return redirect()->route('welcome')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
         }
     }
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\StudyProgramController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,7 @@ Route::get('lihat-buku', [WelcomeController::class, 'listBuku'])->name('lihat-bu
 Auth::routes();
 
 // role admin petugas
-Route::prefix('admin')->middleware(['auth', 'role:petugas'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:petugas|super-admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::resource('users', UserController::class);
     Route::resource('members', MemberController::class);
@@ -51,4 +52,10 @@ Route::group(['middleware' => ['auth', 'role:member']], function () {
     Route::get('/borrow-transaction-list/{id}', [MemberTransactionController::class, 'borrowTransactionShow'])->name('member.borrow-transaction-show');
     Route::post('/borrow-transaction-return', [MemberTransactionController::class, 'borrowTransactionReturnStore'])->name('member.borrow-transaction-return-store');
     Route::post('/borrow-transaction-print', [MemberTransactionController::class, 'transactionPrint'])->name('member.borrow-transaction-print');
+});
+
+// role superadmin
+Route::prefix('super-admin')->middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
+    Route::get('/activity-log', [SuperAdminController::class, 'activityLog'])->name('superadmin.activity-log');
 });

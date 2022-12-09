@@ -29,56 +29,57 @@
                 </div>
             </div>
         </div>
-    @stop
+    </div>
+@stop
 
-    @push('js')
-        <form action="" id="delete-form" method="post">
-            @method('delete')
-            @csrf
-        </form>
-        <script>
-            function notificationBeforeDelete(event, el) {
-                event.preventDefault();
-                Swal.fire({
-                    title: 'Apakah anda yakin?',
-                    text: "Data yang dihapus tidak dapat dikembalikan!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#5C636A',
-                    confirmButtonText: 'Ya, hapus!'
-                }).then((result) => {
-                    console.log(result);
-                    if (result.dismiss != 'cancel' && result) {
-                        $('#delete-form').attr('action', $(el).attr('href'));
-                        $('#delete-form').submit();
-                    }
-                })
-            }
+@push('js')
+    <form action="" id="delete-form" method="post">
+        @method('delete')
+        @csrf
+    </form>
+    <script>
+        function notificationBeforeDelete(event, el) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#5C636A',
+                confirmButtonText: 'Ya, hapus!'
+            }).then((result) => {
+                console.log(result);
+                if (result.dismiss != 'cancel' && result) {
+                    $('#delete-form').attr('action', $(el).attr('href'));
+                    $('#delete-form').submit();
+                }
+            })
+        }
 
-            $(function() {
+        $(function() {
 
-                var table = $('#example2').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: "{{ route('users.index') }}",
-                    columns: [{
-                            data: 'id',
-                            name: 'id'
-                        },
-                        {
-                            data: 'email',
-                            name: 'email'
-                        },
-                        {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false,
-                            searchable: false
-                        },
-                    ]
-                });
-
+            var table = $('#example2').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('users.index') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
             });
-        </script>
-    @endpush
+
+        });
+    </script>
+@endpush
