@@ -24,30 +24,17 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-
-                        <div class="form-group">
-                            <label for="input_category">Study Program</label>
-                            <select name="study_program_id" id="input_category"
-                                class="form-control @error('study_program_id') is-invalid @enderror">
-                                @foreach ($study_programs as $study_program)
-                                    <option value="{{ $study_program->id }}"
-                                        {{ $study_program->id == $faculty->study_program_id ? 'selected' : '' }}>
-                                        {{ $study_program->study_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
                     </div>
-
-                </div>
-
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                    <a href="{{ route('faculties.index') }}" class="btn btn-default">
-                        Batal
-                    </a>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save mr-1"
+                                aria-hidden="true"></i>Simpan</button>
+                        <a href="{{ route('faculties.index') }}" class="btn btn-default">
+                            <i class="fa fa-arrow-left mr-1" aria-hidden="true"></i>
+                            Kembali
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
-    @stop
+    </form>
+@stop

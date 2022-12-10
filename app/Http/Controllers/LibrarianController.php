@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Librarian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use \Yajra\DataTables\DataTables;
 
 class LibrarianController extends Controller
 {
@@ -13,22 +14,24 @@ class LibrarianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        try {
-            $librarians = Librarian::all();
-            return view('librarians.index', [
-                'title' => 'Daftar Petugas Perpustakaan',
-                'librarians' => $librarians
-            ]);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage(), [
-                'file' => $th->getFile(),
-                'line' => $th->getLine(),
-                'user akses' => auth()->user()->email
-            ]);
-            return redirect()->route('home');
+        if ($request->ajax()) {
+            $data = Librarian::all();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . route('librarians.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('librarians.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye"></i></a>';
+                    $btn = $btn . ' <a href="' . route('librarians.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
+        return view('librarians.index', [
+            'title' => 'Data Petugas'
+        ]);
     }
 
     /**
@@ -81,7 +84,11 @@ class LibrarianController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [
+            'title' => 'Detail Data Petugas',
+            'librarian' => Librarian::findOrFail($id)
+        ];
+        return view('librarians.show', $data);
     }
 
     /**

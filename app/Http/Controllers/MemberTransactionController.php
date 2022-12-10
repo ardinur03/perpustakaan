@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\BorrowTransaction;
+use App\Models\Category;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \Mpdf\Mpdf as PDF;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use App\Models\StudyProgram;
 
 class MemberTransactionController extends Controller
 {
@@ -20,27 +24,99 @@ class MemberTransactionController extends Controller
             'countAllBorrowTransactionOverdue' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'overdue')->count(),
             'countAllBorrowTransactionFineNow' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'Overdue')->sum('fine'),
         ];
+
+        if (Auth::user()->member->member_name == null) {
+            return redirect()->route('member.edit-profile')->with('warning_message', 'Silahkan lengkapi data diri anda terlebih dahulu!');
+        }
+
         return view('member-transaction.index', $data);
+    }
+
+    public function editProfile()
+    {
+        try {
+            $user = Auth::user();
+            return view('member-transaction.edit-profile', [
+                'title' => 'Edit Profile',
+                'user' => $user,
+                'member' => Member::where('user_id', $user->id)->first(),
+                'study_programs' => StudyProgram::with('Faculty')->get()
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'member_name' => 'required',
+            'gender' => 'required',
+            'study_program_id' => 'required',
+            'phone_number' => 'required',
+            'address' => 'required',
+        ]);
+
+        try {
+            $user = Auth::user();
+
+            $member = Member::where('user_id', $user->id)->first();
+            $member->update([
+                'member_name' => $request->member_name,
+                'gender' => $request->gender,
+                'study_program_id' => $request->study_program_id,
+                'phone_number' => $request->phone_number,
+                'address' => $request->address,
+            ]);
+
+            return redirect()->route('member.profile')->with('success_message', 'Profile berhasil diubah.');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
+    }
+
+    public function profile()
+    {
+        try {
+            $user = Auth::user();
+            return view('member-transaction.profile', [
+                'title' => 'Detail Member',
+                'user' => $user,
+                'member' => Member::where('user_id', $user->id)->first(),
+                'study_programs' => StudyProgram::with('Faculty')->get()
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 
     public function peminjamanBuku(Request $request)
     {
         $book = $request->input('book');
-        // jika ada pencarian buku maka akan menampilkan buku yang dicari dan jika tidak maka akan menampilkan semua buku
+        $category = $request->input('category');
         $data = [
             'title' => 'Peminjaman Buku',
-            'books' => $book ? Book::where('book_name', 'like', '%' . $book . '%')->paginate(10) : Book::paginate(10),
+            'books' => $book || $category ? Book::where('book_name', 'like', '%' . $book . '%')->whereHas('category', function ($query) use ($category) {
+                $query->where('category_id', 'like', '%' . $category . '%');
+            })->paginate(12) : Book::paginate(12),
+            'categories' => Category::all(),
         ];
 
-        return view('member-transaction.peminjaman-buku', $data);
-    }
-
-    public function searchBuku($keyword)
-    {
-        $data = [
-            'title' => 'Peminjaman Buku',
-            'books' => Book::where('book_name', 'like', "%$keyword%")->paginate(12),
-        ];
         return view('member-transaction.peminjaman-buku', $data);
     }
 
@@ -114,6 +190,12 @@ class MemberTransactionController extends Controller
 
     public function borrowTransactionShow($id)
     {
+        // cek jika user yang login tidak sama dengan user yang meminjam buku
+        $borrowTransaction = BorrowTransaction::where('id', $id)->first();
+        if ($borrowTransaction->user_id != Auth::user()->id) {
+            return redirect()->route('member.borrow-transaction-list')->with('warning_message', 'Ops.. Anda tidak memiliki akses untuk melihat detail peminjaman buku ini');
+        }
+
         $data = [
             'title' => 'Detail Peminjaman Buku',
             'borrowTransaction' => BorrowTransaction::with('user.member', 'book')->findOrFail($id),

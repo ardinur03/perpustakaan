@@ -17,27 +17,35 @@ class StudyProgramSeeder extends Seeder
         $prodi = [
             [
                 'study_name' => 'D3 Teknik Informatika',
+                'faculty_id' => 1
             ],
             [
-                'study_name' => 'D4 Teknik Informatika'
+                'study_name' => 'D4 Teknik Informatika',
+                'faculty_id' => 1
             ],
             [
-                'study_name' => 'D3 Teknik Kimia'
+                'study_name' => 'D3 Teknik Kimia',
+                'faculty_id' => 2
             ],
             [
-                'study_name' => 'D4 Teknik Kimia Produksi Bersih'
+                'study_name' => 'D4 Teknik Kimia Produksi Bersih',
+                'faculty_id' => 2
             ],
             [
-                'study_name' => 'D3 Teknik Elektronika'
+                'study_name' => 'D3 Teknik Elektronika',
+                'faculty_id' => 3
             ],
             [
-                'study_name' => 'D4 Teknik Elektronika'
+                'study_name' => 'D4 Teknik Elektronika',
+                'faculty_id' => 3
             ],
             [
-                'study_name' => 'D3 Teknik Telekomunikasi'
+                'study_name' => 'D3 Teknik Telekomunikasi',
+                'faculty_id' => 4
             ],
             [
-                'study_name' => 'D4 Teknik Telekomunikasi'
+                'study_name' => 'D4 Teknik Telekomunikasi',
+                'faculty_id' => 4
             ]
         ];
 

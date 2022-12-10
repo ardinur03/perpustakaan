@@ -18,34 +18,74 @@
                 </div>
             </form>
         </div>
+        <div class="col-6">
+            <form action="" method="GET">
+                <div class="input-group mb-3">
+                    <select class="form-control" name="category">
+                        <option selected value="">Filter Berdasarkan Kategori</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                        @endforeach
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="submit">Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="row">
-        @foreach ($books as $item => $value)
-            @if ($value->stock != 0)
-                <div class="col-4">
-                    <div class="card card-primary" style="min-height: 100px;">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                {{-- limit string  --}}
-                                {{ Str::limit($value->book_name, 25) }}
-                            </h3>
+    @foreach ($books->chunk(3) as $item)
+        <div class="row mt-3">
+            @foreach ($item as $key => $book)
+                <div class="col-md-4">
+                    <div class="card m-2 shadow" style="height: 30rem;">
+                        <img src="{{ $book->image == '' ? asset('assets/images/default-book.jpg') : (strpos($book->image, 'https') !== false ? $book->image : asset('storage/books/' . $book->image)) }}"
+                            style="height: 15rem;" class="card-img-top" alt="image-book">
+                        <div class="card-body mt-3">
+                            <h5 class="card-subtitle mb-2 text-truncate">{{ $book->book_name }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                <i class="fas fa-user fa-sm"></i> :
+                                {{ $book->author }}
+                            </h6>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                <i class="fas fa-book fa-sm"></i> :
+                                {{ $book->publisher }}
+                            </h6>
+                            <h6 class="card-subtitle text-muted">
+                                <i class="fas fa-fw fa-tags fa-sm"></i> :
+                                {{ $book->category->category_name }}
+                            </h6>
                         </div>
-                        <div class="card-body">
-                            {{ $value->description }}
-                        </div>
-                        <div class="card-footer">
-                            <a href="{{ route('member.peminjaman-buku.store', $value->id) }}"
-                                class="btn btn-primary">Pinjam</a>
+                        <div class="card-footer d-grid gap-2">
+
+
+                            @if ($book->stock == 0)
+                                <button type="button" class="btn btn-danger btn-block btn-pinjam" disabled>Stok Buku
+                                    Habis</button>
+                            @elseif ($book->stock > 0)
+                                <a href="{{ route('member.peminjaman-buku.store', $book->id) }}"
+                                    class="btn btn-success btn-block btn-pinjam">Pinjam</a>
+                            @endif
+                            <button type="button" class="btn btn-outline-secondary btn-block btn-pinjam">Detail</button>
                         </div>
                     </div>
                 </div>
-            @endif
-        @endforeach
-    </div>
-    <div class="row mt-4">
-        <div class="col">
-            {{ $books->links() }}
-
+            @endforeach
         </div>
+    @endforeach
+    <div class="d-flex justify-content-center mt-5">
+        {{ $books->links() }}
     </div>
 @stop
+
+@push('css')
+    <style>
+        .btn-pinjam {
+            border-radius: 150px;
+        }
+
+        .btn-pinjam:hover {
+            transition: 0.3s;
+        }
+    </style>
+@endpush

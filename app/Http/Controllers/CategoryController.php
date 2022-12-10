@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use \Yajra\DataTables\DataTables;
 
 class CategoryController extends Controller
 {
@@ -13,21 +14,22 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        try {
+        if ($request->ajax()) {
             $data = Category::all();
-            return view(
-                'categories.index',
-                [
-                    'title' => 'Categories',
-                    'categories' => $data
-                ]
-            );
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return redirect()->route('home');
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . route('categories.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('categories.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye"></i></a>';
+                    $btn = $btn . ' <a href="' . route('categories.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
+        return view('categories.index');
     }
 
     /**
@@ -54,7 +56,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_name' => 'required'
+            'category_name' => 'required|unique:categories,category_name'
         ]);
         try {
             Category::create([
@@ -76,7 +78,11 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [
+            'title' => 'Detail Category',
+            'category' => Category::findOrFail($id)
+        ];
+        return view('categories.show', $data);
     }
 
     /**

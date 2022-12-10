@@ -81,19 +81,13 @@ class CategoriesBookSeeder extends Seeder
                 'category_name' => 'Filsafat'
             ],
             [
-                'category_name' => 'Sosial'
-            ],
-            [
                 'category_name' => 'Politik'
-            ],
-            [
-                'category_name' => 'Ekonomi'
             ],
             [
                 'category_name' => 'Hukum'
             ],
             [
-                'category_name' => 'Sejarah'
+                'category_name' => 'Ekonomi'
             ],
             [
                 'category_name' => 'Geografi'
@@ -102,37 +96,7 @@ class CategoriesBookSeeder extends Seeder
                 'category_name' => 'Sosial'
             ],
             [
-                'category_name' => 'Politik'
-            ],
-            [
-                'category_name' => 'Ekonomi'
-            ],
-            [
-                'category_name' => 'Hukum'
-            ],
-            [
                 'category_name' => 'Sejarah'
-            ],
-            [
-                'category_name' => 'Geografi'
-            ],
-            [
-                'category_name' => 'Sosial'
-            ],
-            [
-                'category_name' => 'Politik'
-            ],
-            [
-                'category_name' => 'Ekonomi'
-            ],
-            [
-                'category_name' => 'Hukum'
-            ],
-            [
-                'category_name' => 'Sejarah'
-            ],
-            [
-                'category_name' => 'Geografi'
             ],
         ];
 

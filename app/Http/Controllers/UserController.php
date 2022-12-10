@@ -16,11 +16,12 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::select('*');
+            $data = User::with('roles')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="' . route('users.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('users.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye"></i></a>';
                     $btn = $btn . ' <a href="' . route('users.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
                     return $btn;
                 })
@@ -49,11 +50,12 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'username' => 'required|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed'
         ]);
         $array = $request->only([
-            'email', 'password'
+            'username', 'email', 'password'
         ]);
         $array['password'] = bcrypt($array['password']);
         $user = User::create($array);
@@ -69,7 +71,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [
+            'user' => User::find($id)
+        ];
+        return view('users.show', $data);
     }
 
     /**
@@ -98,10 +103,12 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'username' => 'required|unique:users,username,' . $id,
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'sometimes|nullable|confirmed'
         ]);
         $user = User::find($id);
+        $user->username = $request->username;
         $user->email = $request->email;
         if ($request->password) $user->password = bcrypt($request->password);
         $user->save();

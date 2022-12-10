@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Faculty;
 use App\Models\Member;
+use App\Models\StudyProgram;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use \Yajra\DataTables\DataTables;
 
 class MemberController extends Controller
 {
@@ -16,22 +18,22 @@ class MemberController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        try {
-            $members = Member::all();
-            return view('members.index', [
-                'title' => 'Daftar Member',
-                'members' => $members
-            ]);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage(), [
-                'file' => $th->getFile(),
-                'line' => $th->getLine(),
-                'user akses' => auth()->user()->email
-            ]);
-            return redirect()->route('home');
+        if ($request->ajax()) {
+            $data = Member::all();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . route('members.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('members.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye"></i></a>';
+                    $btn = $btn . ' <a href="' . route('members.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
+        return view('members.index');
     }
 
     /**
@@ -43,7 +45,7 @@ class MemberController extends Controller
     {
         return view('members.create', [
             'title' => 'Tambah Member',
-            'faculties' => Faculty::with('StudyProgram')->get()
+            'study_programs' => StudyProgram::with('Faculty')->get()
         ]);
     }
 
@@ -58,7 +60,7 @@ class MemberController extends Controller
         $request->validate([
             'member_name' => 'required',
             'member_code' => 'required|unique:members',
-            'faculty_id' => 'required',
+            'study_program_id' => 'required',
             'gender' => 'required',
             'phone_number' => 'required',
             'address' => 'required',
@@ -68,7 +70,7 @@ class MemberController extends Controller
             Member::create([
                 'member_name' => $request->member_name,
                 'member_code' => $request->member_code,
-                'faculty_id' => $request->faculty_id,
+                'study_program_id' => $request->study_program_id,
                 'gender' => $request->gender,
                 'address' => $request->address,
                 'phone_number' => $request->phone_number,
@@ -94,7 +96,21 @@ class MemberController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $member = Member::findOrFail($id);
+            return view('members.show', [
+                'title' => 'Detail Member',
+                'member' => $member,
+                'study_programs' => StudyProgram::with('Faculty')->get()
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -110,7 +126,7 @@ class MemberController extends Controller
             return view('members.edit', [
                 'title' => 'Edit Member',
                 'members' => $member,
-                'faculties' => Faculty::with('StudyProgram')->get()
+                'study_programs' => StudyProgram::with('Faculty')->get()
             ]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
@@ -135,6 +151,7 @@ class MemberController extends Controller
         $request->validate([
             'member_name' => 'required',
             'member_code' => 'required|unique:members,member_code,' . $member->id,
+            'study_program_id' => 'required',
             'gender' => 'required',
             'phone_number' => 'required|numeric',
             'address' => 'required'

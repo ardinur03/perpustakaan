@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFacultyIdToMembers extends Migration
+class AddStudyProgramIdToMembers extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddFacultyIdToMembers extends Migration
     public function up()
     {
         Schema::table('members', function (Blueprint $table) {
-            $table->id('faculty_id')->autoIncrement(false)->nullable()->after('user_id');
-            $table->foreign('faculty_id')->references('id')->on('faculties');
+            $table->id('study_program_id')->autoIncrement(false)->nullable()->after('user_id');
+            $table->foreign('study_program_id')->references('id')->on('study_programs');
         });
     }
 
@@ -27,8 +27,8 @@ class AddFacultyIdToMembers extends Migration
     public function down()
     {
         Schema::table('members', function (Blueprint $table) {
-            $table->dropForeign('members_faculty_id_foreign');
-            $table->dropColumn('faculty_id');
+            $table->dropForeign('members_study_program_id_foreign');
+            $table->dropColumn('study_program_id');
         });
     }
 }

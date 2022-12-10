@@ -11,41 +11,25 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <a href="{{route('members.create')}}" class="btn btn-success mb-3">
+                    <a href="{{ route('members.create') }}" class="btn btn-success mb-3">
                         <i class="fa fa-user-plus" aria-hidden="true"></i>
                     </a>
-                    <table class="table table-hover table-striped" id="example2">
-                        <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Kode</th>
-                            <th>Nama</th>
-                            <th>Jenis Kelamin</th>
-                            <th>Nomber Hp</th>
-                            <th class="text-center">Opsi</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($members as $key => $member)
-                            <tr>
-                                <td>{{$key+1}}</td>
-                                <td>{{$member->member_code}}</td>
-                                <td>{{$member->member_name}}</td>
-                                <td>{{$member->gender}}</td>
-                                <td>{{$member->phone_number}}</td>
-                                <td class="text-center">
-                                    <a href="{{route('members.edit', $member)}}" class="btn btn-sm text-primary">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
-                                    <a href="{{route('members.destroy', $member)}}" onclick="notificationBeforeDelete(event, this)" class="btn text-danger btn-sm">
-                                        <i class="fas fa-trash" aria-hidden="true"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped yajra-datatables w-100" id="members">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Kode</th>
+                                    <th>Nama</th>
+                                    <th>Jenis Kelamin</th>
+                                    <th>Nomber Hp</th>
+                                    <th class="text-center">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,28 +42,56 @@
         @csrf
     </form>
     <script>
-        $('#example2').DataTable({
-            "responsive": true,
+        var table = $('#members').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('members.index') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'member_code',
+                    name: 'member_code'
+                },
+                {
+                    data: 'member_name',
+                    name: 'member_name'
+                },
+                {
+                    data: 'gender',
+                    name: 'gender'
+                },
+                {
+                    data: 'phone_number',
+                    name: 'phone_number'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
         });
 
         function notificationBeforeDelete(event, el) {
-        event.preventDefault();
-        Swal.fire({
-            title: 'Apakah anda yakin?',
-            text: "Data yang dihapus tidak dapat dikembalikan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#5C636A',
-            confirmButtonText: 'Ya, hapus!'
-        }).then((result) => {
-            console.log(result);
-            if (result.dismiss != 'cancel' && result) {
-                $('#delete-form').attr('action', $(el).attr('href'));
-                $('#delete-form').submit();
-            }
-        })
-    }
-
+            event.preventDefault();
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#5C636A',
+                confirmButtonText: 'Ya, hapus!'
+            }).then((result) => {
+                console.log(result);
+                if (result.dismiss != 'cancel' && result) {
+                    $('#delete-form').attr('action', $(el).attr('href'));
+                    $('#delete-form').submit();
+                }
+            })
+        }
     </script>
 @endpush

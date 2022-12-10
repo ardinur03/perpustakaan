@@ -5,10 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -48,6 +45,12 @@ class LoginController extends Controller
     {
         if (Auth::user()->hasRole('member')) {
             return redirect()->route('member.dashboard')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
+        } else if (Auth::user()->hasRole('petugas')) {
+            return redirect()->route('admin.dashboard')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
+        } else if (Auth::user()->hasRole('super-admin')) {
+            return redirect()->route('superadmin.dashboard')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
+        } else {
+            return redirect()->route('welcome')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
         }
     }
 }

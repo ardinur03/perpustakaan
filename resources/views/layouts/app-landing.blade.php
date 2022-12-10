@@ -9,6 +9,9 @@
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{{ asset('assets/css/landing-page.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
+
 </head>
 
 <body>
@@ -104,8 +107,12 @@
                         </div>
                     @else
                         <div class="gap-3">
-                            <a href="{{ route('login') }}" class="btn btn-default btn-no-fill">Masuk</button>
-                                <a href="{{ route('register') }}" class="btn btn-fill text-white">Daftar</a>
+                            <a href="{{ route('login') }}"
+                                class="btn btn-default btn-no-fill btn-transparent btn-rounded">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Masuk
+                            </a>
+                            <a href="{{ route('register') }}" class="btn btn-fill text-white btn-rounded">Daftar</a>
                         </div>
                     @endif
                 </div>
@@ -208,7 +215,8 @@
             }
         </style>
 
-        <div class="footer-2-2 container-xxl mx-auto position-relative p-0" style="font-family: 'Poppins', sans-serif">
+        <div class="footer-2-2 container-xxl mx-auto position-relative p-0"
+            style="font-family: 'Poppins', sans-serif">
             <div class="list-footer">
                 <div class="row gap-md-0 gap-3">
                     <div class="col-lg-3 col-md-6">

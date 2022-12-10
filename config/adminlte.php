@@ -15,7 +15,7 @@ return [
     */
 
     'title' => 'Perpustakaan',
-    'title_prefix' => '',
+    'title_prefix' => 'Perpustakaan |',
     'title_postfix' => '',
 
     /*
@@ -45,8 +45,8 @@ return [
     |
     */
 
-    'logo' => '<b>Perpus</b>Apps',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo' => '<b>Perpus</b>App',
+    'logo_img' => 'vendor/adminlte/dist/img/perpustakaan-v1.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -65,7 +65,7 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
@@ -193,7 +193,7 @@ return [
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
-    'profile_url' => false,
+    'profile_url' => '/profile',
 
     /*
     |--------------------------------------------------------------------------
@@ -237,6 +237,12 @@ return [
             'can' => 'isAnggota',
         ],
         [
+            'text' => 'Dashboard',
+            'url' => 'super-admin/dashboard',
+            'icon' => 'fas fa-fw fa-tachometer-alt',
+            'can' => 'isSuperAdmin',
+        ],
+        [
             'text' => 'Books',
             'url' => 'books-list',
             'icon' => 'fas fa-fw fa-book',
@@ -250,14 +256,23 @@ return [
             'active' => ['borrow-transaction-list', 'borrow-transaction-list/*'],
         ],
         [
+            'text' => 'Events',
+            'url' => 'admin/events',
+            'icon' => 'fas fa-fw fa-calendar-alt',
+            'can' => ['isPetugas', 'isSuperAdmin'],
+            'active' => ['admin/events', 'admin/events/*'],
+        ],
+        [
             'text'    => 'Master Data',
+            'url'     => '#',
             'icon'    => 'fas fa-fw fa-table',
-            'can' => 'isPetugas',
+            'can' => ['isPetugas', 'isSuperAdmin'],
             'submenu' => [
                 [
                     'text' => 'User Account',
                     'shift' => 'ml-4',
                     'icon' => 'fas fa-fw fa-user',
+                    'can' => 'isSuperAdmin',
                     'url'  => 'admin/users',
                     'active' => ['admin/users', 'admin/users/*'],
                 ],
@@ -309,9 +324,16 @@ return [
             'text' => 'Transaction List',
             'url' => 'admin/transaction-list',
             'icon' => 'fas fa-list',
-            'can' => 'isPetugas',
+            'can' => ['isPetugas', 'isSuperAdmin'],
             'active' => ['admin/transaction-list', 'admin/transaction-list/*'],
         ],
+        [
+            'text' => 'Activity Log',
+            'url' => 'super-admin/activity-log',
+            'icon' => 'fas fa-fw fa-history',
+            'can' => 'isSuperAdmin',
+            'active' => ['admin/activity-log', 'admin/activity-log/*'],
+        ]
 
     ],
 

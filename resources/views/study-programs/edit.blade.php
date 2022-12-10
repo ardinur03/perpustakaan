@@ -14,7 +14,6 @@
             <div class="col-6">
                 <div class="card">
                     <div class="card-body">
-
                         <div class="form-group">
                             <input type="text" class="form-control @error('study_name') is-invalid @enderror"
                                 id="exampleInputName" placeholder="Study Name" name="study_name"
@@ -24,15 +23,32 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <select name="faculty_id" class="form-control @error('faculty_id') is-invalid @enderror">
+                                <option value="">Pilih Fakultas</option>
+                                @foreach ($faculties as $faculty)
+                                    <option value="{{ $faculty->id }}"
+                                        {{ $study_program->faculty_id == $faculty->id ? 'selected' : '' }}>
+                                        {{ $faculty->faculty_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('faculty_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save mr-1"
+                                aria-hidden="true"></i>Simpan</button>
                         <a href="{{ route('study-programs.index') }}" class="btn btn-default">
-                            Batal
+                            <i class="fa fa-arrow-left mr-1" aria-hidden="true"></i>
+                            Kembali
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-    @stop
+    </form>
+@stop

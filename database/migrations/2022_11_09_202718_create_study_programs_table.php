@@ -15,7 +15,9 @@ class CreateStudyProgramsTable extends Migration
     {
         Schema::create('study_programs', function (Blueprint $table) {
             $table->id();
+            $table->id('faculty_id')->autoIncrement(false)->unsigned();
             $table->string('study_name');
+            $table->foreign('faculty_id')->references('id')->on('faculties');
         });
     }
 
@@ -26,6 +28,8 @@ class CreateStudyProgramsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('study_programs');
+        Schema::table('study_programs', function (Blueprint $table) {
+            $table->dropForeign(['faculty_id']);
+        });
     }
 }

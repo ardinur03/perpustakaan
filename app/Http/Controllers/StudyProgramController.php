@@ -6,6 +6,7 @@ use App\Models\Faculty;
 use App\Models\StudyProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use \Yajra\DataTables\DataTables;
 
 class StudyProgramController extends Controller
 {
@@ -14,22 +15,22 @@ class StudyProgramController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        try {
-            $study_programs = StudyProgram::all();
-            return view('study-programs.index', [
-                'title' => 'Daftar Program Studi',
-                'studyprograms' => $study_programs
-            ]);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage(), [
-                'file' => $th->getFile(),
-                'line' => $th->getLine(),
-                'user akses' => auth()->user()->email
-            ]);
-            return redirect()->route('home');
+        if ($request->ajax()) {
+            $data = StudyProgram::with('faculty')->get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="' . route('study-programs.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('study-programs.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye"></i></a>';
+                    $btn = $btn . ' <a href="' . route('study-programs.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
+        return view('study-programs.index');
     }
 
     /**
@@ -40,7 +41,8 @@ class StudyProgramController extends Controller
     public function create()
     {
         return view('study-programs.create', [
-            'title' => 'Tambah Data Program Studi'
+            'title' => 'Tambah Data Program Studi',
+            'faculties' => Faculty::all()
         ]);
     }
 
@@ -53,10 +55,12 @@ class StudyProgramController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'study_name' => 'required'
+            'study_name' => 'required|unique:study_programs',
+            'faculty_id' => 'required'
         ]);
         try {
             StudyProgram::create([
+                'faculty_id' => $request->faculty_id,
                 'study_name' => $request->study_name
             ]);
 
@@ -81,7 +85,11 @@ class StudyProgramController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [
+            'title' => 'Detail Program Studi',
+            'study_program' => StudyProgram::with('faculty')->findOrFail($id)
+        ];
+        return view('study-programs.show', $data);
     }
 
     /**
@@ -96,7 +104,8 @@ class StudyProgramController extends Controller
             $study_program = StudyProgram::findOrFail($id);
             return view('study-programs.edit', [
                 'title' => 'Edit Data Program Studi',
-                'study_program' => $study_program
+                'study_program' => $study_program,
+                'faculties' => Faculty::all()
             ]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
@@ -118,6 +127,7 @@ class StudyProgramController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'faculty_id' => 'required',
             'study_name' => 'required'
         ]);
 
@@ -125,6 +135,7 @@ class StudyProgramController extends Controller
 
             StudyProgram::where('id', $id)
                 ->update([
+                    'faculty_id' => $request->faculty_id,
                     'study_name' => $request->study_name
                 ]);
 
@@ -150,14 +161,6 @@ class StudyProgramController extends Controller
     {
         try {
             $study_program = StudyProgram::find($id);
-
-            // cek apakah ada di tabel faculties
-            $faculty = Faculty::where('study_program_id', $id)->first();
-            if ($faculty) {
-                return redirect()->route('study-programs.index')
-                    ->with('error_message', 'Data Program Studi Gagal Dihapus');
-            }
-
             $study_program->delete();
             return redirect()->route('study-programs.index')
                 ->with('success_message', 'Data Program Studi Berhasil Dihapus');
