@@ -132,12 +132,11 @@ class StudyProgramController extends Controller
         ]);
 
         try {
-
-            StudyProgram::where('id', $id)
-                ->update([
-                    'faculty_id' => $request->faculty_id,
-                    'study_name' => $request->study_name
-                ]);
+            $study_program = StudyProgram::find($id);
+            $study_program->update([
+                'faculty_id' => $request->faculty_id,
+                'study_name' => $request->study_name
+            ]);
 
             return redirect()->route('study-programs.index')
                 ->with('success_message', 'Data Program Studi Berhasil Diubah');
