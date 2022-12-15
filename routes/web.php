@@ -23,11 +23,10 @@ Auth::routes();
 
 // role admin petugas
 Route::prefix('admin')->middleware(['auth', 'role:petugas|super-admin'])->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('role:petugas');
     Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile')->middleware('role:petugas');
-    Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings')->middleware('role:super-admin');
-    Route::get('/edit-profile', [AdminController::class, 'editProfile'])->name('admin.edit-profile');
-    Route::post('/update-profile', [AdminController::class, 'updateProfile'])->name('admin.update-profile');
+    Route::get('/edit-profile', [AdminController::class, 'editProfile'])->name('admin.edit-profile')->middleware('role:petugas');
+    Route::post('/update-profile', [AdminController::class, 'updateProfile'])->name('admin.update-profile')->middleware('role:petugas');
     Route::resource('users', UserController::class);
     Route::resource('members', MemberController::class);
     Route::resource('librarians', LibrarianController::class);
@@ -62,4 +61,6 @@ Route::group(['middleware' => ['auth', 'role:member']], function () {
 Route::prefix('super-admin')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
     Route::get('/activity-log', [SuperAdminController::class, 'activityLog'])->name('superadmin.activity-log');
+    Route::get('/settings', [SuperAdminController::class, 'settings'])->name('superadmin.settings');
+    Route::post('/update-settings', [SuperAdminController::class, 'updateSettings'])->name('superadmin.update-settings');
 });

@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <form action="{{ route('member.update-profile') }}" method="post">
+    <form action="{{ route('superadmin.update-settings') }}" method="post">
         @method('POST')
         @csrf
         <div class="row justify-content-center">
@@ -22,9 +22,7 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                    </div>
 
-                    <div class="card-body">
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
@@ -38,7 +36,7 @@
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary"><i class="fa fa-save mr-1"
                                 aria-hidden="true"></i>Simpan</button>
-                        <a href="{{ route('member.profile') }}" class="btn btn-default">
+                        <a href="{{ route('superadmin.dashboard') }}" class="btn btn-default">
                             <i class="fa fa-arrow-left mr-1" aria-hidden="true"></i>
                             Kembali
                         </a>

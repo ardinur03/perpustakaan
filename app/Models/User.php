@@ -58,7 +58,7 @@ class User extends Authenticatable
         if (Auth::user()->hasRole('petugas')) {
             return 'admin/profile';
         } else if (Auth::user()->hasRole('super-admin')) {
-            return 'admin/settings';
+            return 'super-admin/settings';
         } else {
             return 'profile';
         }

@@ -43,6 +43,12 @@
                             <td>{{ $librarian->librarian_name ?? '-' }}</td>
                         </tr>
 
+                        {{-- gender --}}
+                        <tr>
+                            <th>Jenis Kelamin</th>
+                            <td>{{ $librarian->gender ?? '-' }}</td>
+                        </tr>
+
                         <tr>
                             {{-- position --}}
                             <th>Jabatan</th>

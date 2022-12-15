@@ -59,7 +59,7 @@ class AdminController extends Controller
             return view('admin.edit-profile', [
                 'title' => 'Edit Profile',
                 'user' => $user,
-                'member' => Librarian::where('user_id', $user->id)->first(),
+                'librarian' => Librarian::where('user_id', $user->id)->first(),
             ]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
@@ -73,27 +73,34 @@ class AdminController extends Controller
 
     public function updateProfile(Request $request)
     {
-        // $request->validate([
-        //     'member_name' => 'required',
-        //     'gender' => 'required',
-        //     'study_program_id' => 'required',
-        //     'phone_number' => 'required',
-        //     'address' => 'required',
-        // ]);
+        // validasi
+        $request->validate([
+            'librarian_name' => 'required',
+            'username' => 'required',
+            'email' => 'required|email',
+            'address' => 'required',
+            'phone_number' => 'required|numeric',
+            'position' => 'required',
+            'gender' => 'required',
+        ]);
 
         try {
             $user = Auth::user();
-
-            $member = Librarian::where('user_id', $user->id)->first();
-            $member->update([
-                'member_name' => $request->member_name,
-                'gender' => $request->gender,
-                'study_program_id' => $request->study_program_id,
-                'phone_number' => $request->phone_number,
-                'address' => $request->address,
+            $user->update([
+                'username' => $request->username,
+                'email' => $request->email,
             ]);
 
-            return redirect()->route('admin.profile')->with('success_message', 'Profile berhasil diubah.');
+            $librarian = Librarian::where('user_id', $user->id)->first();
+            $librarian->update([
+                'librarian_name' => $request->librarian_name,
+                'address' => $request->address,
+                'phone_number' => $request->phone_number,
+                'position' => $request->position,
+                'gender' => $request->gender
+            ]);
+
+            return redirect()->route('admin.profile')->with('success_message', 'Berhasil mengubah data diri');
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
                 'file' => $th->getFile(),
@@ -120,24 +127,6 @@ class AdminController extends Controller
                 'user akses' => auth()->user()->email
             ]);
             return redirect()->route('admin.dashboard')->with('error_message', 'Gagal membuka profile');
-        }
-    }
-
-    public function settings()
-    {
-        try {
-            $user = Auth::user();
-            return view('superadmin.edit-profile', [
-                'title' => 'Edit Profile',
-                'admin' => $user,
-            ]);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage(), [
-                'file' => $th->getFile(),
-                'line' => $th->getLine(),
-                'user akses' => auth()->user()->email
-            ]);
-            return redirect()->route('admin.dashboard')->with('error_message', 'Gagal membuka pengaturan');
         }
     }
 }
