@@ -11,11 +11,11 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <a href="{{ route('member.dashboard') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
                         Kembali
                     </a>
-                    <a href="{{ route('member.edit-profile') }}" class="btn btn-primary">
+                    <a href="{{ route('admin.edit-profile') }}" class="btn btn-primary">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         Edit
                     </a>
@@ -27,8 +27,38 @@
                 <div class="table-responsive mt-4">
                     <table class="table table-hover table-striped">
                         <tr>
-                            <th>Member Code</th>
-                            <td>{{ $user->username }}</td>
+                            <th>Username</th>
+                            <td>{{ $user->username ?? '-' }}</td>
+                        </tr>
+
+                        <tr>
+                            {{-- email --}}
+                            <th>Email</th>
+                            <td>{{ $user->email ?? '-' }}</td>
+                        </tr>
+
+                        <tr>
+                            {{-- nama --}}
+                            <th>Nama</th>
+                            <td>{{ $librarian->librarian_name ?? '-' }}</td>
+                        </tr>
+
+                        <tr>
+                            {{-- position --}}
+                            <th>Jabatan</th>
+                            <td>{{ $librarian->position ?? '-' }}</td>
+                        </tr>
+
+                        <tr>
+                            {{-- phone --}}
+                            <th>Telepon</th>
+                            <td>{{ $librarian->phone_number ?? '-' }}</td>
+                        </tr>
+
+                        <tr>
+                            {{-- address --}}
+                            <th>Alamat</th>
+                            <td>{{ $librarian->address ?? '-' }}</td>
                         </tr>
                     </table>
                 </div>

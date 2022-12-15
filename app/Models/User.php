@@ -55,8 +55,10 @@ class User extends Authenticatable
 
     public function adminlte_profile_url()
     {
-        if (Auth::user()->hasRole('super-admin') || Auth::user()->hasRole('petugas')) {
+        if (Auth::user()->hasRole('petugas')) {
             return 'admin/profile';
+        } else if (Auth::user()->hasRole('super-admin')) {
+            return 'admin/settings';
         } else {
             return 'profile';
         }

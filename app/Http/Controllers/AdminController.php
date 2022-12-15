@@ -111,7 +111,7 @@ class AdminController extends Controller
             return view('admin.profile', [
                 'title' => 'Profile',
                 'user' => $user,
-                'member' => Librarian::where('user_id', $user->id)->first(),
+                'librarian' => Librarian::where('user_id', $user->id)->first(),
             ]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [
@@ -120,6 +120,24 @@ class AdminController extends Controller
                 'user akses' => auth()->user()->email
             ]);
             return redirect()->route('admin.dashboard')->with('error_message', 'Gagal membuka profile');
+        }
+    }
+
+    public function settings()
+    {
+        try {
+            $user = Auth::user();
+            return view('superadmin.edit-profile', [
+                'title' => 'Edit Profile',
+                'admin' => $user,
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('admin.dashboard')->with('error_message', 'Gagal membuka pengaturan');
         }
     }
 }
