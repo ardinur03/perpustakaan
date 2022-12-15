@@ -21,9 +21,9 @@ class CategoryController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('categories.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
-                    $btn = $btn . ' <a href="' . route('categories.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye"></i></a>';
-                    $btn = $btn . ' <a href="' . route('categories.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    $btn = '<a href="' . route('categories.edit', $row->id) . '" class="btn btn-sm text-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('categories.show', $row->id) . '" class="btn btn-sm text-warning" data-toggle="tooltip" data-placement="top" title="Lihat"><i class="fas fa-eye"></i></a>';
+                    $btn = $btn . ' <a href="' . route('categories.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fas fa-trash" aria-hidden="true"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -66,7 +66,7 @@ class CategoryController extends Controller
             return redirect()->route('categories.index')->with('success_message', 'Kategori berhasil Ditambahkan.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('categories.index')->with('error_message', 'Kategori gagal Ditambahkan.');
         }
     }
 
@@ -104,7 +104,7 @@ class CategoryController extends Controller
             );
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('categories.index');
         }
     }
 
@@ -128,7 +128,7 @@ class CategoryController extends Controller
             return redirect()->route('categories.index')->with('success_message', 'Kategori berhasil Diubah.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('categories.index')->with('error_message', 'Kategori gagal Diubah.');
         }
     }
 
@@ -154,7 +154,7 @@ class CategoryController extends Controller
             return redirect()->back()->with('success_message', 'Kategori berhasil Dihapus.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('categories.index')->with('error_message', 'Kategori gagal Dihapus.');
         }
     }
 }

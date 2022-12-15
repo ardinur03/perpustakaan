@@ -48,7 +48,7 @@ class MemberTransactionController extends Controller
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('member.profile')->with('error_message', 'Gagal mengubah data diri');
         }
     }
 
@@ -81,7 +81,7 @@ class MemberTransactionController extends Controller
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('member.profile')->with('error_message', 'Gagal mengubah data diri');
         }
     }
 
@@ -101,7 +101,7 @@ class MemberTransactionController extends Controller
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('member.profile')->with('error_message', 'Gagal mengubah data diri');
         }
     }
 
