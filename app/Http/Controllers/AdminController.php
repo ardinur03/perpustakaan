@@ -8,6 +8,8 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Librarian;
+use Mpdf\Mpdf as PDF;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -128,5 +130,59 @@ class AdminController extends Controller
             ]);
             return redirect()->route('admin.dashboard')->with('error_message', 'Gagal membuka profile');
         }
+    }
+
+    // view date selection
+    public function transactionBetweenDate()
+    {
+        return view('admin.borrow-transaction.print-date');
+    }
+
+    // mpdf print between date
+    public function printTransactionBetweenDate(Request $request)
+    {
+        // get all data member transaction date between start date and end date
+        $borrowTransactions = BorrowTransaction::with('user.member', 'book')
+            ->whereBetween('created_at', [$request->start_date, $request->end_date])
+            ->get();
+
+        // Setup a filename 
+
+        // filename date between
+        $dateDocumentBetween = $request->start_date . ' - ' . $request->end_date;
+        $documentFileName = "Laporan-Peminjaman-{$dateDocumentBetween}.pdf";
+
+        // Create the mPDF document
+        $document = new PDF([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'margin_header' => '3',
+            'margin_top' => '20',
+            'margin_bottom' => '20',
+            'margin_footer' => '2',
+        ]);
+
+        // Set some header informations for output
+        $header = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $documentFileName . '"'
+        ];
+
+        // Set the document title
+        $document->SetTitle('Laporan Peminjaman');
+
+        // render dari component transaction-report
+        $document->WriteHTML(view('admin.borrow-transaction.transaction-report', [
+            'borrowTransactions' => $borrowTransactions,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'isPrint' => true,
+        ])->render());
+
+        // Save PDF on your public storage 
+        Storage::disk('public')->put($documentFileName, $document->Output($documentFileName, "S"));
+
+        // Return the PDF as a response to the browser and download it
+        return response()->download(storage_path('app/public/' . $documentFileName), $documentFileName, $header);
     }
 }

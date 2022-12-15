@@ -11,8 +11,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <a href="{{ route('users.create') }}" class="btn btn-success mb-3">
-                        <i class="fa fa-user-plus" aria-hidden="true"></i></a>
+                    <a href="{{ route('admin.transaction-between-date') }}" class="btn btn-success mb-3">
+                        <i class="fa fa-print" aria-hidden="true"></i></a>
                     <table class="table table-hover table-striped yajra-datatables w-100" id="transaction-list">
                         <thead>
                             <tr>

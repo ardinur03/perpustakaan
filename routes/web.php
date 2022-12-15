@@ -39,6 +39,8 @@ Route::prefix('admin')->middleware(['auth', 'role:petugas|super-admin'])->group(
     Route::get('transaction-list', [AdminController::class, 'transactionList'])->name('admin.transaction-list');
     Route::get('transaction-list/{id}', [AdminController::class, 'transactionListShow'])->name('admin.transaction-list-show');
     Route::delete('transaction-list/{id}', [AdminController::class, 'transactionListDestroy'])->name('admin.transaction-list-destroy');
+    Route::get('/print-between-date', [AdminController::class, 'transactionBetweenDate'])->name('admin.transaction-between-date');
+    Route::post('/print-between-date', [AdminController::class, 'printTransactionBetweenDate'])->name('admin.transaction-between-date-print');
 });
 
 // role member
