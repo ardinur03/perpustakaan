@@ -27,7 +27,7 @@ class SuperAdminController extends Controller
                     $modal .= '<div class="modal-dialog modal-lg" role="document">';
                     $modal .= '<div class="modal-content">';
                     $modal .= '<div class="modal-header">';
-                    $modal .= '<h5 class="modal-title" id="modal' . $data->id . 'Label">Detail Properti</h5>';
+                    $modal .= '<h5 class="modal-title" id="modal' . $data->id . 'Label">Detail Properti Format Json</h5>';
                     $modal .= '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
                     $modal .= '<span aria-hidden="true">&times;</span>';
                     $modal .= '</button>';

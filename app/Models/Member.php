@@ -27,7 +27,7 @@ class Member extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->useLogName('members')
+            ->useLogName('Master ' . $this->table)
             ->logFillable();
     }
 

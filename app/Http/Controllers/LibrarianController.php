@@ -139,14 +139,14 @@ class LibrarianController extends Controller
         ]);
 
         try {
-            Librarian::where('id', $id)
-                ->update([
-                    'librarian_name' => $request->librarian_name,
-                    'position' => $request->position,
-                    'gender' => $request->gender,
-                    'phone_number' => $request->phone_number,
-                    'address' => $request->address
-                ]);
+            $librarian = Librarian::findOrFail($id);
+            $librarian->update([
+                'librarian_name' => $request->librarian_name,
+                'position' => $request->position,
+                'gender' => $request->gender,
+                'phone_number' => $request->phone_number,
+                'address' => $request->address
+            ]);
 
             return redirect()->route('librarians.index')
                 ->with('success_message', 'Data petugas berhasil diubah');
