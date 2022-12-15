@@ -168,18 +168,49 @@
                                                                     <div class
                                                                         style="font-size:12px;mso-line-height-alt:18px;color:#d8ebf8;line-height:1.5;font-family:Arial,Helvetica Neue,Helvetica,sans-serif">
                                                                         <p
-                                                                            style="margin:0;font-size:14px;text-align:center;mso-line-height-alt:24px">
+                                                                            style="margin:0;font-size:14px;text-align:left;mso-line-height-alt:24px">
                                                                             <span style="font-size:16px;">
-                                                                                Segera hadirkan dirimu untuk mengikuti
-                                                                                acara Event <b
-                                                                                    style="color: white">{{ $event->event_name }}</b>
-                                                                                yang dimana event ini merupakan
-                                                                                {{ $event->event_description }}
-                                                                                dimulai pada
-                                                                                tanggal <b
-                                                                                    style="color: white">{{ $event->event_start_date }}</b>
-                                                                                Kami tunggu kehadiran anda di
-                                                                                Perpustakaan Kami.
+                                                                                Mau belajar sesuatu yang baru? Datanglah
+                                                                                ke event perpustakaan kami, di mana kami
+                                                                                akan menyajikan informasi yang dapat
+                                                                                membuka wawasan Anda dan meningkatkan
+                                                                                pengetahuan Anda.
+                                                                                Perpustakaan Skuy Membaca mengadakan
+                                                                                event yang dimana kamu bisa ikut serta
+                                                                                dalam event tersebut. Berikut detail
+                                                                                eventnya :
+                                                                                <table style="font-size:16px;">
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <strong>📌 Nama
+                                                                                                Event</strong>
+                                                                                        </td>
+                                                                                        <td>:</td>
+                                                                                        <td>{{ $event->event_name }}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <strong>🚀Deskripsi</strong>
+                                                                                        </td>
+                                                                                        <td>:</td>
+                                                                                        <td>{{ $event->event_description }}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <strong>⌚ Tanggal</strong>
+                                                                                        </td>
+                                                                                        <td>:</td>
+                                                                                        <td>{{ date('d F Y h:i', strtotime($event->event_start_date)) . ' s/d ' . date('h:i', strtotime($event->event_end_date)) }}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+
+                                                                                <span style="font-size:16px;">Kami
+                                                                                    tunggu kehadiran anda pada event ini
+                                                                                    di perpustakaan kami!!</span>
+
                                                                             </span>
                                                                         </p>
                                                                         <p

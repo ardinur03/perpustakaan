@@ -39,8 +39,8 @@ class SendEventEmail implements ShouldQueue
 
         foreach ($members as $member) {
             $email = new SendEventToMemberMail($this->event, $member);
-
-            $email->subject = "Hallo {$member->member_name} Event {$this->event->event_name} pada {$this->event->event_start_date} akan segera hadir !";
+            $date = date('d F Y h:i', strtotime($this->event->event_start_date)) . ' WIB';
+            $email->subject = "Hallo {$member->member_name} Event {$this->event->event_name} pada {$date} akan segera hadir !";
 
             Mail::to($member->user->email)->send($email);
         }

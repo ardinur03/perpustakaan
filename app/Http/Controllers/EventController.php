@@ -29,7 +29,14 @@ class EventController extends Controller
                     $btn = $btn . ' <a href="' . route('events.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
                     return $btn;
                 })
+                ->addColumn('event_start_date', function ($data) {
+                    return date('d F Y H:i', strtotime($data->event_start_date));
+                })
+                ->addColumn('event_end_date', function ($data) {
+                    return date('d F Y H:i', strtotime($data->event_end_date));
+                })
                 ->rawColumns(['action'])
+
                 ->make(true);
         }
         return view('events.index');
