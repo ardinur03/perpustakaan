@@ -21,6 +21,7 @@
                                     <th>Subjek ID</th>
                                     <th>Subjek Type</th>
                                     <th>Waktu dibuat</th>
+                                    <th>Dibuat oleh</th>
                                     <th>Properti</th>
                                 </tr>
                             </thead>
@@ -67,6 +68,10 @@
                     {
                         data: 'created_at',
                         name: 'created_at',
+                    },
+                    {
+                        data: 'causer_id',
+                        name: 'causer_id',
                     },
                     {
                         data: 'properties',

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Notifications\Action;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
 
 class SuperAdminController extends Controller
@@ -57,6 +59,11 @@ class SuperAdminController extends Controller
                 ->addColumn('created_at', function ($data) {
                     // convert created_at to indonesia time zone tanggal bulan tahun jam:menit:detik
                     return date('d F Y H:i:s', strtotime($data->created_at));
+                })
+                ->addColumn('causer_id', function ($data) {
+                    // munculkan nama user yang melakukan aksi
+                    $user = User::find($data->causer_id);
+                    return $user ? $user->username : '-';
                 })
                 ->addColumn('no', function ($data) use (&$start) {
                     // create number for datatable
