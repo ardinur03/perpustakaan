@@ -23,4 +23,17 @@ class WelcomeController extends Controller
             'books' => $books
         ]);
     }
+
+    public function kontak()
+    {
+        return view('welcome-kontak', [
+            'title' => 'Kontak'
+        ]);
+    }
+    public function tentang()
+    {
+        return view('welcome-tentang', [
+            'title' => 'Tentang'
+        ]);
+    }
 }

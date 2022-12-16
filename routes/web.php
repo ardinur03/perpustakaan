@@ -19,6 +19,8 @@ use Spatie\Permission\Models\Permission;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('lihat-buku', [WelcomeController::class, 'listBuku'])->name('lihat-buku');
+Route::get('kontak', [WelcomeController::class, 'kontak'])->name('kontak');
+Route::get('tentang', [WelcomeController::class, 'tentang'])->name('tentang');
 
 Route::get('/printed-transaction', function () {
     return view('member-transaction.printed-transaction');
