@@ -6,6 +6,10 @@ use App\Models\User;
 use Illuminate\Notifications\Action;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class SuperAdminController extends Controller
 {
@@ -74,5 +78,50 @@ class SuperAdminController extends Controller
         }
 
         return view('superadmin.activitylog');
+    }
+
+    public function settings()
+    {
+        try {
+            $user = Auth::user();
+            return view('superadmin.settings', [
+                'title' => 'Edit Profile',
+                'admin' => $user,
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('superadmin.dashboard')->with('error_message', 'Gagal membuka pengaturan');
+        }
+    }
+
+
+    public function updateSettings(Request $request)
+    {
+        // validate request
+        $request->validate([
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+        ]);
+
+        // update user        
+        try {
+            $user = Auth::user();
+            $user->username = $request->username;
+            $user->email = $request->email;
+            $user->save();
+
+            return redirect()->route('superadmin.dashboard')->with('success_message', 'Berhasil mengubah pengaturan');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('superadmin.dashboard')->with('error_message', 'Gagal mengubah pengaturan');
+        }
     }
 }

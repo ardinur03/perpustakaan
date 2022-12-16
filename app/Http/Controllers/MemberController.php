@@ -25,9 +25,9 @@ class MemberController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('members.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
-                    $btn = $btn . ' <a href="' . route('members.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye"></i></a>';
-                    $btn = $btn . ' <a href="' . route('members.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    $btn = '<a href="' . route('members.edit', $row->id) . '" class="btn btn-sm text-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('members.show', $row->id) . '" class="btn btn-sm text-warning" data-toggle="tooltip" data-placement="top" title="Lihat"><i class="fas fa-eye"></i></a>';
+                    $btn = $btn . ' <a href="' . route('members.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fas fa-trash" aria-hidden="true"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -84,7 +84,8 @@ class MemberController extends Controller
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('members.index')
+                ->with('error_message', 'Gagal menambah member baru');
         }
     }
 
@@ -109,7 +110,7 @@ class MemberController extends Controller
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('members.index')->with('error_message', 'Gagal menampilkan data member');
         }
     }
 
@@ -134,7 +135,7 @@ class MemberController extends Controller
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('members.index')->with('error_message', 'Gagal mengubah data member');
         }
     }
 
@@ -168,7 +169,8 @@ class MemberController extends Controller
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('members.index')
+                ->with('error_message', 'Gagal mengubah data member');
         }
     }
 
@@ -190,7 +192,8 @@ class MemberController extends Controller
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('members.index')
+                ->with('error_message', 'Gagal menghapus data member');
         }
     }
 }

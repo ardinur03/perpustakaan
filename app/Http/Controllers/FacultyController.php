@@ -22,9 +22,9 @@ class FacultyController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('faculties.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
-                    $btn = $btn . ' <a href="' . route('faculties.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye"></i></a>';
-                    $btn = $btn . ' <a href="' . route('faculties.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    $btn = '<a href="' . route('faculties.edit', $row->id) . '" class="btn btn-sm text-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('faculties.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="Lihat"></i></a>';
+                    $btn = $btn . ' <a href="' . route('faculties.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fas fa-trash" aria-hidden="true"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

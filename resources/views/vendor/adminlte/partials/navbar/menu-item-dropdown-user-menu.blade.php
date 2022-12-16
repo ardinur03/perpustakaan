@@ -22,6 +22,9 @@
                 alt="{{ Auth::user()->email }}">
         @endif
         <span @if (config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif>
+            <span class="badge badge-info">
+                {{ Auth::user()->roles->pluck('name')[0] }}
+            </span>
             {{ Auth::user()->email }}
         </span>
     </a>
