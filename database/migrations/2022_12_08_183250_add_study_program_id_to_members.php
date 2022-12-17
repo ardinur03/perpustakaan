@@ -28,7 +28,6 @@ class AddStudyProgramIdToMembers extends Migration
     {
         Schema::table('members', function (Blueprint $table) {
             $table->dropForeign('members_study_program_id_foreign');
-            $table->dropColumn('study_program_id');
         });
     }
 }

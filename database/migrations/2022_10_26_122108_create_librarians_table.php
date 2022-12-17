@@ -15,8 +15,8 @@ class CreateLibrariansTable extends Migration
     {
         Schema::create('librarians', function (Blueprint $table) {
             $table->id();
-            $table->string('librarian_name');
-            $table->string('position');
+            $table->string('librarian_name')->nullable();
+            $table->string('position')->nullable();
             $table->enum('gender', ['Laki-laki', 'Perempuan'])->nullable();
             $table->string('phone_number', 13)->nullable();
             $table->string('address')->nullable();

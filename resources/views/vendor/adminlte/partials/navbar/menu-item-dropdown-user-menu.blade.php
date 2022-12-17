@@ -22,10 +22,19 @@
                 alt="{{ Auth::user()->email }}">
         @endif
         <span @if (config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif>
-            <span class="badge badge-info">
+            {{-- <span class="badge badge-info">
                 {{ Auth::user()->roles->pluck('name')[0] }}
             </span>
-            {{ Auth::user()->email }}
+            {{ Auth::user()->username . "'s Super Admin" }} --}}
+
+            @if (Auth::user()->roles->pluck('name')[0] == 'super-admin')
+                {{ Auth::user()->username . "'s Super Admin" }}
+            @elseif (Auth::user()->roles->pluck('name')[0] == 'petugas')
+                {{ Auth::user()->username . "'s Librarian" }}
+            @elseif (Auth::user()->roles->pluck('name')[0] == 'member')
+                {{ Auth::user()->username . "'s Member" }}
+            @endif
+
         </span>
     </a>
 

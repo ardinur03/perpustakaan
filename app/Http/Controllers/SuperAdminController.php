@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Notifications\Action;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class SuperAdminController extends Controller
@@ -65,9 +62,22 @@ class SuperAdminController extends Controller
                     return date('d F Y H:i:s', strtotime($data->created_at));
                 })
                 ->addColumn('causer_id', function ($data) {
-                    // munculkan nama user yang melakukan aksi
                     $user = User::find($data->causer_id);
-                    return $user ? $user->username : '-';
+                    // check user role
+
+                    if ($user) {
+                        if ($user->hasRole('super-admin')) {
+                            $text = '\'s Super Admin';
+                        } elseif ($user->hasRole('petugas')) {
+                            $text = '\'s Librarian';
+                        } elseif ($user->hasRole('member')) {
+                            $text = '\'s Member';
+                        } else {
+                            $text = '';
+                        }
+                    }
+
+                    return $user ? $user->username . $text  : 'Faker';
                 })
                 ->addColumn('no', function ($data) use (&$start) {
                     // create number for datatable

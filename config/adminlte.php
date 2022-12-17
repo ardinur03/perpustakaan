@@ -325,7 +325,7 @@ return [
             'url' => 'admin/transaction-list',
             'icon' => 'fas fa-list',
             'can' => ['isPetugas', 'isSuperAdmin'],
-            'active' => ['admin/transaction-list', 'admin/transaction-list/*'],
+            'active' => ['admin/transaction-list', 'admin/print-between-date', 'admin/transaction-list/*'],
         ],
         [
             'text' => 'Activity Log',

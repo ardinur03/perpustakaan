@@ -18,7 +18,6 @@
                                     <th>No.</th>
                                     <th>Nama Log</th>
                                     <th>Deskripsi</th>
-                                    <th>Subjek ID</th>
                                     <th>Subjek Type</th>
                                     <th>Waktu dibuat</th>
                                     <th>Dibuat oleh</th>
@@ -42,7 +41,7 @@
                 processing: true,
                 serverSide: true,
                 order: [
-                    [5, 'desc']
+                    [4, 'desc']
                 ],
                 ajax: "{{ route('superadmin.activity-log') }}",
                 columns: [{
@@ -56,10 +55,6 @@
                     {
                         data: 'description',
                         name: 'description'
-                    },
-                    {
-                        data: 'subject_id',
-                        name: 'subject_id'
                     },
                     {
                         data: 'subject_type',
