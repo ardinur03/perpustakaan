@@ -16,7 +16,7 @@ class AdminSeeder extends Seeder
         // create super admin
         $super_admin = \App\Models\User::create([
             'username' => 'Neisya',
-            'email' => 'nesya@ardinur.tech',
+            'email' => 'neisya@ardinur.tech',
             'password' => bcrypt('12345678'),
         ]);
         $super_admin->assignRole('super-admin');

@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             EventSeeder::class,
         ]);
         \App\Models\Member::factory(10)->create();
-        \App\Models\Book::factory(10)->create();
+        // \App\Models\Book::factory(10)->create();
         $this->call([
             RoleSeederLibrary::class,
             AdminSeeder::class,

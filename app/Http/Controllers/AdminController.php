@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\BorrowTransaction;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Librarian;
+use App\Models\Member;
 use Mpdf\Mpdf as PDF;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,7 +17,16 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $data = [
+            'title' => 'Dashboard',
+            'totalMember' => Member::count(),
+            'totalBook' => Book::count(),
+            'totalBorrowTransactionReturn' => BorrowTransaction::where('status', 'returned')->count(),
+            'totalBorrowTransactionBorrowed' => BorrowTransaction::where('status', 'borrowed')->count(),
+            'totalBorrowTransactionOverdue' => BorrowTransaction::where('status', 'overdue')->count(),
+            'totalLibrarian' => Librarian::count(),
+        ];
+        return view('admin.index', $data);
     }
 
     public function transactionList(Request $request)

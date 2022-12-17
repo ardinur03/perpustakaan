@@ -62,7 +62,7 @@ Route::group(['middleware' => ['auth', 'role:member']], function () {
 });
 
 // role superadmin
-Route::prefix('super-admin')->middleware(['auth'])->group(function () {
+Route::prefix('super-admin')->middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
     Route::get('/activity-log', [SuperAdminController::class, 'activityLog'])->name('superadmin.activity-log');
     Route::get('/settings', [SuperAdminController::class, 'settings'])->name('superadmin.settings');

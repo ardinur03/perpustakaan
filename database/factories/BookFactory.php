@@ -14,7 +14,7 @@ class BookFactory extends Factory
     public function definition()
     {
         return [
-            'book_name' => $this->faker->sentence(rand(2, 4)),
+            'book_name' => $this->faker->sentence(rand(1, 3)),
             'image' => 'https://source.unsplash.com/286x180/?book&' . rand(1, 1000),
             'page' => rand(100, 1000),
             'description' => $this->faker->text(170),

@@ -52,10 +52,22 @@
                                     {{ $book->category->category_name }}
                                 </h6>
                             </div>
-                            <div class="card-footer d-grid gap-2">
-                                <button type="button" class="btn btn-success btn-pinjam">Pinjam</button>
-                                <button type="button" class="btn btn-outline-secondary btn-pinjam">Detail</button>
-                            </div>
+
+                            {{-- cek jika guest maka tidak akan muncul --}}
+                            @auth
+                                <div class="card-footer d-grid gap-2">
+
+                                    @if (Auth::user()->roles->pluck('name')[0] == 'super-admin' || Auth::user()->roles->pluck('name')[0] == 'petugas')
+                                        <a href="{{ route('books.edit', $book->id) }}"
+                                            class="btn btn-outline-primary btn-pinjam">Edit</a>
+                                    @elseif (Auth::user()->roles->pluck('name')[0] == 'member')
+                                        <a href="{{ route('member.peminjaman-buku.store', $book->id) }}"
+                                            onclick="notificationBeforeBorrow(event, this)"
+                                            class="btn btn-success btn-block btn-pinjam">Pinjam</a>
+                                        <button type="button" class="btn btn-outline-secondary btn-pinjam">Detail</button>
+                                    @endif
+                                </div>
+                            @endauth
                         </div>
                     </div>
                 @endforeach
@@ -64,5 +76,34 @@
         <div class="d-flex justify-content-center mt-5">
             {{ $books->links() }}
         </div>
+
+        <x-notification-component />
+
     </div>
 @endsection
+
+@push('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <form action="" id="post-form" method="get">
+        @csrf
+    </form>
+    <script>
+        function notificationBeforeBorrow(event, el) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Anda akan meminjam buku ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, pinjam!'
+            }).then((result) => {
+                if (result.dismiss != 'cancel' && result) {
+                    $("#post-form").attr('action', $(el).attr('href'));
+                    $("#post-form").submit();
+                }
+            })
+        };
+    </script>
+@endpush

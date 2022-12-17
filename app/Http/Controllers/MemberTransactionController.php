@@ -23,6 +23,8 @@ class MemberTransactionController extends Controller
             'countAllBorrowTransactionReturned' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'returned')->count(),
             'countAllBorrowTransactionOverdue' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'overdue')->count(),
             'countAllBorrowTransactionFineNow' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'Overdue')->sum('fine'),
+            'countAllBorrowTransactionBorrowed' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'borrowed')->count(),
+            'borrowTransactionNow' => BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'borrowed')->first(),
         ];
 
         if (Auth::user()->member->member_name == null) {
@@ -122,41 +124,57 @@ class MemberTransactionController extends Controller
 
     public function storePemijamanBuku($id)
     {
-        $book = Book::find($id);
-        $borrowTransactions = BorrowTransaction::where('user_id', Auth::user()->id)
-            ->where('status', 'borrowed')
-            ->first();
+        try {
+            $book = Book::find($id);
+            $borrowTransactions = BorrowTransaction::where('user_id', Auth::user()->id)
+                ->where('status', 'borrowed')
+                ->first();
+            if ($borrowTransactions != null) {
+                return redirect()->back()->with('warning_message', 'Anda hanya bisa meminjam 1 buah buku, Selesaikan pengembalian terlebih dahulu untuk bisa meminjam buku kembali!');
+            }
 
-        if ($borrowTransactions != null) {
-            return redirect()->back()->with('warning_message', 'Anda sudah meminjam buku');
-        }
-
-        if ($book->stock >= 0) {
-            $book->stock -= 1;
-            $book->save();
-
-            BorrowTransaction::create([
-                'transaction_code' => 'TC' . time(),
-                'user_id' => auth()->user()->id,
-                'book_id' => $id,
-                'borrow_date' => date('Y-m-d'),
-                'return_date' => date('Y-m-d', strtotime('+7 days')),
-                'fine' => 0,
-                'status' => 'borrowed',
+            if ($book->stock >= 0) {
+                $book->stock -= 1;
+                $book->save();
+                BorrowTransaction::create([
+                    'transaction_code' => 'TC' . time(),
+                    'user_id' => auth()->user()->id,
+                    'book_id' => $id,
+                    'borrow_date' => date('Y-m-d'),
+                    'return_date' => date('Y-m-d', strtotime('+7 days')),
+                    'fine' => 0,
+                    'status' => 'borrowed',
+                ]);
+            }
+            return redirect()->route('member.borrow-transaction-list')->with('success_message', 'Berhasil meminjam buku');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
             ]);
+            return redirect()->back()->with('error_message', 'Gagal meminjam buku');
         }
-        return redirect()->back()->with('success_message', 'Berhasil meminjam buku');
     }
 
     public function borrowTransactionList()
     {
-        $get_user_borrow = BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'borrowed')->first();
-        $data = [
-            'title' => 'Daftar Peminjaman Buku',
-            'borrowTransactions' => BorrowTransaction::where('user_id', Auth::user()->id)->with('book')->orderBy('id', 'desc')->get(),
-            'isBorrowed' => $get_user_borrow != null ? true : false,
-        ];
-        return view('member-transaction.borrow-transaction-list', $data);
+        try {
+            $get_user_borrow = BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'borrowed')->first();
+            $data = [
+                'title' => 'Daftar Peminjaman Buku',
+                'borrowTransactions' => BorrowTransaction::where('user_id', Auth::user()->id)->with('book')->orderBy('id', 'desc')->get(),
+                'isBorrowed' => $get_user_borrow != null ? true : false,
+            ];
+            return view('member-transaction.borrow-transaction-list', $data);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('member.dashboard')->with('error_message', 'Gagal menampilkan list transaksi');
+        }
     }
 
     public function borrowTransactionReturn()
@@ -170,32 +188,36 @@ class MemberTransactionController extends Controller
 
     public function borrowTransactionReturnStore()
     {
-        $borrowTransaction = BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'borrowed')->first();
-        $book = Book::find($borrowTransaction->book_id);
-        $book->stock += 1;
-
-        if ($borrowTransaction->return_date < date('Y-m-d')) {
-            // denda 500 berdasakan hari
-            $borrowTransaction->fine = (strtotime(date('Y-m-d')) - strtotime($borrowTransaction->return_date)) / (60 * 60 * 24) * 500;
-            $borrowTransaction->status = 'overdue';
-        } else {
-            $borrowTransaction->status = 'returned';
+        try {
+            $borrowTransaction = BorrowTransaction::where('user_id', Auth::user()->id)->where('status', 'borrowed')->first();
+            $book = Book::find($borrowTransaction->book_id);
+            $book->stock += 1;
+            if ($borrowTransaction->return_date < date('Y-m-d')) {
+                // denda 500 berdasakan hari
+                $borrowTransaction->fine = (strtotime(date('Y-m-d')) - strtotime($borrowTransaction->return_date)) / (60 * 60 * 24) * 500;
+                $borrowTransaction->status = 'overdue';
+            } else {
+                $borrowTransaction->status = 'returned';
+            }
+            $borrowTransaction->save();
+            $book->save();
+            return redirect()->route('member.borrow-transaction-list')->with('success_message', 'Berhasil mengembalikan buku');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->back()->with('error_message', 'Gagal mengembalikan buku');
         }
-
-        $borrowTransaction->save();
-        $book->save();
-
-        return redirect()->route('member.borrow-transaction-list')->with('success_message', 'Berhasil mengembalikan buku');
     }
 
     public function borrowTransactionShow($id)
     {
-        // cek jika user yang login tidak sama dengan user yang meminjam buku
         $borrowTransaction = BorrowTransaction::where('id', $id)->first();
         if ($borrowTransaction->user_id != Auth::user()->id) {
             return redirect()->route('member.borrow-transaction-list')->with('warning_message', 'Ops.. Anda tidak memiliki akses untuk melihat detail peminjaman buku ini');
         }
-
         $data = [
             'title' => 'Detail Peminjaman Buku',
             'borrowTransaction' => BorrowTransaction::with('user.member', 'book')->findOrFail($id),
@@ -206,13 +228,10 @@ class MemberTransactionController extends Controller
 
     public function transactionPrint()
     {
-        // get data member transaction where user_id and status
         $borrowTransaction = BorrowTransaction::where('id', request()->id)->with(['book', 'user'])->first();
-        // Setup a filename 
         $member_name = str_replace(' ', '-', $borrowTransaction->user->member->member_name);
         $documentFileName = "{$member_name}_Laporan-Peminjaman.pdf";
 
-        // Create the mPDF document
         $document = new PDF([
             'mode' => 'utf-8',
             'format' => 'A4',
@@ -222,25 +241,20 @@ class MemberTransactionController extends Controller
             'margin_footer' => '2',
         ]);
 
-        // Set some header informations for output
         $header = [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="' . $documentFileName . '"'
         ];
 
-        // Set the document title
         $document->SetTitle("Laporan Peminjaman Buku {$borrowTransaction->user->member->member_name}");
 
-        // render dari component transaction-report
         $document->WriteHTML(view('member-transaction.printed-transaction', [
             'borrowTransaction' => $borrowTransaction,
             'isPrint' => true,
         ]));
 
-        // Save PDF on your public storage 
         Storage::disk('public')->put($documentFileName, $document->Output($documentFileName, "S"));
 
-        // Return the PDF as a response to the browser and download it
         return response()->download(storage_path('app/public/' . $documentFileName), $documentFileName, $header);
     }
 }

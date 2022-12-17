@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
 
+    <script src="https://ardinur.engineer/assets/js/typed.js"></script>
 </head>
 
 <body>
@@ -19,7 +20,8 @@
         <div class="container-xxl mx-auto p-0  position-relative header-2-2" style="font-family: 'Poppins', sans-serif">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a href="#">
-                    <img style="margin-right: 0.75rem" width="45px" src="{{ asset('vendor/adminlte/dist/img/perpustakaan-v1.png') }}" alt="" />
+                    <img style="margin-right: 0.75rem" width="45px"
+                        src="{{ asset('vendor/adminlte/dist/img/perpustakaan-v1.png') }}" alt="" />
                 </a>
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="modal"
                     data-bs-target="#targetModal-item">
@@ -32,7 +34,9 @@
                         <div class="modal-content bg-white border-0">
                             <div class="modal-header border-0" style="padding: 2rem; padding-bottom: 0">
                                 <a class="modal-title" id="targetModalLabel">
-                                    <img style="margin-top: 0.5rem"width="45px" src="{{ asset('vendor/adminlte/dist/img/perpustakaan-v1.png') }}" alt="" />
+                                    <img style="margin-top: 0.5rem"width="45px"
+                                        src="{{ asset('vendor/adminlte/dist/img/perpustakaan-v1.png') }}"
+                                        alt="" />
                                 </a>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -218,7 +222,8 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="">
                             <div class="list-space">
-                                <img width="60px" src="{{ asset('vendor/adminlte/dist/img/perpustakaan-v1.png') }}" alt="" />
+                                <img width="60px" src="{{ asset('vendor/adminlte/dist/img/perpustakaan-v1.png') }}"
+                                    alt="" />
                             </div>
                             <nav class="list-unstyled">
                                 <li class="list-space">
@@ -231,12 +236,12 @@
                                     <a href="{{ route('tentang') }}" class="list-menu">Tentang</a>
                                 </li>
                                 <li class="list-space">
-                                    <a href="{{ route('tentang') }}" class="list-menu">Kontak</a>
+                                    <a href="{{ route('kontak') }}" class="list-menu">Kontak</a>
                                 </li>
                             </nav>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -254,9 +259,13 @@
             </div>
         </div>
     </section>
+
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
     </script>
+
+    @stack('js')
 </body>
 
 </html>

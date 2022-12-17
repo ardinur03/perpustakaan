@@ -67,32 +67,38 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="col-5">
-                        <div class="card card-danger">
-                            <div class="card-header">
-                                <h3 class="card-title">Statistik Peminjaman</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
+                    <div class="row justify-content-between">
+
+                        <div class="col-md-6 text-center">
+                            @if ($countAllBorrowTransactionBorrowed == 0)
+                                <img src="{{ asset('assets/images/free.svg') }}" width="110%" alt="Reading Book">
+                            @else
+                                <img src="{{ asset('assets/images/reading_time.svg') }}" width="120%" alt="Reading Book">
+                            @endif
+
+                        </div>
+                        <div class="col-md-5 align-self-sm-center">
+                            {{-- jika member belum meminjam buku maka tampilkan ajakan untuk membaca buku --}}
+                            @if ($countAllBorrowTransactionBorrowed == 0)
+                                <h3 class="text-center">Ayo Pinjam Buku & Mulai Membaca</h3>
+                                <p class="text-center">Kamu belum meminjam buku, ayo pinjam buku sekarang juga</p>
+                                <div class="text-center">
+                                    <a href="{{ route('member.peminjaman-buku') }}"
+                                        class="btn btn-outline-success btn-pinjam">
+                                        <i class="fas fa-book mr-2"></i>
+                                        Pinjam Buku
+                                    </a>
                                 </div>
-                            </div>
-                            <div class="card-body" style="display: block;">
-                                <div class="chartjs-size-monitor">
-                                    <div class="chartjs-size-monitor-expand">
-                                        <div class=""></div>
-                                    </div>
-                                    <div class="chartjs-size-monitor-shrink">
-                                        <div class=""></div>
-                                    </div>
+                            @else
+                                <h3 class="text-center">Hallo 👋, Selamat Membaca!</h3>
+                                <p class="text-center">Saat ini kamu sedang meminjam buku dengan deadline pengembalian
+                                    <b>{{ date('d F Y', strtotime($borrowTransactionNow->return_date)) }}</b>
+                                    jangan sampai terlambat ya 🙌
+                                </p>
+                                <div class="text-center">
+                                    <a href="#" class="btn btn-outline-success btn-pinjam">Pinjam Buku</a>
                                 </div>
-                                <canvas id="donutChart"
-                                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 487px;"
-                                    width="487" height="250" class="chartjs-render-monitor"></canvas>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
