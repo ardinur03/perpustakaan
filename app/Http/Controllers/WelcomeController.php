@@ -29,4 +29,17 @@ class WelcomeController extends Controller
         ];
         return view('welcome-lihat-buku', $data);
     }
+
+    public function kontak()
+    {
+        return view('welcome-kontak', [
+            'title' => 'Kontak'
+        ]);
+    }
+    public function tentang()
+    {
+        return view('welcome-tentang', [
+            'title' => 'Tentang'
+        ]);
+    }
 }
