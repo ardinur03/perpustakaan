@@ -152,48 +152,63 @@ class AdminController extends Controller
     // mpdf print between date
     public function printTransactionBetweenDate(Request $request)
     {
-        // get all data member transaction date between start date and end date
-        $borrowTransactions = BorrowTransaction::with('user.member', 'book')
-            ->whereBetween('created_at', [$request->start_date, $request->end_date])
-            ->get();
-
-        // Setup a filename 
-
-        // filename date between
-        $dateDocumentBetween = $request->start_date . ' - ' . $request->end_date;
-        $documentFileName = "Laporan-Peminjaman-{$dateDocumentBetween}.pdf";
-
-        // Create the mPDF document
-        $document = new PDF([
-            'mode' => 'utf-8',
-            'format' => 'A4',
-            'margin_header' => '3',
-            'margin_top' => '20',
-            'margin_bottom' => '20',
-            'margin_footer' => '2',
+        // validate 
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
         ]);
 
-        // Set some header informations for output
-        $header = [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="' . $documentFileName . '"'
-        ];
+        try {
+            // get all data member transaction date between start date and end date
+            $borrowTransactions = BorrowTransaction::with('user.member', 'book')
+                ->whereBetween('created_at', [$request->start_date, $request->end_date])
+                ->get();
 
-        // Set the document title
-        $document->SetTitle('Laporan Peminjaman');
+            // Setup a filename 
 
-        // render dari component transaction-report
-        $document->WriteHTML(view('admin.borrow-transaction.transaction-report', [
-            'borrowTransactions' => $borrowTransactions,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'isPrint' => true,
-        ])->render());
+            // filename date between
+            $dateDocumentBetween = $request->start_date . ' - ' . $request->end_date;
+            $documentFileName = "Laporan-Peminjaman-{$dateDocumentBetween}.pdf";
 
-        // Save PDF on your public storage 
-        Storage::disk('public')->put($documentFileName, $document->Output($documentFileName, "S"));
+            // Create the mPDF document
+            $document = new PDF([
+                'mode' => 'utf-8',
+                'format' => 'A4',
+                'margin_header' => '3',
+                'margin_top' => '20',
+                'margin_bottom' => '20',
+                'margin_footer' => '2',
+            ]);
 
-        // Return the PDF as a response to the browser and download it
-        return response()->download(storage_path('app/public/' . $documentFileName), $documentFileName, $header);
+            // Set some header informations for output
+            $header = [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="' . $documentFileName . '"'
+            ];
+
+            // Set the document title
+            $document->SetTitle('Laporan Peminjaman');
+
+            // render dari component transaction-report
+            $document->WriteHTML(view('admin.borrow-transaction.transaction-report', [
+                'borrowTransactions' => $borrowTransactions,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'isPrint' => true,
+            ])->render());
+
+            // Save PDF on your public storage 
+            Storage::disk('public')->put($documentFileName, $document->Output($documentFileName, "S"));
+
+            // Return the PDF as a response to the browser and download it
+            return response()->download(storage_path('app/public/' . $documentFileName), $documentFileName, $header);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('admin.transaction-list')->with('error_message', 'Gagal mencetak laporan');
+        }
     }
 }

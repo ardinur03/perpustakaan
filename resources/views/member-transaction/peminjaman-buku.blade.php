@@ -66,7 +66,15 @@
                                 <a href="{{ route('member.peminjaman-buku.store', $book->id) }}"
                                     class="btn btn-success btn-block btn-pinjam">Pinjam</a>
                             @endif
-                            <button type="button" class="btn btn-outline-secondary btn-block btn-pinjam">Detail</button>
+
+                            {{-- show detail modal from controller --}}
+                            <button type="button" class="btn btn-outline-secondary btn-block btn-pinjam"
+                                data-toggle="modal" data-target="#detailModal{{ $book->id }}">
+                                Detail
+                            </button>
+
+                            <x-detail-book :book="$book" />
+
                         </div>
                     </div>
                 </div>
