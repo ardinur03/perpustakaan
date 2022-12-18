@@ -126,6 +126,11 @@ class MemberTransactionController extends Controller
     public function storePemijamanBuku($id)
     {
         try {
+            // cek apakah member active atau tidak, jika tidak active maka tidak bisa meminjam buku
+            if (Auth::user()->member->status == 'inactive') {
+                return redirect()->back()->with('warning_message', 'Akun anda belum aktif, silahkan hubungi admin untuk mengaktifkan akun anda!');
+            }
+
             $book = Book::find($id);
             $borrowTransactions = BorrowTransaction::where('user_id', Auth::user()->id)
                 ->where('status', 'borrowed')

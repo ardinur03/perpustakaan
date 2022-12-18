@@ -73,6 +73,20 @@
                             @enderror
                         </div>
 
+                        {{-- status field --}}
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select name="status" class="form-control @error('status') is-invalid @enderror"
+                                id="status">
+                                <option value="active" @if ($members->status == 'Aktif') selected @endif>Aktif</option>
+                                <option value="inactive" @if ($members->status == 'Tidak Aktif') selected @endif>Tidak
+                                    Aktif</option>
+                            </select>
+                            @error('status')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
                         <div class="form-group">
                             <label for="address">Alamat</label>
                             <textarea name="address" id="address" cols="30" rows="5"

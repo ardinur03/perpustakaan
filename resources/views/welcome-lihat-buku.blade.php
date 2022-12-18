@@ -150,6 +150,8 @@
 
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+
     <form action="" id="post-form" method="get">
         @csrf
     </form>

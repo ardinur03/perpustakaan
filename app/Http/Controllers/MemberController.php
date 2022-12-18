@@ -30,7 +30,15 @@ class MemberController extends Controller
                     $btn = $btn . ' <a href="' . route('members.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fas fa-trash" aria-hidden="true"></i></a>';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('status', function ($row) {
+                    if ($row->status == 'active') {
+                        $status =  '<span class="badge badge-success">Aktif</span>';
+                    } else {
+                        $status = '<span class="badge badge-danger">Tidak Aktif</span>';
+                    }
+
+                    return $status;
+                })->rawColumns(['status', 'action'])
                 ->make(true);
         }
         return view('members.index');

@@ -22,7 +22,8 @@ class Member extends Model
         'member_code',
         'gender',
         'phone_number',
-        'address'
+        'address',
+        'status'
     ];
 
     public function getActivitylogOptions(): LogOptions

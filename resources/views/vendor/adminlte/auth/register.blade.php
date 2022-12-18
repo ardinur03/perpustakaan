@@ -35,7 +35,7 @@
             @enderror
         </div>
 
-        {{-- NIP/NIM field --}}
+        {{-- NIP/NIM field
         <div class="input-group mb-3">
             <input type="number" name="member_code" class="form-control @error('member_code') is-invalid @enderror"
                 value="{{ old('member_code') }}" placeholder="{{ __('adminlte::adminlte.nip_nim') }}">
@@ -51,7 +51,7 @@
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
-        </div>
+        </div> --}}
 
         {{-- Email field --}}
         <div class="input-group mb-3">

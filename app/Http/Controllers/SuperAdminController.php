@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BorrowTransaction;
+use App\Models\Member;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
@@ -16,7 +17,7 @@ class SuperAdminController extends Controller
         $data = [
             'jumlahUser' => User::count(),
             'jumlahLibrarian' => User::role('petugas')->count(),
-            'jumlahMember' => User::role('member')->count(),
+            'jumlahMember' => Member::count(),
             'jumlahTransaksiPeminjamanSukses' => BorrowTransaction::where('status', 'returned')->count(),
         ];
         return view('superadmin.index', $data);
@@ -68,24 +69,23 @@ class SuperAdminController extends Controller
                     // convert created_at to indonesia time zone tanggal bulan tahun jam:menit:detik
                     return date('d F Y H:i:s', strtotime($data->created_at));
                 })
-                ->addColumn('causer_id', function ($data) {
-                    $user = User::find($data->causer_id);
-                    // check user role
+                // ->addColumn('causer_id', function ($data) {
+                //     $user = User::find($data->causer_id);
+                //     // check user role
 
-                    if ($user) {
-                        if ($user->hasRole('super-admin')) {
-                            $text = '\'s Super Admin';
-                        } elseif ($user->hasRole('petugas')) {
-                            $text = '\'s Librarian';
-                        } elseif ($user->hasRole('member')) {
-                            $text = '\'s Member';
-                        } else {
-                            $text = '';
-                        }
-                    }
-
-                    return $user ? $user->username . $text  : 'Faker';
-                })
+                //     if ($user) {
+                //         if ($user->hasRole('super-admin')) {
+                //             $text = '\'s Super Admin';
+                //         } elseif ($user->hasRole('petugas')) {
+                //             $text = '\'s Librarian';
+                //         } elseif ($user->hasRole('member')) {
+                //             $text = '\'s Member';
+                //         } else {
+                //             $text = '';
+                //         }
+                //     }
+                //     return $user ? $user->username . $text  : 'Faker';
+                // })
                 ->addColumn('no', function ($data) use (&$start) {
                     // create number for datatable
                     return $start++;

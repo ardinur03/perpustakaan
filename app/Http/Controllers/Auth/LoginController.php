@@ -66,7 +66,15 @@ class LoginController extends Controller
         $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'nipnim';
 
         if (auth()->attempt(array($fieldType => $request->email, 'password' => $request->password))) {
-            return $this->authenticated();
+            if (Auth::user()->hasRole('member')) {
+                return redirect()->route('member.dashboard')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
+            } else if (Auth::user()->hasRole('petugas')) {
+                return redirect()->route('admin.dashboard')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
+            } else if (Auth::user()->hasRole('super-admin')) {
+                return redirect()->route('superadmin.dashboard')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
+            } else {
+                return redirect()->route('welcome')->with('success_message', 'Hallo Selamat datang Kembali 👋 !');
+            }
         } else {
             return redirect()->route('login')->with('error_message', 'Email atau Password salah');
         }

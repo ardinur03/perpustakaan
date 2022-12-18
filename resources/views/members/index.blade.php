@@ -23,6 +23,7 @@
                                     <th>Nama</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Nomber Hp</th>
+                                    <th>Status</th>
                                     <th class="text-center">Opsi</th>
                                 </tr>
                             </thead>
@@ -65,6 +66,10 @@
                 {
                     data: 'phone_number',
                     name: 'phone_number'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
                 {
                     data: 'action',
