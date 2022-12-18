@@ -7,10 +7,13 @@
             <div
                 class="left-column d-flex flex-lg-grow-1 flex-column align-items-lg-start text-lg-start align-items-center text-center">
                 <h1 class="title-text-big">
-                    Perpustakaan<br class="d-lg-block d-none" />
-                    dengan layanan digital
+                    <span id="title-hero"></span>
                 </h1>
-                <div class="d-flex flex-sm-row flex-column align-items-center mx-lg-0 mx-auto justify-content-center gap-3">
+                <p class="text-caption" style="font-size: 20px">
+                    <span id="deskripsi-title-hero"></span>
+                </p>
+                <div class="d-flex flex-sm-row flex-column align-items-center mx-lg-0 mx-auto justify-content-center gap-3"
+                    style="margin-top: 20px">
                     @if (Auth::check())
                         @php
                             if (Auth::user()->hasRole('member')) {
@@ -109,3 +112,29 @@
         </div>
     </section>
 @endsection
+
+@push('js')
+    <script>
+        new Typed('#title-hero', {
+            strings: ['Hallo Selamat Datang!'],
+            typeSpeed: 100,
+            delaySpeed: 600,
+            showCursor: false,
+            loop: false
+        });
+        new Typed('#deskripsi-title-hero', {
+            strings: ['Aplikasi Perpustakaan dengan layanan digital!',
+                'Aplikasi Perpustakaan adalah sebagai sarana untuk mempermudah kampus untuk memanajemen perpustakaan dalam proses peminjaman dan pengembalian.',
+                'Skuy Membaca!', 'Mari Belajar!',
+                'Ayo ramaikan tagar <span class="text-dark"><b>#SuarakanKebaikanMembaca</b></span>',
+                'Ayo ramaikan tagar <span class="text-dark"><b>#KampuskuMembaca</b></span>',
+                'Ayo ramaikan tagar <span class="text-dark"><b>#GerakanMembaca</b></span>',
+                'Ayo ramaikan tagar <span class="text-dark"><b>#AyoMembaca</b></span>',
+                'Ayo ramaikan tagar <span class="text-dark"><b>#HariMembacaku</b></span>'
+            ],
+            typeSpeed: 50,
+            delaySpeed: 600,
+            loop: true
+        });
+    </script>
+@endpush

@@ -108,9 +108,9 @@
                                                                 style="width:100%;padding-right:0;padding-left:0;padding-top:5px;padding-bottom:5px">
                                                                 <div class="alignment" align="center"
                                                                     style="line-height:10px"><img
-                                                                        src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/0db9f180-d222-4b2b-9371-cf9393bf4764/0bd8b69e-4024-4f26-9010-6e2a146401fb/editor_images/37694e43-564a-427e-91d6-40bb88998dd3.png"
-                                                                        style="display:block;height:auto;border:0;width:90px;max-width:150%"
-                                                                        width="60"></div>
+                                                                        src="{{ asset('assets/logo/logo-app.svg') }}"
+                                                                        style="display:block;height:auto;border:0;width:180px;max-width:150%">
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -168,18 +168,49 @@
                                                                     <div class
                                                                         style="font-size:12px;mso-line-height-alt:18px;color:#d8ebf8;line-height:1.5;font-family:Arial,Helvetica Neue,Helvetica,sans-serif">
                                                                         <p
-                                                                            style="margin:0;font-size:14px;text-align:center;mso-line-height-alt:24px">
+                                                                            style="margin:0;font-size:14px;text-align:left;mso-line-height-alt:24px">
                                                                             <span style="font-size:16px;">
-                                                                                Segera hadirkan dirimu untuk mengikuti
-                                                                                acara Event <b
-                                                                                    style="color: white">{{ $event->event_name }}</b>
-                                                                                yang dimana event ini merupakan
-                                                                                {{ $event->event_description }}
-                                                                                dimulai pada
-                                                                                tanggal <b
-                                                                                    style="color: white">{{ $event->event_start_date }}</b>
-                                                                                Kami tunggu kehadiran anda di
-                                                                                Perpustakaan Kami.
+                                                                                Mau belajar sesuatu yang baru? Datanglah
+                                                                                ke event perpustakaan kami, di mana kami
+                                                                                akan menyajikan informasi yang dapat
+                                                                                membuka wawasan Anda dan meningkatkan
+                                                                                pengetahuan Anda.
+                                                                                Perpustakaan Skuy Membaca mengadakan
+                                                                                event yang dimana kamu bisa ikut serta
+                                                                                dalam event tersebut. Berikut detail
+                                                                                eventnya :
+                                                                                <table style="font-size:16px;">
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <strong>📌 Nama
+                                                                                                Event</strong>
+                                                                                        </td>
+                                                                                        <td>:</td>
+                                                                                        <td>{{ $event->event_name }}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <strong>🚀Deskripsi</strong>
+                                                                                        </td>
+                                                                                        <td>:</td>
+                                                                                        <td>{{ $event->event_description }}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <strong>⌚ Tanggal</strong>
+                                                                                        </td>
+                                                                                        <td>:</td>
+                                                                                        <td>{{ date('d F Y h:i', strtotime($event->event_start_date)) . ' s/d ' . date('h:i', strtotime($event->event_end_date)) }}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+
+                                                                                <span style="font-size:16px;">Kami
+                                                                                    tunggu kehadiran anda pada event ini
+                                                                                    di perpustakaan kami!!</span>
+
                                                                             </span>
                                                                         </p>
                                                                         <p
@@ -250,40 +281,6 @@
                                             <tr>
                                                 <td class="column column-1" width="100%"
                                                     style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;vertical-align:top;padding-top:25px;padding-bottom:25px;border-top:0;border-right:0;border-bottom:0;border-left:0">
-                                                    <table class="social_block block-2" width="100%" border="0"
-                                                        cellpadding="10" cellspacing="0" role="presentation"
-                                                        style="mso-table-lspace:0;mso-table-rspace:0">
-                                                        <tr>
-                                                            <td class="pad">
-                                                                <div class="alignment" align="center">
-                                                                    <table class="social-table" width="104px"
-                                                                        border="0" cellpadding="0"
-                                                                        cellspacing="0" role="presentation"
-                                                                        style="mso-table-lspace:0;mso-table-rspace:0;display:inline-block">
-                                                                        <tr>
-                                                                            <td style="padding:0 10px 0 10px"><a
-                                                                                    href=#" target="_blank"><img
-                                                                                        src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-gray/facebook@2x.png"
-                                                                                        width="32" height="32"
-                                                                                        alt="Facebook"
-                                                                                        title="Facebook"
-                                                                                        style="display:block;height:auto;border:0"></a>
-                                                                            </td>
-                                                                            <td style="padding:0 10px 0 10px"><a
-                                                                                    href="#"
-                                                                                    target="_blank"><img
-                                                                                        src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-gray/linkedin@2x.png"
-                                                                                        width="32" height="32"
-                                                                                        alt="LinkedIn"
-                                                                                        title="LinkedIn"
-                                                                                        style="display:block;height:auto;border:0"></a>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
                                                     <table class="text_block block-3" width="100%" border="0"
                                                         cellpadding="10" cellspacing="0" role="presentation"
                                                         style="mso-table-lspace:0;mso-table-rspace:0;word-break:break-word">

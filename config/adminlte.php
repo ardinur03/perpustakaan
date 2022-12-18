@@ -69,7 +69,7 @@ return [
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
-    'usermenu_profile_url' => false,
+    'usermenu_profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -126,7 +126,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-light-orange',
+    'classes_sidebar' => 'sidebar-light-teal',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -325,7 +325,7 @@ return [
             'url' => 'admin/transaction-list',
             'icon' => 'fas fa-list',
             'can' => ['isPetugas', 'isSuperAdmin'],
-            'active' => ['admin/transaction-list', 'admin/transaction-list/*'],
+            'active' => ['admin/transaction-list', 'admin/print-between-date', 'admin/transaction-list/*'],
         ],
         [
             'text' => 'Activity Log',

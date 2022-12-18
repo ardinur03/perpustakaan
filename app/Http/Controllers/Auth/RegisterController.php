@@ -72,12 +72,21 @@ class RegisterController extends Controller
 
         $user->assignRole('member');
 
-        // insert to member table with user_id
+        // insert to member table with user_id and activity log
         $user->member()->create([
             'user_id' => $user->id,
-            // generate member code with M + user_id + date (Ymd) format (M10012021)
-            'member_code' => 'M' . $user->id . date('Ymd'),
+            // random number for member code
+            'member_code' => rand(100000, 999999),
+
         ]);
+
+        // create activity log for user registration (member)
+        activity()
+            ->causedBy($user)
+            ->useLog('User registered')
+            ->performedOn($user)
+            ->withProperties(['attributes' => $user->toArray()])
+            ->log('registered');
 
         return $user;
     }

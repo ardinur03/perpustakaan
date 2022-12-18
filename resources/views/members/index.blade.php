@@ -23,6 +23,7 @@
                                     <th>Nama</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Nomber Hp</th>
+                                    <th>Status</th>
                                     <th class="text-center">Opsi</th>
                                 </tr>
                             </thead>
@@ -67,6 +68,10 @@
                     name: 'phone_number'
                 },
                 {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -93,5 +98,8 @@
                 }
             })
         }
+        table.on('draw.dt', function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
 @endpush

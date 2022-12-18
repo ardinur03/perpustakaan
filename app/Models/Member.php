@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
 
 class Member extends Model
 {
-    use HasFactory, LogsActivity;
+    use HasFactory, LogsActivity, CausesActivity;
 
     protected $table = 'members';
     protected static $logName = 'members';
@@ -21,13 +22,14 @@ class Member extends Model
         'member_code',
         'gender',
         'phone_number',
-        'address'
+        'address',
+        'status'
     ];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->useLogName('members')
+            ->useLogName('Master ' . $this->table)
             ->logFillable();
     }
 

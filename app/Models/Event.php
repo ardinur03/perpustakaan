@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
 
 class Event extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity, CausesActivity;
 
     protected $table = 'events';
     protected $fillable = [
@@ -18,4 +21,11 @@ class Event extends Model
     ];
 
     public $timestamps = false;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('Master ' . $this->table)
+            ->logFillable();
+    }
 }

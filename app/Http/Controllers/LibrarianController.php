@@ -16,22 +16,27 @@ class LibrarianController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $data = Librarian::all();
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('librarians.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
-                    $btn = $btn . ' <a href="' . route('librarians.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye"></i></a>';
-                    $btn = $btn . ' <a href="' . route('librarians.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+        try {
+            if ($request->ajax()) {
+                $data = Librarian::all();
+                return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        $btn = '<a href="' . route('librarians.edit', $row->id) . '" class="btn btn-sm text-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pen"></i></a>';
+                        $btn = $btn . ' <a href="' . route('librarians.show', $row->id) . '" class="btn btn-sm text-warning" data-toggle="tooltip" data-placement="top" title="Lihat"><i class="fas fa-eye"></i></a>';
+                        $btn = $btn . ' <a href="' . route('librarians.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+            return view('librarians.index', [
+                'title' => 'Data Petugas'
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan');
         }
-        return view('librarians.index', [
-            'title' => 'Data Petugas'
-        ]);
     }
 
     /**
@@ -111,7 +116,8 @@ class LibrarianController extends Controller
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('librarians.index')
+                ->with('error', 'Data petugas tidak ditemukan');
         }
     }
 
@@ -133,14 +139,14 @@ class LibrarianController extends Controller
         ]);
 
         try {
-            Librarian::where('id', $id)
-                ->update([
-                    'librarian_name' => $request->librarian_name,
-                    'position' => $request->position,
-                    'gender' => $request->gender,
-                    'phone_number' => $request->phone_number,
-                    'address' => $request->address
-                ]);
+            $librarian = Librarian::findOrFail($id);
+            $librarian->update([
+                'librarian_name' => $request->librarian_name,
+                'position' => $request->position,
+                'gender' => $request->gender,
+                'phone_number' => $request->phone_number,
+                'address' => $request->address
+            ]);
 
             return redirect()->route('librarians.index')
                 ->with('success_message', 'Data petugas berhasil diubah');
@@ -150,7 +156,8 @@ class LibrarianController extends Controller
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('librarians.index')
+                ->with('error', 'Data petugas gagal diubah');
         }
     }
 
@@ -172,7 +179,8 @@ class LibrarianController extends Controller
                 'line' => $th->getLine(),
                 'user akses' => auth()->user()->email
             ]);
-            return redirect()->route('home');
+            return redirect()->route('librarians.index')
+                ->with('error', 'Data petugas gagal dihapus');
         }
     }
 }

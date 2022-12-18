@@ -22,14 +22,21 @@ class EventController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('send.event.to.all.member', $row->id)  . ' "onclick="notificationBeforeSendEvent(event, this)" class="btn text-secondary btn-md"> <i class="fa fa-paper-plane" aria-hidden="true"></i></a>';
-                    $btn = $btn . '<a href="' . route('events.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
-                    $btn = $btn . ' <a href="' . route('events.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye
+                    $btn = '<a href="' . route('send.event.to.all.member', $row->id)  . ' "onclick="notificationBeforeSendEvent(event, this)" class="btn text-secondary btn-md" data-toggle="tooltip" data-placement="top" title="Send"> <i class="fa fa-paper-plane" aria-hidden="true"></i></a>';
+                    $btn = $btn . '<a href="' . route('events.edit', $row->id) . '" class="btn btn-sm text-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('events.show', $row->id) . '" class="btn btn-sm text-warning" data-toggle="tooltip" data-placement="top" title="Lihat"><i class="fas fa-eye
                     "></i></a>';
-                    $btn = $btn . ' <a href="' . route('events.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    $btn = $btn . ' <a href="' . route('events.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fas fa-trash" aria-hidden="true"></i></a>';
                     return $btn;
                 })
+                ->addColumn('event_start_date', function ($data) {
+                    return date('d F Y H:i', strtotime($data->event_start_date));
+                })
+                ->addColumn('event_end_date', function ($data) {
+                    return date('d F Y H:i', strtotime($data->event_end_date));
+                })
                 ->rawColumns(['action'])
+
                 ->make(true);
         }
         return view('events.index');
@@ -74,7 +81,7 @@ class EventController extends Controller
             return redirect()->route('events.index')->with('success_message', 'Event berhasil Ditambahkan.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('events.index')->with('error_message', 'Event gagal Ditambahkan.');
         }
     }
 
@@ -112,7 +119,7 @@ class EventController extends Controller
             );
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('events.index')->with('error_message', 'Event gagal Diubah.');
         }
     }
 
@@ -141,7 +148,7 @@ class EventController extends Controller
             return redirect()->route('events.index')->with('success_message', 'Event berhasil Diubah.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('events.index')->with('error_message', 'Event gagal Diubah.');
         }
     }
 
@@ -158,7 +165,7 @@ class EventController extends Controller
             return redirect()->route('events.index')->with('success_message', 'Event berhasil Dihapus.');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return redirect()->route('home');
+            return redirect()->route('events.index')->with('error_message', 'Event gagal Dihapus.');
         }
     }
 

@@ -2,14 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Notifications\Action;
+use App\Models\BorrowTransaction;
+use App\Models\Member;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SuperAdminController extends Controller
 {
     public function index()
     {
-        return view('superadmin.index');
+        $data = [
+            'jumlahUser' => User::count(),
+            'jumlahLibrarian' => User::role('petugas')->count(),
+            'jumlahMember' => Member::count(),
+            'jumlahTransaksiPeminjamanSukses' => BorrowTransaction::where('status', 'returned')->count(),
+        ];
+        return view('superadmin.index', $data);
     }
 
     public function activityLog()
@@ -27,7 +38,7 @@ class SuperAdminController extends Controller
                     $modal .= '<div class="modal-dialog modal-lg" role="document">';
                     $modal .= '<div class="modal-content">';
                     $modal .= '<div class="modal-header">';
-                    $modal .= '<h5 class="modal-title" id="modal' . $data->id . 'Label">Detail Properti</h5>';
+                    $modal .= '<h5 class="modal-title" id="modal' . $data->id . 'Label">Detail Properti Format Json</h5>';
                     $modal .= '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
                     $modal .= '<span aria-hidden="true">&times;</span>';
                     $modal .= '</button>';
@@ -58,6 +69,23 @@ class SuperAdminController extends Controller
                     // convert created_at to indonesia time zone tanggal bulan tahun jam:menit:detik
                     return date('d F Y H:i:s', strtotime($data->created_at));
                 })
+                // ->addColumn('causer_id', function ($data) {
+                //     $user = User::find($data->causer_id);
+                //     // check user role
+
+                //     if ($user) {
+                //         if ($user->hasRole('super-admin')) {
+                //             $text = '\'s Super Admin';
+                //         } elseif ($user->hasRole('petugas')) {
+                //             $text = '\'s Librarian';
+                //         } elseif ($user->hasRole('member')) {
+                //             $text = '\'s Member';
+                //         } else {
+                //             $text = '';
+                //         }
+                //     }
+                //     return $user ? $user->username . $text  : 'Faker';
+                // })
                 ->addColumn('no', function ($data) use (&$start) {
                     // create number for datatable
                     return $start++;
@@ -67,5 +95,50 @@ class SuperAdminController extends Controller
         }
 
         return view('superadmin.activitylog');
+    }
+
+    public function settings()
+    {
+        try {
+            $user = Auth::user();
+            return view('superadmin.settings', [
+                'title' => 'Edit Profile',
+                'admin' => $user,
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('superadmin.dashboard')->with('error_message', 'Gagal membuka pengaturan');
+        }
+    }
+
+
+    public function updateSettings(Request $request)
+    {
+        // validate request
+        $request->validate([
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+        ]);
+
+        // update user        
+        try {
+            $user = Auth::user();
+            $user->username = $request->username;
+            $user->email = $request->email;
+            $user->save();
+
+            return redirect()->route('superadmin.dashboard')->with('success_message', 'Berhasil mengubah pengaturan');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'user akses' => auth()->user()->email
+            ]);
+            return redirect()->route('superadmin.dashboard')->with('error_message', 'Gagal mengubah pengaturan');
+        }
     }
 }

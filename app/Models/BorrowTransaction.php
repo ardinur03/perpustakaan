@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
 
 class BorrowTransaction extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity, CausesActivity;
 
     protected $table = 'borrow_transactions';
 
@@ -29,5 +32,12 @@ class BorrowTransaction extends Model
     public function book()
     {
         return $this->belongsTo(Book::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName($this->table)
+            ->logFillable();
     }
 }

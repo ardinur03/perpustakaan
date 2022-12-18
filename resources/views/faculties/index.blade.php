@@ -79,5 +79,8 @@
                 }
             })
         }
+        table.on('draw.dt', function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
 @endpush

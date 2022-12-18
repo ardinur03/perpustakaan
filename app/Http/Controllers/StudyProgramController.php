@@ -22,9 +22,9 @@ class StudyProgramController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('study-programs.edit', $row->id) . '" class="btn btn-sm text-primary"><i class="fas fa-pen"></i></a>';
-                    $btn = $btn . ' <a href="' . route('study-programs.show', $row->id) . '" class="btn btn-sm text-warning"><i class="fas fa-eye"></i></a>';
-                    $btn = $btn . ' <a href="' . route('study-programs.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)"><i class="fas fa-trash" aria-hidden="true"></i></a>';
+                    $btn = '<a href="' . route('study-programs.edit', $row->id) . '" class="btn btn-sm text-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pen"></i></a>';
+                    $btn = $btn . ' <a href="' . route('study-programs.show', $row->id) . '" class="btn btn-sm text-warning" data-toggle="tooltip" data-placement="top" title="Lihat"><i class="fas fa-eye"></i></a>';
+                    $btn = $btn . ' <a href="' . route('study-programs.destroy', $row->id) . '" class="btn btn-sm text-danger"  onclick="notificationBeforeDelete(event, this)" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fas fa-trash" aria-hidden="true"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -132,12 +132,11 @@ class StudyProgramController extends Controller
         ]);
 
         try {
-
-            StudyProgram::where('id', $id)
-                ->update([
-                    'faculty_id' => $request->faculty_id,
-                    'study_name' => $request->study_name
-                ]);
+            $study_program = StudyProgram::find($id);
+            $study_program->update([
+                'faculty_id' => $request->faculty_id,
+                'study_name' => $request->study_name
+            ]);
 
             return redirect()->route('study-programs.index')
                 ->with('success_message', 'Data Program Studi Berhasil Diubah');

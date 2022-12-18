@@ -22,11 +22,20 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->firstName . ' ' . $this->faker->lastName;
+        // cek username pada table users
+        $cek_username = User::where('username', str_replace(' ', '.', $name))->first();
+        // jika username sudah ada maka generate ulang
+        if ($cek_username) {
+            $name = $this->faker->firstName . ' ' . $this->faker->lastName . ' ' . $this->faker->lastName;
+        }
+        $email = strtolower(str_replace(' ', '.', $name));
+
         return [
-            'username' => $this->faker->unique()->userName,
-            'email' => $this->faker->unique()->safeEmail,
+            'username' => str_replace(' ', '.', $name),
+            'email' => $email . '@polban.ac.id',
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => bcrypt('12345678'), // 12345678
             'remember_token' => Str::random(10),
         ];
     }

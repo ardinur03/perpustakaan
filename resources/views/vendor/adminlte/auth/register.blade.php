@@ -35,6 +35,24 @@
             @enderror
         </div>
 
+        {{-- NIP/NIM field
+        <div class="input-group mb-3">
+            <input type="number" name="member_code" class="form-control @error('member_code') is-invalid @enderror"
+                value="{{ old('member_code') }}" placeholder="{{ __('adminlte::adminlte.nip_nim') }}">
+
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-id-card"></span>
+                </div>
+            </div>
+
+            @error('member_code')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div> --}}
+
         {{-- Email field --}}
         <div class="input-group mb-3">
             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"

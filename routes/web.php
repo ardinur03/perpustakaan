@@ -18,12 +18,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('lihat-buku', [WelcomeController::class, 'listBuku'])->name('lihat-buku');
+Route::get('kontak', [WelcomeController::class, 'kontak'])->name('kontak');
+Route::get('tentang', [WelcomeController::class, 'tentang'])->name('tentang');
 
 Auth::routes();
 
 // role admin petugas
 Route::prefix('admin')->middleware(['auth', 'role:petugas|super-admin'])->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('role:petugas');
+    Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile')->middleware('role:petugas');
+    Route::get('/edit-profile', [AdminController::class, 'editProfile'])->name('admin.edit-profile')->middleware('role:petugas');
+    Route::post('/update-profile', [AdminController::class, 'updateProfile'])->name('admin.update-profile')->middleware('role:petugas');
     Route::resource('users', UserController::class);
     Route::resource('members', MemberController::class);
     Route::resource('librarians', LibrarianController::class);
@@ -36,6 +41,8 @@ Route::prefix('admin')->middleware(['auth', 'role:petugas|super-admin'])->group(
     Route::get('transaction-list', [AdminController::class, 'transactionList'])->name('admin.transaction-list');
     Route::get('transaction-list/{id}', [AdminController::class, 'transactionListShow'])->name('admin.transaction-list-show');
     Route::delete('transaction-list/{id}', [AdminController::class, 'transactionListDestroy'])->name('admin.transaction-list-destroy');
+    Route::get('/print-between-date', [AdminController::class, 'transactionBetweenDate'])->name('admin.transaction-between-date');
+    Route::post('/print-between-date', [AdminController::class, 'printTransactionBetweenDate'])->name('admin.transaction-between-date-print');
 });
 
 // role member
@@ -55,7 +62,9 @@ Route::group(['middleware' => ['auth', 'role:member']], function () {
 });
 
 // role superadmin
-Route::prefix('super-admin')->middleware(['auth'])->group(function () {
+Route::prefix('super-admin')->middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
     Route::get('/activity-log', [SuperAdminController::class, 'activityLog'])->name('superadmin.activity-log');
+    Route::get('/settings', [SuperAdminController::class, 'settings'])->name('superadmin.settings');
+    Route::post('/update-settings', [SuperAdminController::class, 'updateSettings'])->name('superadmin.update-settings');
 });
