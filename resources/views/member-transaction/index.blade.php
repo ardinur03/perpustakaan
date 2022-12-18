@@ -96,7 +96,8 @@
                                     jangan sampai terlambat ya 🙌
                                 </p>
                                 <div class="text-center">
-                                    <a href="#" class="btn btn-outline-success btn-pinjam">Pinjam Buku</a>
+                                    <a href="{{ route('member.borrow-transaction-list') }}"
+                                        class="btn btn-outline-success btn-pinjam">Lihat Peminjaman</a>
                                 </div>
                             @endif
                         </div>

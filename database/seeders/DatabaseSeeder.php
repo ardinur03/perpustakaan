@@ -13,18 +13,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            RolesAndPermissionsSeeder::class,
-            CategoriesBookSeeder::class,
-            FacultySeeder::class,
-            StudyProgramSeeder::class,
-            EventSeeder::class,
-        ]);
-        \App\Models\Member::factory(10)->create();
+        // $this->call([
+        //     RolesAndPermissionsSeeder::class,
+        //     CategoriesBookSeeder::class,
+        //     FacultySeeder::class,
+        //     StudyProgramSeeder::class,
+        //     EventSeeder::class,
+        // ]);
+        \App\Models\Member::factory(1000)->create();
         // \App\Models\Book::factory(10)->create();
-        $this->call([
-            RoleSeederLibrary::class,
-            AdminSeeder::class,
-        ]);
+        // $this->call([
+        //     RoleSeederLibrary::class,
+        //     AdminSeeder::class,
+        //     MemberSeeder::class,
+        // ]);
     }
 }

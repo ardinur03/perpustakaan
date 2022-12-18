@@ -4,7 +4,8 @@ return [
 
     'full_name'                   => 'Full name',
     'username'                    => 'Username',
-    'email'                       => 'Email',
+    'nip_nim'                       => 'NIP/NIM',
+    'email_nim_nup'               => 'Email/NIM/NUP',
     'password'                    => 'Password',
     'retype_password'             => 'Retype password',
     'remember_me'                 => 'Remember Me',

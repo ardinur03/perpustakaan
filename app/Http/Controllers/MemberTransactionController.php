@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendTransactionReports;
 use App\Models\Book;
 use App\Models\BorrowTransaction;
 use App\Models\Category;
@@ -136,7 +137,7 @@ class MemberTransactionController extends Controller
             if ($book->stock >= 0) {
                 $book->stock -= 1;
                 $book->save();
-                BorrowTransaction::create([
+                $id_borrow = BorrowTransaction::create([
                     'transaction_code' => 'TC' . time(),
                     'user_id' => auth()->user()->id,
                     'book_id' => $id,
@@ -146,6 +147,8 @@ class MemberTransactionController extends Controller
                     'status' => 'borrowed',
                 ]);
             }
+            // dispact event send email transaction borrow book
+            dispatch(new SendTransactionReports(Auth::user()->id, $id_borrow->id));
             return redirect()->route('member.borrow-transaction-list')->with('success_message', 'Berhasil meminjam buku');
         } catch (\Throwable $th) {
             Log::error($th->getMessage(), [

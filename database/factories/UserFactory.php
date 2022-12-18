@@ -23,8 +23,12 @@ class UserFactory extends Factory
     public function definition()
     {
         $name = $this->faker->firstName . ' ' . $this->faker->lastName;
-        // jika name terdaftar di database, maka akan ditambahkan angka random di belakangnya
-        $name = User::where('username', $name)->exists() ? $name . $this->faker->randomNumber(2) : $name;
+        // cek username pada table users
+        $cek_username = User::where('username', str_replace(' ', '.', $name))->first();
+        // jika username sudah ada maka generate ulang
+        if ($cek_username) {
+            $name = $this->faker->firstName . ' ' . $this->faker->lastName . ' ' . $this->faker->lastName;
+        }
         $email = strtolower(str_replace(' ', '.', $name));
 
         return [
