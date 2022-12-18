@@ -22,9 +22,9 @@ class AdminController extends Controller
             'totalMember' => Member::count(),
             'totalBook' => Book::count(),
             'totalBorrowTransactionReturn' => BorrowTransaction::where('status', 'returned')->count(),
-            'totalBorrowTransactionBorrowed' => BorrowTransaction::where('status', 'borrowed')->count(),
             'totalBorrowTransactionOverdue' => BorrowTransaction::where('status', 'overdue')->count(),
             'totalLibrarian' => Librarian::count(),
+            'totalBuku' => Book::count(),
         ];
         return view('admin.index', $data);
     }

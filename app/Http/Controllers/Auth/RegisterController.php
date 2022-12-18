@@ -51,6 +51,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'username' => ['required', 'string', 'max:20', 'unique:users'],
+            'member_code' => ['required', 'string', 'max:20', 'unique:members'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -75,8 +76,7 @@ class RegisterController extends Controller
         // insert to member table with user_id and activity log
         $user->member()->create([
             'user_id' => $user->id,
-            // generate member code with M + user_id + date (Ymd) format (M10012021)
-            'member_code' => 'M' . $user->id . date('Ymd'),
+            'member_code' => $data['member_code'],
         ]);
 
         // create activity log for user registration (member)

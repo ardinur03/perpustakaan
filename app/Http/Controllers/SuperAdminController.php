@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BorrowTransaction;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
@@ -12,7 +13,13 @@ class SuperAdminController extends Controller
 {
     public function index()
     {
-        return view('superadmin.index');
+        $data = [
+            'jumlahUser' => User::count(),
+            'jumlahLibrarian' => User::role('petugas')->count(),
+            'jumlahMember' => User::role('member')->count(),
+            'jumlahTransaksiPeminjamanSukses' => BorrowTransaction::where('status', 'returned')->count(),
+        ];
+        return view('superadmin.index', $data);
     }
 
     public function activityLog()

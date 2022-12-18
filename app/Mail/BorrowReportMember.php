@@ -13,16 +13,18 @@ class BorrowReportMember extends Mailable
 
     public $member;
     public $borrowTransactions;
+    public $documentFileName;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($member, $borrowTransactions)
+    public function __construct($member, $borrowTransactions, $documentFileName)
     {
         $this->member = $member;
         $this->borrowTransactions = $borrowTransactions;
+        $this->documentFileName = $documentFileName;
     }
 
     /**
