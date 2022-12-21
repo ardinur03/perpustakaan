@@ -63,7 +63,7 @@ class LoginController extends Controller
             'password' => 'required|min:6'
         ]);
 
-        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'nipnim';
+        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_code';
 
         if (auth()->attempt(array($fieldType => $request->email, 'password' => $request->password))) {
             if (Auth::user()->hasRole('member')) {

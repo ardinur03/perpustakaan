@@ -40,8 +40,7 @@ class SendTransactionReports implements ShouldQueue
     public function handle()
     {
         // generate report borrowTransaction and send to member email
-        $member = Member::with('user')->find($this->id_user);
-
+        $member = Member::with('user')->where('user_id', $this->id_user)->first();
         // get borrow transaction borrow by member status borrowed
         $borrowTransaction = BorrowTransaction::with(['book', 'user'])
             ->where('id', $this->id_borrow_transaction)
@@ -88,7 +87,7 @@ class SendTransactionReports implements ShouldQueue
 
         // send email to member
         $email = new BorrowReportMember($member, $borrowTransaction, $documentFileName);
-        $email->subject = "Laporan Peminjaman buku {$member->member_name}";
+        $email->subject = "Laporan Peminjaman buku {$borrowTransaction->user->member->member_name}";
         Mail::to($member->user->email)->send($email);
     }
 }

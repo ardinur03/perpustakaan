@@ -20,7 +20,7 @@ class MemberFactory extends Factory
             'user_id' => $user_factory->id,
             'study_program_id' => $this->faker->numberBetween(1, 8),
             // data member_code default nya adalah dosen, jika ingin mahasiswa maka hapus salah satustring concatnya
-            'member_code' =>  $this->faker->unique()->randomNumber(9) . $this->faker->unique()->randomNumber(9),
+            'member_code' =>  $user_factory->user_code,
             'gender' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
             'phone_number' => '+62' . $this->faker->unique()->randomNumber(8),
             'address' => $this->faker->address,

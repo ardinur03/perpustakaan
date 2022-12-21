@@ -77,10 +77,12 @@
                                 href="{{ route('lihat-buku') }}">Lihat Buku</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('tentang') }}">Tentang</a>
+                            <a class="nav-link {{ request()->is('/tentang') ? 'active' : '' }}"
+                                href="{{ route('tentang') }}">Tentang</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('kontak') }}">Kontak</a>
+                            <a class="nav-link {{ request()->is('/kontak') ? 'active' : '' }}"
+                                href="{{ route('kontak') }}">Kontak</a>
                         </li>
                     </ul>
 

@@ -33,6 +33,7 @@ class UserFactory extends Factory
 
         return [
             'username' => str_replace(' ', '.', $name),
+            'user_code' => $this->faker->unique()->randomNumber(9) . $this->faker->unique()->randomNumber(9),
             'email' => $email . '@polban.ac.id',
             'email_verified_at' => now(),
             'password' => bcrypt('12345678'), // 12345678

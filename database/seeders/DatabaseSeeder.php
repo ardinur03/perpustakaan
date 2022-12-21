@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
         //     StudyProgramSeeder::class,
         //     EventSeeder::class,
         // ]);
-        // \App\Models\Member::factory(1000)->create();
-        \App\Models\Book::factory(100)->create();
+        \App\Models\Member::factory(1000)->create();
+        // \App\Models\Book::factory(1001)->create();
         // $this->call([
         //     RoleSeederLibrary::class,
         //     AdminSeeder::class,
