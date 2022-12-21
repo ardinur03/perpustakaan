@@ -17,10 +17,10 @@
 
 
 ## 💻 Install dependencies
-bash
-composer install
-bash
+- Perintah berikut akan melakukan proses install dependencies
 
+        composer install
+        
 ## 🚀 Migrate Database & Data Dummy
 - Perintah berikut akan mengenerate database dan Data dummy
 
