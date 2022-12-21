@@ -30,18 +30,18 @@ Pastikan anda mengkonfigurasikan file .env
 
 ## 😎 User Login 
 ##### Super Admin :
-- Kode User : 032201 
+- Kode Super Admin : 032201 atau neisya@ardinur.tech
 - Password : 12345678
 ##### Petugas :
-- Kode User : 032202
+- Kode Petugas : 032202 atau info@ardinur.tech
 - Password : 12345678
 ##### Member (Mahasiswa)  :
-- NIP/NIM : 211511017
+- NIM : 211511017 atau kevin@ardinur.tech
 - Password : 12345678
 ##### Member (Dosen)  :
-- NIP/NIM : 211511017
+- NIP : 738371571335747777 atau madya@ardinur.tech
 - Password : 12345678
-#### *Note : Untuk page login dari semua role user sama*
+#### *Note : Untuk page login dari semua role user sama, untuk inputan ada 2 yaitu Email/NIP/NIM & Password*
 
 ## 📌 Teknologi WebApp
 
