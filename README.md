@@ -8,7 +8,7 @@
 
 - Clone aplikasi melalui link berikut :
 
-        git clone https://github.com/ardinur03/vsga-website-poad.git
+        https://github.com/ardinur03/perpustakaan.git
 
 - Masuk ke direktori perpustakaan
         
