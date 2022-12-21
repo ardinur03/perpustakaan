@@ -16,12 +16,13 @@ class MemberSeeder extends Seeder
     {
         $user_member_1 = \App\Models\User::create([
             'username' => 'madya',
+            'user_code' => '738371571335747777',
             'email' => 'madya@ardinur.tech',
             'password' => bcrypt('12345678'),
         ]);
 
         Member::create([
-            'member_code' => '211511001',
+            'member_code' => '738371571335747777',
             'user_id' => $user_member_1->id,
             'study_program_id' => 1,
             'member_name' => 'Jurnal Madya',
@@ -35,6 +36,7 @@ class MemberSeeder extends Seeder
 
         $user_member_2 = \App\Models\User::create([
             'username' => 'kevin',
+            'user_code' => '211511017',
             'email' => 'kevin@ardinur.tech',
             'password' => bcrypt('12345678'),
         ]);

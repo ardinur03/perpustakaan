@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddNipnimToUsers extends Migration
+class AddUserCodeToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddNipnimToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('nipnim')->nullable();
+            $table->string('user_code')->nullable()->after('id');
         });
     }
 
@@ -26,7 +26,7 @@ class AddNipnimToUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('nipnim');
+            $table->dropColumn('user_code');
         });
     }
 }
