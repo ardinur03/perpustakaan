@@ -30,10 +30,10 @@ Pastikan anda mengkonfigurasikan file .env
 
 ## 😎 User Login 
 ##### Super Admin :
-- Kode Super Admin : 032201 atau neisya@ardinur.tech
+- Kode Super Admin : sp032201 atau neisya@ardinur.tech
 - Password : 12345678
 ##### Petugas :
-- Kode Petugas : 032202 atau info@ardinur.tech
+- Kode Petugas : p032202 atau info@ardinur.tech
 - Password : 12345678
 ##### Member (Mahasiswa)  :
 - NIM : 211511017 atau kevin@ardinur.tech
