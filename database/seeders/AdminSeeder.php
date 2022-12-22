@@ -16,7 +16,7 @@ class AdminSeeder extends Seeder
         // create super admin
         $super_admin = \App\Models\User::create([
             'username' => 'Neisya',
-            'user_code' => '032201',
+            'user_code' => 'sp032201',
             'email' => 'neisya@ardinur.tech',
             'password' => bcrypt('12345678'),
         ]);
@@ -25,7 +25,7 @@ class AdminSeeder extends Seeder
         // create petugas
         $petugas = \App\Models\User::create([
             'username' => 'ardinur',
-            'user_code' => '032202',
+            'user_code' => 'p032202',
             'email' => 'info@ardinur.tech',
             'password' => bcrypt('12345678'),
         ]);
